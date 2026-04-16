@@ -4,6 +4,6 @@ import { TrackerModule } from "./tracker/tracker.module";
 
 @Module({
   imports: [TrackerModule],
-  controllers: [AppController],
+  controllers: [AppController]
 })
 export class AppModule {}

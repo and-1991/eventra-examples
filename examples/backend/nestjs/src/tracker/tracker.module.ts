@@ -3,6 +3,6 @@ import { TrackerService } from "./tracker.service";
 
 @Module({
   providers: [TrackerService],
-  exports: [TrackerService],
+  exports: [TrackerService]
 })
 export class TrackerModule {}

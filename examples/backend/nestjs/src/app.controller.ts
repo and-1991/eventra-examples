@@ -3,11 +3,16 @@ import { TrackerService } from "./tracker/tracker.service";
 
 @Controller()
 export class AppController {
-  constructor(private readonly tracker: TrackerService) {}
+  constructor(private tracker: TrackerService) {}
 
   @Get()
-  async getHello() {
-    await this.tracker.track("nestjs_request");
+  getHello() {
+    this.tracker.track("nestjs_home");
     return "OK";
+  }
+
+  @Get("/health")
+  health() {
+    return { status: "ok" };
   }
 }
