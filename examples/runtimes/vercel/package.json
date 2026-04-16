@@ -1,0 +1,11 @@
+{
+  "name": "vercel-eventra",
+  "private": true,
+  "scripts": {
+    "dev": "next dev"
+  },
+  "dependencies": {
+    "next": "14",
+    "@eventra_dev/eventra-sdk": "latest"
+  }
+}
