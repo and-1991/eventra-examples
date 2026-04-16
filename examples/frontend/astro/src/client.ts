@@ -10,12 +10,11 @@ window.addEventListener("DOMContentLoaded", () => {
   console.log("btn:", btn);
 
   if (!btn) {
-    console.error("❌ Button not found");
+    console.error("Button not found");
     return;
   }
 
   btn.addEventListener("click", () => {
-    console.log("CLICK WORKS"); // 👈 важно
     trackFeature("astro_click");
   });
 });
