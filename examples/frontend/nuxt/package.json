@@ -1,9 +1,0 @@
-{
-  "name": "nuxt",
-  "scripts": {
-    "dev": "echo dev nuxt"
-  },
-  "dependencies": {
-    "@eventra_dev/eventra-sdk": "latest"
-  }
-}

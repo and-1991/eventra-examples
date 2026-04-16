@@ -1,9 +1,0 @@
-{
-  "name": "next",
-  "scripts": {
-    "dev": "echo dev next"
-  },
-  "dependencies": {
-    "@eventra_dev/eventra-sdk": "latest"
-  }
-}

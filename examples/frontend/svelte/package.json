@@ -1,9 +1,0 @@
-{
-  "name": "svelte",
-  "scripts": {
-    "dev": "echo dev svelte"
-  },
-  "dependencies": {
-    "@eventra_dev/eventra-sdk": "latest"
-  }
-}
