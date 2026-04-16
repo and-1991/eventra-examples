@@ -1,0 +1,9 @@
+{
+  "name": "react",
+  "scripts": {
+    "dev": "echo dev react"
+  },
+  "dependencies": {
+    "@eventra_dev/eventra-sdk": "latest"
+  }
+}

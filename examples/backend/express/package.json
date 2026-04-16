@@ -1,0 +1,16 @@
+{
+  "name": "express-eventra",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "@eventra_dev/eventra-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "@types/express": "^4.17.21"
+  }
+}

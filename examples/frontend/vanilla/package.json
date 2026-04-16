@@ -1,0 +1,9 @@
+{
+  "name": "vanilla",
+  "scripts": {
+    "dev": "echo dev vanilla"
+  },
+  "dependencies": {
+    "@eventra_dev/eventra-sdk": "latest"
+  }
+}
