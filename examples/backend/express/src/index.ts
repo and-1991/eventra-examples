@@ -1,18 +1,7 @@
-import express from "express";
-import { trackFeature } from "./tracker";
+import { createApp } from "./app";
 
-const app = express();
-
-app.use(async (req, res, next) => {
-  await trackFeature("express_request");
-  next();
-});
-
-app.get("/", async (_, res) => {
-  await trackFeature("express_home");
-  res.send("OK");
-});
+const app = createApp();
 
 app.listen(3000, () => {
-  console.log("http://localhost:3000");
+  console.log("Express running on http://localhost:3000");
 });

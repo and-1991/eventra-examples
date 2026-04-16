@@ -4,5 +4,8 @@ export const tracker = new Eventra({
   apiKey: "test",
 });
 
-export const trackFeature = (name: string) =>
-  tracker.track(name, { userId: "express_user" });
+export function trackFeature(name: string) {
+  tracker.track(name, {
+    userId: "express_user"
+  });
+}
