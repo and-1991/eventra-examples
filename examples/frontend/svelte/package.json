@@ -1,0 +1,6 @@
+{
+  "name":"svelte",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

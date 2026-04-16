@@ -1,0 +1,6 @@
+{
+  "name":"hono",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

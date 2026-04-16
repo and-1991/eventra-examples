@@ -1,0 +1,6 @@
+{
+  "name":"next",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

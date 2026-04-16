@@ -1,0 +1,6 @@
+{
+  "name":"vue",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

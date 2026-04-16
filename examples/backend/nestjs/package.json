@@ -1,0 +1,6 @@
+{
+  "name":"nestjs",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

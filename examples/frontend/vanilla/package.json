@@ -1,0 +1,6 @@
+{
+  "name":"vanilla",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}

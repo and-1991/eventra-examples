@@ -1,0 +1,6 @@
+{
+  "name":"fastify",
+  "dependencies":{
+    "@eventra_dev/eventra-sdk":"latest"
+  }
+}
