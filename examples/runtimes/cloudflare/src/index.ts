@@ -8,18 +8,14 @@ const tracker = new Eventra({
 
 export default {
   async fetch(request: Request): Promise<Response> {
-    // global tracking
-    tracker.track("cf_request", {
-      path: new URL(request.url).pathname,
-      method: request.method
-    }).catch(() => {});
+    try {
+      tracker.track("cloudflare_request", {
+        userId: "cf_user"
+      });
 
-    if (new URL(request.url).pathname === "/") {
-      // manual tracking
-      tracker.track("cf_home").catch(() => {});
-      return new Response("OK");
+      return new Response("OK", { status: 200 });
+    } catch (e) {
+      return new Response("Error", { status: 500 });
     }
-
-    return new Response("Not Found", { status: 404 });
   }
 };

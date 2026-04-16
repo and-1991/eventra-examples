@@ -2,19 +2,19 @@ import fp from "fastify-plugin";
 
 export default fp(async (app) => {
   app.addHook("onRequest", async (req) => {
-    app.tracker
-      .track("fastify_request", {
+    try {
+      app.tracker.track("fastify_request", {
         userId: "fastify_user"
-      })
-      .catch(() => {});
+      });
+    } catch {}
   });
 
   app.addHook("onResponse", async (req, reply) => {
-    app.tracker
-      .track("fastify_response", {
+    try {
+      app.tracker.track("fastify_response", {
         statusCode: reply.statusCode
-      })
-      .catch(() => {});
+      });
+    } catch {}
   });
 }, {
   name: "tracking",

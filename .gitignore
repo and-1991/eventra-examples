@@ -1,2 +1,35 @@
-/.idea
+# Dependencies
 node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+.turbo/
+.next/cache/
+
+# TypeScript
+*.tsbuildinfo
+

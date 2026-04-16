@@ -2,11 +2,11 @@ import { FastifyInstance } from "fastify";
 
 export default async function routes(app: FastifyInstance) {
   app.get("/", async () => {
-    app.tracker
-      .track("fastify_home", {
+    try {
+      app.tracker.track("fastify_home", {
         userId: "fastify_user"
-      })
-      .catch(() => {});
+      });
+    } catch {}
 
     return { message: "OK" };
   });

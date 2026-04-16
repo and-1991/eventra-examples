@@ -10,9 +10,11 @@ export class TrackerService {
   });
 
   track(name: string, data: any = {}) {
-    this.tracker.track(name, {
-      userId: "nestjs_user",
-      ...data
-    }).catch(() => {});
+    try {
+      this.tracker.track(name, {
+        userId: "nestjs_user",
+        ...data
+      })
+    } catch {}
   }
 }

@@ -16,7 +16,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       express:
         specifier: ^4.19.2
         version: 4.22.1
@@ -35,7 +35,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       fastify:
         specifier: ^4.26.2
         version: 4.29.1
@@ -54,7 +54,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       '@hono/node-server':
         specifier: ^1.10.0
         version: 1.19.14(hono@4.12.14)
@@ -73,7 +73,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       '@nestjs/common':
         specifier: ^10.0.0
         version: 10.4.22(reflect-metadata@0.1.14)(rxjs@7.8.2)
@@ -107,7 +107,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
     devDependencies:
       tsx:
         specifier: ^4.7.0
@@ -120,7 +120,7 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       astro:
         specifier: ^4.0.0
         version: 4.16.19(@types/node@25.6.0)(rollup@4.60.1)(terser@5.46.1)(typescript@5.9.3)
@@ -129,25 +129,25 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
 
   examples/frontend/nuxt:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
 
   examples/frontend/react:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
 
   examples/frontend/svelte:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       svelte:
         specifier: ^4.0.0
         version: 4.2.20
@@ -166,20 +166,23 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
 
   examples/frontend/vue:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
 
   examples/runtimes/cloudflare:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
     devDependencies:
+      tsx:
+        specifier: ^4.0.0
+        version: 4.21.0
       typescript:
         specifier: ^5.3.0
         version: 5.9.3
@@ -191,10 +194,14 @@ importers:
     dependencies:
       '@eventra_dev/eventra-sdk':
         specifier: latest
-        version: 1.0.6
+        version: 1.0.7
       next:
         specifier: '14'
         version: 14.2.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.14
+        version: 19.2.14
 
   tools/mock-server:
     dependencies:
@@ -826,8 +833,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eventra_dev/eventra-sdk@1.0.6':
-    resolution: {integrity: sha512-lP4CPG8epEcz1bzgKyTmSYD0bl7d4A0Svisypy3EG1tTzBS22GRrsE36O0CNEsgRrjUinXXLinylk+Rw/CClBg==}
+  '@eventra_dev/eventra-sdk@1.0.7':
+    resolution: {integrity: sha512-4j5j+zZ5xals919p9BKrKHTyoq+ip4xEd2+F369yxDMnzZP7ZK2mZRwJIF9m29KuqveWgmsBMECGsQX7UNlbkQ==}
     engines: {node: '>=18'}
 
   '@fastify/ajv-compiler@3.6.0':
@@ -1423,6 +1430,9 @@ packages:
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
+  '@types/react@19.2.14':
+    resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
+
   '@types/send@0.17.6':
     resolution: {integrity: sha512-Uqt8rPBE8SY0RK8JB1EzVOIZ32uqy8HwdxCnoCOsYrvnswqmFZ/k+9Ikidlk/ImhsdvBsloHbAlewb2IEBV/Og==}
 
@@ -1881,6 +1891,9 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
+
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   data-uri-to-buffer@2.0.2:
     resolution: {integrity: sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==}
@@ -4304,7 +4317,7 @@ snapshots:
   '@esbuild/win32-x64@0.27.7':
     optional: true
 
-  '@eventra_dev/eventra-sdk@1.0.6': {}
+  '@eventra_dev/eventra-sdk@1.0.7': {}
 
   '@fastify/ajv-compiler@3.6.0':
     dependencies:
@@ -4845,6 +4858,10 @@ snapshots:
   '@types/qs@6.15.0': {}
 
   '@types/range-parser@1.2.7': {}
+
+  '@types/react@19.2.14':
+    dependencies:
+      csstype: 3.2.3
 
   '@types/send@0.17.6':
     dependencies:
@@ -5412,6 +5429,8 @@ snapshots:
       source-map-js: 1.2.1
 
   cssesc@3.0.0: {}
+
+  csstype@3.2.3: {}
 
   data-uri-to-buffer@2.0.2: {}
 

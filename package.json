@@ -14,7 +14,7 @@
     "dev:astro": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/astro dev\"",
     "dev:svelte": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/svelte dev\"",
 
-    "dev:cf": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/cloudflare dev\"",
+    "test:cf": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/cloudflare test\"",
     "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""
   },
   "devDependencies": {

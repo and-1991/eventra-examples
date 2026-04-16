@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nest start",
+    "dev": "ts-node src/main.ts",
     "start:dev": "nest start --watch"
   },
   "dependencies": {

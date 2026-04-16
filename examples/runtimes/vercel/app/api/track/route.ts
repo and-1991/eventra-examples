@@ -9,13 +9,13 @@ const tracker = new Eventra({
 });
 
 export async function GET(request: Request) {
-  // 🔥 global tracking
-  tracker.track("vercel_request", {
-    path: new URL(request.url).pathname
-  }).catch(() => {});
+  try {
+    tracker.track("vercel_request", {
+      path: new URL(request.url).pathname
+    })
+  } catch {}
 
-  // 🔥 manual tracking
-  tracker.track("vercel_api_hit").catch(() => {});
+  tracker.track("vercel_api_hit")
 
   return new Response(JSON.stringify({ ok: true }), {
     headers: { "content-type": "application/json" }

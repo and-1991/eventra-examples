@@ -4,7 +4,7 @@ import { trackFeature } from "../services/tracker";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  await trackFeature("express_home");
+  trackFeature("express_home");
   res.send("OK");
 });
 
