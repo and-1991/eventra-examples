@@ -1,11 +1,12 @@
 {
-  "name": "fastify-app",
+  "name": "fastify-eventra",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/server.ts"
   },
   "dependencies": {
     "fastify": "^4.26.2",
+    "fastify-plugin": "^4.5.0",
     "@eventra_dev/eventra-sdk": "latest"
   },
   "devDependencies": {

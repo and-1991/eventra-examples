@@ -13,7 +13,7 @@ export function createApp() {
 
   app.use(routes);
 
-  // ❗ error handler
+  // error handler
   app.use(errorMiddleware);
 
   return app;
