@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("svelte_start");
+import {trackFeature} from "./tracker"; trackFeature("svelte_event");

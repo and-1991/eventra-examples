@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("vue_start");
+import {trackFeature} from "./tracker"; trackFeature("vue_event");

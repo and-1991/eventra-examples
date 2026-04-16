@@ -1,6 +1,9 @@
 {
-  "name":"astro",
-  "dependencies":{
-    "@eventra_dev/eventra-sdk":"latest"
+  "name": "astro",
+  "scripts": {
+    "dev": "echo dev astro"
+  },
+  "dependencies": {
+    "@eventra_dev/eventra-sdk": "latest"
   }
 }

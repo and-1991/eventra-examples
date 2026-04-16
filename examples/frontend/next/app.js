@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("next_start");
+import {trackFeature} from "./tracker"; trackFeature("next_event");

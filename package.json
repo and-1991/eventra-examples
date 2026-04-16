@@ -1,3 +1,9 @@
 {
-  "name":"eventra-examples"
+  "name": "eventra-enterprise",
+  "private": true,
+  "scripts": {
+    "install:all": "pnpm install",
+    "scan": "echo running cli scan...",
+    "fix": "echo running auto-fix..."
+  }
 }

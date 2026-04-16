@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("nuxt_start");
+import {trackFeature} from "./tracker"; trackFeature("nuxt_event");

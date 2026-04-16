@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("astro_start");
+import {trackFeature} from "./tracker"; trackFeature("astro_event");

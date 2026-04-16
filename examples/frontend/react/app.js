@@ -1,3 +1,1 @@
-import {trackFeature} from "./tracker";
-
-trackFeature("react_start");
+import {trackFeature} from "./tracker"; trackFeature("react_event");
