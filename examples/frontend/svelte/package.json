@@ -1,9 +1,17 @@
 {
-  "name": "svelte",
+  "name": "svelte-eventra",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "echo dev svelte"
+    "dev": "vite"
   },
   "dependencies": {
+    "svelte": "^4.0.0",
     "@eventra_dev/eventra-sdk": "latest"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "typescript": "^5.3.0"
   }
 }

@@ -1,9 +1,11 @@
 {
-  "name": "astro",
+  "name": "astro-eventra",
+  "private": true,
   "scripts": {
-    "dev": "echo dev astro"
+    "dev": "astro dev"
   },
   "dependencies": {
+    "astro": "^4.0.0",
     "@eventra_dev/eventra-sdk": "latest"
   }
 }

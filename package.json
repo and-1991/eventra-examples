@@ -3,7 +3,19 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"pnpm dev:mock\" \"pnpm --filter express dev\"",
-    "dev:mock": "node tools/mock-server/index.js"
+    "dev:mock": "node tools/mock-server/index.js",
+
+    "dev:express": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/express dev\"",
+    "dev:fastify": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/fastify dev\"",
+    "dev:hono": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/hono dev\"",
+    "dev:nest": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/nestjs start:dev\"",
+    "dev:node": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/node dev\"",
+
+    "dev:astro": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/astro dev\"",
+    "dev:svelte": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/svelte dev\"",
+
+    "dev:cf": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/cloudflare dev\"",
+    "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
