@@ -1,24 +1,27 @@
-# Eventra + Fastify
+# Eventra + Hono
 
-Example of using Eventra SDK with Fastify plugins and hooks.
+Example of using Eventra SDK in Hono (Node + Edge).
 
 ## Install
 pnpm install
 
-## Run
+## Run (Node)
 pnpm dev
+
+## Edge usage
+export default {
+fetch: app.fetch
+};
 
 ## Usage
 
-### Global tracking (hook)
-app.addHook("onRequest", () => {
-app.tracker.track("fastify_request").catch(() => {});
-});
+### Global tracking (middleware)
+app.use("*", trackingMiddleware);
 
 ### Manual tracking (route)
-app.tracker.track("fastify_home").catch(() => {});
+trackFeature("hono_home");
 
 ## What is shown here
-- Fastify plugin (decorate)
-- Hook-based tracking
-- Non-blocking SDK usage
+- Middleware-based tracking
+- Edge-compatible setup
+- Dual runtime (Node + Edge)

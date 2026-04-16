@@ -1,6 +1,6 @@
-# Eventra + Express
+# Eventra + Fastify
 
-Example of using Eventra SDK in an Express application.
+Example of using Eventra SDK with Fastify plugins and hooks.
 
 ## Install
 pnpm install
@@ -10,13 +10,15 @@ pnpm dev
 
 ## Usage
 
-### Global tracking (middleware)
-app.use(trackingMiddleware);
+### Global tracking (hook)
+app.addHook("onRequest", () => {
+app.tracker.track("fastify_request").catch(() => {});
+});
 
 ### Manual tracking (route)
-trackFeature("express_home");
+app.tracker.track("fastify_home").catch(() => {});
 
 ## What is shown here
-- Global tracking via middleware
-- Route-level tracking
-- Safe non-blocking SDK usage
+- Fastify plugin (decorate)
+- Hook-based tracking
+- Non-blocking SDK usage

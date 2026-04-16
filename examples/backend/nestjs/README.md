@@ -1,27 +1,24 @@
-# Eventra + Hono
+# Eventra + NestJS
 
-Example of using Eventra SDK in Hono (Node + Edge).
+Example of using Eventra SDK in NestJS.
 
 ## Install
 pnpm install
 
-## Run (Node)
-pnpm dev
-
-## Edge usage
-export default {
-fetch: app.fetch
-};
+## Run
+pnpm start:dev
 
 ## Usage
 
-### Global tracking (middleware)
-app.use("*", trackingMiddleware);
+### Global tracking (interceptor)
+app.useGlobalInterceptors(
+app.get(TrackingInterceptor)
+);
 
-### Manual tracking (route)
-trackFeature("hono_home");
+### Manual tracking (service)
+this.tracker.track("nestjs_home");
 
 ## What is shown here
-- Middleware-based tracking
-- Edge-compatible setup
-- Dual runtime (Node + Edge)
+- Global tracking via interceptor
+- Service-based SDK usage
+- Integration with Nest DI system

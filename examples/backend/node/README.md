@@ -1,24 +1,18 @@
-# Eventra + NestJS
+# Eventra + Node.js
 
-Example of using Eventra SDK in NestJS.
+Minimal example of using Eventra SDK in a plain Node.js environment.
 
 ## Install
 pnpm install
 
 ## Run
-pnpm start:dev
+pnpm dev
 
 ## Usage
+import { trackFeature } from "./tracker";
 
-### Global tracking (interceptor)
-app.useGlobalInterceptors(
-app.get(TrackingInterceptor)
-);
-
-### Manual tracking (service)
-this.tracker.track("nestjs_home");
+await trackFeature("node_started");
 
 ## What is shown here
-- Global tracking via interceptor
-- Service-based SDK usage
-- Integration with Nest DI system
+- Basic SDK usage without frameworks
+- Wrapper function (trackFeature)

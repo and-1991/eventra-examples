@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { TrackerService } from "./tracker.service";
+import { TrackingInterceptor } from "./tracking.interceptor";
 
 @Module({
-  providers: [TrackerService],
-  exports: [TrackerService]
+  providers: [TrackerService, TrackingInterceptor],
+  exports: [TrackerService, TrackingInterceptor],
 })
 export class TrackerModule {}
