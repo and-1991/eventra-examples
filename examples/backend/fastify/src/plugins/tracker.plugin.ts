@@ -7,4 +7,8 @@ export default fp(async (app) => {
   });
 
   app.decorate("tracker", tracker);
+
+  app.log.info("Tracker initialized");
+}, {
+  name: "tracker"
 });
