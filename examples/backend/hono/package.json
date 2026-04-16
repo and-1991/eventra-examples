@@ -1,11 +1,13 @@
 {
-  "name": "hono-app",
+  "name": "hono-eventra",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/server.node.ts",
+    "dev:edge": "echo \"use wrangler / edge runtime\""
   },
   "dependencies": {
     "hono": "^4.4.0",
+    "@hono/node-server": "^1.10.0",
     "@eventra_dev/eventra-sdk": "latest"
   },
   "devDependencies": {
