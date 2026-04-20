@@ -11,6 +11,7 @@
     "dev:nest": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/nestjs start:dev\"",
     "dev:node": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/node dev\"",
 
+    "dev:angular": "concurrently \"pnpm dev:mock\" \"cd examples/frontend/angular && pnpm dev\"",
     "dev:astro": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/astro dev\"",
     "dev:next": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/next dev\"",
     "dev:nuxt": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/nuxt dev\"",

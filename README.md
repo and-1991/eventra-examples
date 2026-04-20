@@ -44,7 +44,7 @@ Mock API: http://localhost:4000
 ### Frontend
 
 | Framework  | Example                             |
-|------------| ----------------------------------- |
+|------------|-------------------------------------|
 | React      | [View](./examples/frontend/react)   |
 | Vue        | [View](./examples/frontend/vue)     |
 | Svelte     | [View](./examples/frontend/svelte)  |
@@ -52,6 +52,7 @@ Mock API: http://localhost:4000
 | Next.js    | [View](./examples/frontend/next)    |
 | Nuxt       | [View](./examples/frontend/nuxt)    |
 | Astro      | [View](./examples/frontend/astro)   |
+| Angular    | [View](./examples/frontend/angular) |
 
 ---
 
@@ -85,6 +86,7 @@ pnpm dev:nuxt
 pnpm dev:astro
 pnpm dev:svelte
 pnpm dev:vanilla
+pnpm dev:angular
 
 pnpm dev:node
 pnpm dev:express
@@ -129,7 +131,7 @@ EVENT: {
 
 ## Tech Coverage
 
-* Browsers (React, Vue, Svelte, Vanilla)
+* Browsers (React, Vue, Svelte, Vanilla, Angular)
 * SSR frameworks (Next.js, Nuxt, Astro)
 * Node runtimes (Express, Fastify, NestJS)
 * Edge (Vercel, Cloudflare)
