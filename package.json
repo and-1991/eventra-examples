@@ -1,5 +1,5 @@
 {
-  "name": "eventra-enterprise",
+  "name": "eventra-examples",
   "private": true,
   "scripts": {
     "dev": "concurrently \"pnpm dev:mock\" \"pnpm --filter express dev\"",
