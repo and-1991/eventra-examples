@@ -1,29 +1,167 @@
-# Eventra Examples
+<p align="center">
+  <img src="./assets/eventra-icon-animated.svg" width="120" />
+</p>
 
-This repository contains real-world examples of using Eventra SDK across:
+<h1 align="center">Eventra Examples</h1>
 
-## Frontend
-- React (Vite)
-- Vue (Vite)
-- Svelte
-- Vanilla JS
-- Next.js (App Router)
-- Nuxt 3
-- Astro
+<p align="center">
+  Production-grade examples of using <b>Eventra SDK</b> across frontend, backend, and edge runtimes.
+</p>
 
-## Backend
-- Node.js
-- Express
-- Fastify
-- Hono
-- NestJS
+<p align="center">
+  <a href="https://eventra.dev/docs">Docs</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-examples">Examples</a>
+</p>
 
-## Edge
-- Vercel Edge Functions
-- Cloudflare Workers
+---
 
-## Purpose
+## What is this?
 
-- SDK compatibility testing
-- CLI static analysis testing
-- Real-world usage examples
+This repository demonstrates how to use **Eventra SDK** in real-world environments:
+
+- Track feature usage 
+- Analyze product behavior 
+- Monitor backend activity 
+- Validate cross-runtime compatibility
+
+---
+
+## Quick Start
+
+```bash
+pnpm install
+pnpm dev:react
+```
+
+Open: http://localhost:3000
+Mock API: http://localhost:4000
+
+---
+
+## Examples
+
+### Frontend
+
+| Framework  | Example                             |
+|------------| ----------------------------------- |
+| React      | [View](./examples/frontend/react)   |
+| Vue        | [View](./examples/frontend/vue)     |
+| Svelte     | [View](./examples/frontend/svelte)  |
+| Vanilla JS | [View](./examples/frontend/vanilla) |
+| Next.js    | [View](./examples/frontend/next)    |
+| Nuxt       | [View](./examples/frontend/nuxt)    |
+| Astro      | [View](./examples/frontend/astro)   |
+
+---
+
+### Backend
+
+| Framework | Example                            |
+|-----------| ---------------------------------- |
+| Node.js   | [View](./examples/backend/node)    |
+| Express   | [View](./examples/backend/express) |
+| Fastify   | [View](./examples/backend/fastify) |
+| Hono      | [View](./examples/backend/hono)    |
+| NestJS    | [View](./examples/backend/nestjs)  |
+
+---
+
+### Edge / Runtimes
+
+| Runtime            | Example                                |
+| ------------------ | -------------------------------------- |
+|  Vercel Edge       | [View](./examples/runtimes/vercel)     |
+| Cloudflare Workers | [View](./examples/runtimes/cloudflare) |
+
+---
+
+## Run Any Example
+
+```bash
+pnpm dev:react
+pnpm dev:vue
+pnpm dev:nuxt
+pnpm dev:astro
+pnpm dev:svelte
+pnpm dev:vanilla
+
+pnpm dev:node
+pnpm dev:express
+pnpm dev:fastify
+pnpm dev:hono
+pnpm dev:nest
+
+pnpm dev:vercel
+pnpm test:cf
+```
+
+---
+
+## Event Flow
+
+All examples send events to:
+
+```bash
+http://localhost:4000/track
+```
+
+Example output:
+
+```bash
+TRACK HIT
+EVENT: {
+  "name": "feature.used",
+  "properties": {}
+}
+```
+
+---
+
+## Why this repo exists
+
+* Validate SDK behavior across environments
+* Provide copy-paste ready integrations
+* Test CLI static analysis
+* Ensure runtime compatibility (browser, server, edge)
+
+---
+
+## Tech Coverage
+
+* Browsers (React, Vue, Svelte, Vanilla)
+* SSR frameworks (Next.js, Nuxt, Astro)
+* Node runtimes (Express, Fastify, NestJS)
+* Edge (Vercel, Cloudflare)
+
+---
+
+## Documentation
+
+https://eventra.dev/docs
+
+---
+
+## Local Mock Server
+
+All examples run with a built-in mock ingestion API:
+
+```bash
+http://localhost:4000
+```
+
+No external services required.
+
+---
+
+## Philosophy
+
+> Build once. Track everywhere.
+
+Eventra SDK is designed to work consistently across all runtimes without configuration.
+
+---
+
+## License
+
+MIT

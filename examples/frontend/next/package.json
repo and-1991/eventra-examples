@@ -1,9 +1,13 @@
 {
-  "name": "next",
+  "name": "next-eventra",
+  "private": true,
   "scripts": {
-    "dev": "echo dev next"
+    "dev": "next dev"
   },
   "dependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
     "@eventra_dev/eventra-sdk": "latest"
   }
 }

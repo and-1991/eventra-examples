@@ -1,1 +1,0 @@
-import {trackFeature} from "./tracker"; trackFeature("vanilla_event");

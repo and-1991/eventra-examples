@@ -1,31 +1,37 @@
 # Eventra + Astro
 
-Example of using Eventra SDK in an Astro application.
+Example integration using **Eventra SDK**.
 
-## Install
-
-pnpm install
+---
 
 ## Run
 
-pnpm dev
+```bash
+pnpm dev:astro
+```
 
-## Usage
+---
 
-### Global tracking (page load)
+## Open
 
-trackFeature("astro_page_view");
+http://localhost:3000
 
-### Manual tracking (interaction)
+---
 
-trackFeature("astro_click");
+## Events
 
-## What is shown here
+astro_page_view
+astro_click
 
-- Page load tracking
-- Client-side interaction tracking
-- SDK usage in Astro environment
+---
+
+## Endpoint
+
+http://localhost:4000/track
+
+---
 
 ## Notes
 
-Make sure mock server is running on http://localhost:4000
+- Automatic batching
+- Retry + resilience built-in

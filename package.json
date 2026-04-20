@@ -12,7 +12,12 @@
     "dev:node": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/backend/node dev\"",
 
     "dev:astro": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/astro dev\"",
+    "dev:next": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/next dev\"",
+    "dev:nuxt": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/nuxt dev\"",
+    "dev:react": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/react dev\"",
     "dev:svelte": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/svelte dev\"",
+    "dev:vanilla": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/vanilla dev\"",
+    "dev:vue": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/vue dev\"",
 
     "test:cf": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/cloudflare test\"",
     "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""

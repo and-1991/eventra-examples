@@ -1,9 +1,13 @@
 {
-  "name": "vanilla",
+  "name": "vanilla-eventra",
+  "private": true,
   "scripts": {
-    "dev": "echo dev vanilla"
+    "dev": "serve ."
   },
   "dependencies": {
     "@eventra_dev/eventra-sdk": "latest"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
   }
 }

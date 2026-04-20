@@ -1,31 +1,37 @@
 # Eventra + Svelte
 
-Example of using Eventra SDK in a Svelte application.
+Example integration using **Eventra SDK**.
 
-## Install
-
-pnpm install
+---
 
 ## Run
 
-pnpm dev
+```bash
+pnpm dev:svelte
+```
 
-## Usage
+---
 
-### Global tracking (onMount)
+## Open
 
-trackFeature("svelte_page_view");
+http://localhost:3000
 
-### Manual tracking (interaction)
+---
 
-trackFeature("svelte_click");
+## Events
 
-## What is shown here
+svelte_page_view
+svelte_click
 
-- Lifecycle-based tracking (onMount)
-- UI interaction tracking
-- SDK usage in Svelte app
+---
+
+## Endpoint
+
+http://localhost:4000/track
+
+---
 
 ## Notes
 
-Make sure mock server is running on http://localhost:4000
+- Automatic batching
+- Retry + resilience built-in

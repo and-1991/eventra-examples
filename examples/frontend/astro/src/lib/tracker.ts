@@ -7,6 +7,7 @@ export const tracker = new Eventra({
 });
 
 export function trackFeature(name: string, data: any = {}) {
+  console.log("name", name)
   try {
     tracker.track(name, data);
   } catch (e) {

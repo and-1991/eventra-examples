@@ -1,9 +1,18 @@
 {
-  "name": "react",
+  "name": "react-eventra",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "echo dev react"
+    "dev": "vite"
   },
   "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "@eventra_dev/eventra-sdk": "latest"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.0.0"
   }
 }

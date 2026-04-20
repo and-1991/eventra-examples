@@ -1,9 +1,11 @@
 {
-  "name": "nuxt",
+  "name": "nuxt-eventra",
+  "private": true,
   "scripts": {
-    "dev": "echo dev nuxt"
+    "dev": "nuxt dev"
   },
   "dependencies": {
+    "nuxt": "latest",
     "@eventra_dev/eventra-sdk": "latest"
   }
 }
