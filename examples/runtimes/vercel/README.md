@@ -168,3 +168,11 @@ EVENT: { ... }
 - no lifecycle hooks — manual tracking 
 - works in all edge runtimes 
 - batching handled by SDK
+
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---

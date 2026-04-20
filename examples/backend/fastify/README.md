@@ -188,3 +188,11 @@ Fastify allows:
 - No manual HTTP calls 
 - Plugin ensures single tracker instance 
 - Safe for production usage
+
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---

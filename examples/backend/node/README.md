@@ -142,3 +142,11 @@ EVENT: { ... }
 - SDK handles batching automatically 
 - works in any Node.js environment
 
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---
+

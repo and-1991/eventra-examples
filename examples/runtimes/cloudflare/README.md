@@ -175,3 +175,11 @@ Eventra SDK works without Node dependencies
 - no lifecycle hooks — manual tracking 
 - works in edge runtimes (Cloudflare, Deno, etc.)
 - batching handled by SDK
+
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---

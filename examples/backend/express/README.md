@@ -149,3 +149,10 @@ EVENT: { ... }
 - Safe for production usage 
 - Works in any Node.js environment
 
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---

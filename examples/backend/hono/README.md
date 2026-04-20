@@ -191,3 +191,11 @@ pnpm dev:edge
 - `track()` is async but safely ignored 
 - Middleware ensures full request lifecycle tracking 
 - Works in server and edge environments
+
+---
+
+## Docs
+
+https://eventra.dev/docs
+
+---

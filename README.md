@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://eventra.dev/docs">Docs</a> •
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-examples">Examples</a>
+  <a href="#quick-start"><b>Quick Start</b></a> •
+  <a href="#examples"><b>Examples</b></a> •
+  <a href="https://eventra.dev/docs"><b>Docs</b></a>
 </p>
 
 ---
