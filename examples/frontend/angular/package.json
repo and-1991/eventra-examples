@@ -25,6 +25,7 @@
     "@angular-devkit/build-angular": "^18.2.21",
     "@angular/cli": "^18.2.21",
     "@angular/compiler-cli": "^18.2.0",
+    "@eventra_dev/eventra-cli": "^0.1.16",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",

@@ -8,6 +8,7 @@
     "@eventra_dev/eventra-sdk": "latest"
   },
   "devDependencies": {
+    "@eventra_dev/eventra-cli": "^0.1.16",
     "serve": "^14.2.0"
   }
 }

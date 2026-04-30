@@ -1,0 +1,23 @@
+{
+  "apiKey": "test",
+  "events": [
+    "fastify_home",
+    "fastify_request",
+    "fastify_response"
+  ],
+  "endpoint": "localhost:4000/cli/events",
+  "wrappers": [],
+  "functionWrappers": [],
+  "aliases": {},
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

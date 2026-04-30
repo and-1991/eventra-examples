@@ -1,0 +1,26 @@
+{
+  "apiKey": "test",
+  "events": [
+    "next_click",
+    "next_page_view"
+  ],
+  "endpoint": "localhost:4000/cli/events",
+  "wrappers": [],
+  "functionWrappers": [
+    {
+      "name": "trackFeature"
+    }
+  ],
+  "aliases": {},
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

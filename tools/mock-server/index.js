@@ -25,6 +25,18 @@ app.post("/track", (req, res) => {
  res.sendStatus(200);
 });
 
+app.post("/cli/events", (req, res) => {
+ console.log("CLI EVENTS HIT");
+
+ console.log(
+   JSON.stringify(req.body, null, 2)
+ );
+
+ res.json({
+  ok: true
+ });
+});
+
 app.listen(4000, () => {
  console.log("Mock server running on http://localhost:4000");
 });

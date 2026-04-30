@@ -1,0 +1,19 @@
+{
+  "apiKey": "test",
+  "events": [],
+  "endpoint": "localhost:4000/cli/events",
+  "wrappers": [],
+  "functionWrappers": [],
+  "aliases": {},
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

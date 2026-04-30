@@ -4,5 +4,8 @@
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@eventra_dev/eventra-cli": "^0.1.16"
   }
 }

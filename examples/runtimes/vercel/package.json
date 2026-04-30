@@ -9,6 +9,7 @@
     "next": "14"
   },
   "devDependencies": {
+    "@eventra_dev/eventra-cli": "^0.1.16",
     "@types/react": "19.2.14"
   }
 }

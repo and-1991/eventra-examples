@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { trackFeature } from "./tracker";
 
+const REACT_CLICK = "react_click"
+const CLICK = {
+  REACT: "react_click_enum"
+}
+
 export default function App() {
   useEffect(() => {
     console.log("DOM ready");
@@ -8,7 +13,8 @@ export default function App() {
   }, []);
 
   const handleClick = () => {
-    trackFeature("react_click");
+    trackFeature(REACT_CLICK);
+    trackFeature(CLICK.REACT);
   };
 
   return (
