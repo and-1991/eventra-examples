@@ -1,31 +1,30 @@
-# Eventra + Angular (CLI)
+# Eventra + Angular
 
-Frontend example showing how to track events using **Eventra SDK** in an Angular application powered by Angular CLI.
-
----
-
-## What is this?
-
-This example demonstrates how to:
-
-- track page views
-- track user interactions (clicks)
-- send events from the browser via Eventra SDK
-
-Runs in the browser  
-Uses Angular CLI  
-Uses client-side tracking
+Angular (CLI) + **Eventra SDK** + **Eventra CLI**.
 
 ---
 
-## Architecture
+## CLI and Angular
 
-```text
-Browser (Angular)
-     ↓
-Eventra SDK
-     ↓
-Eventra API (http://localhost:4000/track)
+Component file is `.ts` (scannable), but **event literals** live in `src/app/events.ts` so tracking logic is not mixed with templates.
+
+| File | Role |
+|------|------|
+| `src/app/events.ts` | `tracker.track("…")` literals |
+| `src/app/app.component.ts` | Calls `trackAngularPageView()` / `trackAngularClick()` |
+
+Uses direct SDK `track()` (no `trackFeature` wrapper).
+
+---
+
+## Project structure
+
+```
+angular/
+├── eventra.json
+└── src/app/
+    ├── events.ts
+    └── app.component.ts
 ```
 
 ---
@@ -36,136 +35,22 @@ Eventra API (http://localhost:4000/track)
 pnpm dev:angular
 ```
 
-App:
-
-```
-http://localhost:3000
-```
-
-Mock API:
-
-```
-http://localhost:4000
-```
+| Service | URL |
+|---------|-----|
+| App | http://localhost:3000 |
+| SDK | http://localhost:4000/track |
 
 ---
 
-## How it works
+## Eventra CLI
 
-### 1. Initialize SDK
-
-```ts
-const tracker = new Eventra({
-  apiKey: "test",
-  endpoint: "http://localhost:4000/track"
-})
+```bash
+cd examples/frontend/angular
+eventra init
+eventra sync
 ```
 
----
-
-### 2. Track page view
-
-```ts
-constructor() {
-  tracker.track("angular_page_view")
-}
-```
-
----
-
-### 3. Track clicks
-
-```ts
-handleClick() {
-  tracker.track("angular_click")
-}
-```
-
----
-
-### 4. Send event
-
-```ts
-tracker.track(name, data)
-```
-
----
-
-## Event Example
-
-```json
-{
-  "events": [
-    {
-      "name": "angular_click",
-      "properties": {}
-    }
-  ]
-}
-```
-
----
-
-## Flow
-
-```text
-App loads
-     ↓
-constructor()
-     ↓
-track("angular_page_view")
-     ↓
-User clicks button
-     ↓
-track("angular_click")
-     ↓
-HTTP POST → Eventra API
-```
-
----
-
-## Test
-
-Open:
-
-```
-http://localhost:4200
-```
-
-Click the button and check logs:
-
-```
-App mounted
-clicked
-```
-
----
-
-## What is being tracked
-
-- page load → `angular_page_view`
-- button click → `angular_click`
-
----
-
-## Why Angular CLI?
-
-Angular CLI provides:
-
-- stable and official Angular environment
-- zero-config setup
-- built-in tooling and optimizations
-
-making it ideal for production-ready applications
-
----
-
-## Notes
-
-- tracking runs in the browser
-- SDK handles batching automatically
-- no backend setup required
-- safe for production usage
+**Detected events:** `angular_page_view`, `angular_click`
 
 ---
 

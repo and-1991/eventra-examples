@@ -1,16 +1,14 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
     "angular_click",
     "angular_page_view"
   ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
   "functionWrappers": [],
-  "aliases": {},
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

@@ -7,10 +7,10 @@
     "test": "tsx src/test.ts"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "latest"
+    "@eventra_dev/eventra-sdk": "^1.1.5"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^0.1.16",
+    "@eventra_dev/eventra-cli": "^0.3.12",
     "tsx": "^4.0.0",
     "typescript": "^5.3.0",
     "wrangler": "^3.0.0"

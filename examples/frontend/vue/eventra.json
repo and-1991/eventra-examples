@@ -1,20 +1,18 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
     "vue_click",
     "vue_page_view"
   ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
   "functionWrappers": [
     {
       "name": "trackFeature"
     }
   ],
-  "aliases": {},
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

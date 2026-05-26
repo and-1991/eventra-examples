@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useNuxtApp } from "#app";
-
-const { $trackFeature } = useNuxtApp();
+import { trackNuxtClick, trackNuxtPageView } from "../utils/events";
 
 onMounted(() => {
   console.log("DOM ready");
-  $trackFeature("nuxt_page_view");
+  trackNuxtPageView();
 });
 
 function handleClick() {
-  $trackFeature("nuxt_click");
+  trackNuxtClick();
 }
 </script>
 

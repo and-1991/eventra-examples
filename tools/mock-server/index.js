@@ -25,6 +25,8 @@ app.post("/track", (req, res) => {
  res.sendStatus(200);
 });
 
+
+
 app.post("/cli/events", (req, res) => {
  console.log("CLI EVENTS HIT");
 

@@ -1,17 +1,15 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
     "cloudflare_after_timeout",
     "cloudflare_request",
     "cloudflare_test"
   ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
   "functionWrappers": [],
-  "aliases": {},
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

@@ -1,179 +1,62 @@
 # Eventra + Vue
 
-Frontend example showing how to track events using **Eventra SDK** in a Vue (Vite) application.
+Vue 3 (Vite) + **Eventra SDK** + **Eventra CLI**.
 
 ---
 
-## What is this?
+## CLI and Vue
 
-This example demonstrates how to:
+Eventra CLI **does not parse `.vue` files**. It only scans `**/*.{ts,tsx,js,jsx}`.
 
-- track page views 
-- track user interactions (clicks)
-- send events from the browser via Eventra SDK
+| File | Role |
+|------|------|
+| `src/events.ts` | Event name literals — **CLI reads this** |
+| `src/tracker.ts` | `Eventra` SDK + `trackFeature()` |
+| `src/App.vue` | UI only — calls `trackVuePageView()` / `trackVueClick()` |
 
-Runs entirely in the browser
-Built with Vue + Vite
-No backend required
+Do **not** put `trackFeature("…")` string literals in `<script>` of `.vue` if you rely on `eventra sync`.
 
 ---
 
-## Architecture
+## Project structure
 
-```id="arch-vue"
-Browser (Vue App)
-     ↓
-Eventra SDK
-     ↓
-Eventra API (http://localhost:4000/track)
+```
+vue/
+├── eventra.json
+└── src/
+    ├── tracker.ts
+    ├── events.ts
+    └── App.vue
 ```
 
 ---
 
 ## Run
 
-```bash id="run-vue"
+```bash
 pnpm dev:vue
 ```
 
-App:
-
-```id="srv-vue"
-http://localhost:3000
-```
-
-Mock API:
-
-```id="api-vue"
-http://localhost:4000
-```
+| Service | URL |
+|---------|-----|
+| App | http://localhost:3000 |
+| SDK | http://localhost:4000/track |
 
 ---
 
-## How it works
+## Eventra CLI
 
-### 1. Initialize SDK
-
-```ts id="vue1"
-const tracker = new Eventra({
-  apiKey: "test",
-  endpoint: "http://localhost:4000/track"
-})
+```bash
+cd examples/frontend/vue
+eventra init
+# "apiKey": "test", "endpoint": "http://localhost:3000/cli/events"
+eventra sync
 ```
 
----
-
-### 2. Track page view
-
-```ts id="vue2"
-onMounted(() => {
-  trackFeature("vue_page_view")
-})
-```
-
----
-
-### 3. Track clicks
-
-```ts id="vue3"
-<button @click="handleClick">
-```
-
-```ts id="vue4"
-function handleClick() {
-  trackFeature("vue_click")
-}
-```
-
----
-
-### 4. Send event
-
-```ts id="vue5"
-tracker.track(name, data)
-```
-
----
-
-## Event Example
-
-```json id="event-vue"
-{
-  "events": [
-    {
-      "name": "vue_click",
-      "properties": {}
-    }
-  ]
-}
-```
-
----
-
-## Flow
-
-```id="flow-vue"
-App mounts
-     ↓
-onMounted()
-     ↓
-trackFeature("vue_page_view")
-     ↓
-User clicks button
-     ↓
-trackFeature("vue_click")
-     ↓
-HTTP POST → Eventra API
-```
-
----
-
-## Test
-
-Open:
-
-```id="test-vue"
-http://localhost:3000
-```
-
-Click the button and check logs:
-
-```id="logs-vue"
-TRACK: vue_click
-TRACK HIT
-EVENT: { ... }
-```
-
----
-
-## What is being tracked
-
-* page load → `vue_page_view`
-* button click → `vue_click`
-
----
-
-## Why Vue?
-
-- simple lifecycle (`onMounted`)
-- reactive and lightweight 
-- easy integration with browser SDKs
-
-ideal for client-side analytics
-
----
-
-## Notes
-
-- tracking runs in the browser 
-- SDK handles batching automatically 
-- no backend required 
-- safe for production usage
+**Detected events:** `vue_page_view`, `vue_click`
 
 ---
 
 ## Docs
 
 https://eventra.dev/docs
-
----

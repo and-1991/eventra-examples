@@ -1,9 +1,10 @@
 import { FastifyInstance } from "fastify";
+import { trackFeature } from "../services/tracker.js";
 
 export default async function routes(app: FastifyInstance) {
   app.get("/", async () => {
     try {
-      app.tracker.track("fastify_home", {
+      trackFeature("fastify_home", {
         userId: "fastify_user"
       });
     } catch {}

@@ -1,27 +1,21 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
-    "aaaw",
+    "check_mode",
+    "new_event",
     "react_click",
     "react_click_enum",
     "react_page_view"
-  ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [
-    {
-      "name": "ButtonTest",
-      "prop": "test"
-    }
   ],
   "functionWrappers": [
     {
       "name": "trackFeature"
     }
   ],
-  "aliases": {},
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

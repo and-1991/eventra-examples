@@ -1,20 +1,16 @@
-import { trackFeature } from "./tracker.js";
+import { trackVanillaClick, trackVanillaPageView } from "./events";
 
-// DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM ready");
-
-  // page view
-  trackFeature("vanilla_page_view");
+  trackVanillaPageView();
 
   const btn = document.getElementById("btn");
-
   if (!btn) {
     console.error("Button not found");
     return;
   }
 
   btn.addEventListener("click", () => {
-    trackFeature("vanilla_click");
+    trackVanillaClick();
   });
 });

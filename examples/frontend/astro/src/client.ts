@@ -1,12 +1,10 @@
-import { trackFeature } from "./lib/tracker";
+import { trackAstroClick, trackAstroPageView } from "./events";
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("DOM ready");
-
-  trackFeature("astro_page_view");
+  trackAstroPageView();
 
   const btn = document.getElementById("btn");
-
   console.log("btn:", btn);
 
   if (!btn) {
@@ -15,6 +13,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   btn.addEventListener("click", () => {
-    trackFeature("astro_click");
+    trackAstroClick();
   });
 });

@@ -1,12 +1,6 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Eventra } from "@eventra_dev/eventra-sdk";
-
-const tracker = new Eventra({
-  apiKey: "test",
-  // Optional: override the default API endpoint (useful for local development or self-hosted servers)
-  endpoint: "http://localhost:4000/track",
-});
+import { trackAngularClick, trackAngularPageView } from "./events";
 
 @Component({
   selector: "app-root",
@@ -25,11 +19,11 @@ const tracker = new Eventra({
 export class AppComponent {
   constructor() {
     console.log("App mounted");
-    tracker.track("angular_page_view");
+    trackAngularPageView();
   }
 
   handleClick() {
     console.log("clicked");
-    tracker.track("angular_click");
+    trackAngularClick();
   }
 }

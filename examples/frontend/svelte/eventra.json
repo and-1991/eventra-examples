@@ -1,13 +1,18 @@
 {
   "apiKey": "test",
-  "events": [],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
-  "functionWrappers": [],
-  "aliases": {},
+  "endpoint": "http://localhost:3000/cli/events",
+  "events": [
+    "svelte_click",
+    "svelte_page_view"
+  ],
+  "functionWrappers": [
+    {
+      "name": "trackFeature"
+    }
+  ],
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

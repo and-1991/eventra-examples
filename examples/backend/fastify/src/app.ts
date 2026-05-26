@@ -1,15 +1,18 @@
 import Fastify from "fastify";
+import trackerPlugin from "./plugins/tracker.plugin.js";
+import trackingPlugin from "./plugins/tracking.plugin.js";
+import routes from "./routes/index.js";
 
 export async function buildApp() {
   const app = Fastify({
     logger: true
   });
 
-  await app.register(import("./plugins/tracker.plugin.js"));
+  await app.register(trackerPlugin);
 
-  await app.register(import("./plugins/tracking.plugin.js"));
+  await app.register(trackingPlugin);
 
-  await app.register(import("./routes/index.js"));
+  await app.register(routes);
 
   app.addHook("onClose", async () => {
     app.log.info("Shutting down Fastify...");

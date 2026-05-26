@@ -1,17 +1,19 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
     "nestjs_home",
     "nestjs_request",
     "nestjs_response"
   ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
-  "functionWrappers": [],
-  "aliases": {},
+  "functionWrappers": [
+    {
+      "name": "track"
+    }
+  ],
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

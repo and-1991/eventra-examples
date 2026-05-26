@@ -1,17 +1,19 @@
 {
   "apiKey": "test",
+  "endpoint": "http://localhost:3000/cli/events",
   "events": [
     "fastify_home",
     "fastify_request",
     "fastify_response"
   ],
-  "endpoint": "localhost:4000/cli/events",
-  "wrappers": [],
-  "functionWrappers": [],
-  "aliases": {},
+  "functionWrappers": [
+    {
+      "name": "trackFeature"
+    }
+  ],
   "sync": {
     "include": [
-      "**/*.{ts,tsx,js,jsx,vue,svelte,astro}"
+      "**/*.{ts,tsx,js,jsx}"
     ],
     "exclude": [
       "node_modules",

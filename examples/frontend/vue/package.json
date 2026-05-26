@@ -6,11 +6,11 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "latest",
+    "@eventra_dev/eventra-sdk": "^1.1.5",
     "vue": "^3.5.0"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^0.1.16",
+    "@eventra_dev/eventra-cli": "^0.3.12",
     "@vitejs/plugin-vue": "^5.0.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0"

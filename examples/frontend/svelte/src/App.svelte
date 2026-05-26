@@ -1,15 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { trackFeature } from "./lib/tracker";
+  import { trackSvelteClick, trackSveltePageView } from "./lib/events";
 
   onMount(() => {
-    // global tracking
-    trackFeature("svelte_page_view");
+    trackSveltePageView();
   });
 
   function handleClick() {
-    // manual tracking
-    trackFeature("svelte_click");
+    trackSvelteClick();
   }
 </script>
 

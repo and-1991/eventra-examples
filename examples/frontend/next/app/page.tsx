@@ -1,24 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import { trackFeature } from "../lib/tracker";
+import { trackNextClick, trackNextPageView } from "../lib/events";
 
 export default function Page() {
   useEffect(() => {
     console.log("DOM ready");
-
-    trackFeature("next_page_view");
+    trackNextPageView();
   }, []);
 
   return (
     <main style={{ padding: 40 }}>
       <h1>Next Eventra</h1>
 
-      <button
-        onClick={() => {
-          trackFeature("next_click");
-        }}
-      >
+      <button onClick={trackNextClick}>
         Click me
       </button>
     </main>

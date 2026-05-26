@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { trackFeature } from "./tracker";
+import { trackVueClick, trackVuePageView } from "./events";
 
 onMounted(() => {
   console.log("DOM ready");
-
-  trackFeature("vue_page_view");
+  trackVuePageView();
 });
 
 function handleClick() {
-  trackFeature("vue_click");
+  trackVueClick();
 }
 </script>
 
