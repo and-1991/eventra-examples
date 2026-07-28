@@ -1,6 +1,6 @@
 {
   "apiKey": "test",
-  "endpoint": "http://localhost:3000/cli/events",
+  "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "check_mode",
     "new_event",
@@ -13,6 +13,7 @@
       "name": "trackFeature"
     }
   ],
+  "plugins": [],
   "sync": {
     "include": [
       "**/*.{ts,tsx,js,jsx}"

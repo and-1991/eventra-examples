@@ -1,12 +1,13 @@
 {
   "apiKey": "test",
-  "endpoint": "http://localhost:3000/cli/events",
+  "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "cloudflare_after_timeout",
     "cloudflare_request",
     "cloudflare_test"
   ],
   "functionWrappers": [],
+  "plugins": [],
   "sync": {
     "include": [
       "**/*.{ts,tsx,js,jsx}"

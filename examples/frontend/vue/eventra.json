@@ -1,14 +1,18 @@
 {
   "apiKey": "test",
-  "endpoint": "http://localhost:3000/cli/events",
+  "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "vue_click",
-    "vue_page_view"
+    "vue_page_view",
+    "vue_secondary_click"
   ],
   "functionWrappers": [
     {
       "name": "trackFeature"
     }
+  ],
+  "plugins": [
+    "@eventra_dev/cli-plugin-vue"
   ],
   "sync": {
     "include": [

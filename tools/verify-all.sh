@@ -15,7 +15,7 @@ EXPECTED[backend/fastify]="fastify_home fastify_request fastify_response"
 EXPECTED[backend/hono]="hono_home hono_request hono_response"
 EXPECTED[backend/nestjs]="nestjs_home nestjs_request nestjs_response"
 EXPECTED[frontend/react]="react_page_view new_event check_mode react_click react_click_enum"
-EXPECTED[frontend/vue]="vue_page_view vue_click"
+EXPECTED[frontend/vue]="vue_page_view vue_click vue_secondary_click"
 EXPECTED[frontend/svelte]="svelte_page_view svelte_click"
 EXPECTED[frontend/vanilla]="vanilla_page_view vanilla_click"
 EXPECTED[frontend/next]="next_page_view next_click"
@@ -60,7 +60,7 @@ sdk_ok() {
 
 echo "=== Versions ==="
 echo "CLI: $(node -p "require('$ROOT/node_modules/@eventra_dev/eventra-cli/package.json').version")"
-echo "SDK: $(node -p "require('$ROOT/node_modules/.pnpm/@eventra_dev+eventra-sdk@1.1.5/node_modules/@eventra_dev/eventra-sdk/package.json').version")"
+echo "SDK: $(node -p "require('$ROOT/examples/backend/express/node_modules/@eventra_dev/eventra-sdk/package.json').version")"
 
 echo ""
 echo "=== Mock server ==="
@@ -109,11 +109,11 @@ sdk_ok nestjs bash -c "cd \"$ROOT/examples/backend/nestjs\" && pnpm exec nest st
 sdk_ok cloudflare timeout 15 bash -c "cd \"$ROOT/examples/runtimes/cloudflare\" && \"$TSX\" src/test.ts"
 
 sdk_ok react timeout 8 bash -c "cd \"$ROOT/examples/frontend/react\" && \"$TSX\" -e \"import { trackReactPageView } from './src/events.ts'; trackReactPageView();\""
-sdk_ok vue timeout 8 bash -c "cd \"$ROOT/examples/frontend/vue\" && \"$TSX\" -e \"import { trackVuePageView } from './src/events.ts'; trackVuePageView();\""
+sdk_ok vue timeout 8 bash -c "cd \"$ROOT/examples/frontend/vue\" && \"$TSX\" -e \"import { trackFeature } from './src/tracker.ts'; trackFeature('vue_page_view');\""
 sdk_ok svelte timeout 8 bash -c "cd \"$ROOT/examples/frontend/svelte\" && \"$TSX\" -e \"import { trackSveltePageView } from './src/lib/events.ts'; trackSveltePageView();\""
 sdk_ok vanilla timeout 8 bash -c "cd \"$ROOT/examples/frontend/vanilla\" && \"$TSX\" -e \"import { trackVanillaPageView } from './src/events.ts'; trackVanillaPageView();\""
 sdk_ok next timeout 8 bash -c "cd \"$ROOT/examples/frontend/next\" && \"$TSX\" -e \"import { trackNextPageView } from './lib/events.ts'; trackNextPageView();\""
-sdk_ok nuxt timeout 8 bash -c "cd \"$ROOT/examples/frontend/nuxt\" && \"$TSX\" -e \"import { trackNuxtPageView } from './utils/events.ts'; trackNuxtPageView();\""
+sdk_ok nuxt timeout 8 bash -c "cd \"$ROOT/examples/frontend/nuxt\" && \"$TSX\" -e \"import { trackFeature } from './utils/tracker.ts'; trackFeature('nuxt_page_view');\""
 sdk_ok astro timeout 8 bash -c "cd \"$ROOT/examples/frontend/astro\" && \"$TSX\" -e \"import { trackAstroPageView } from './src/events.ts'; trackAstroPageView();\""
 sdk_ok angular timeout 8 bash -c "cd \"$ROOT/examples/frontend/angular\" && \"$TSX\" -e \"import { trackAngularPageView } from './src/app/events.ts'; trackAngularPageView();\""
 

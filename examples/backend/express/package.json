@@ -5,11 +5,11 @@
     "dev": "tsx src/index.ts"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^1.1.5",
+    "@eventra_dev/eventra-sdk": "^2.0.0",
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^0.3.12",
+    "@eventra_dev/eventra-cli": "^2.0.0",
     "@types/express": "^4.17.21",
     "tsx": "^4.7.0",
     "typescript": "^5.3.0"

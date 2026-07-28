@@ -1,11 +1,12 @@
 {
   "apiKey": "test",
-  "endpoint": "http://localhost:3000/cli/events",
+  "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "vercel_api_hit",
     "vercel_request"
   ],
   "functionWrappers": [],
+  "plugins": [],
   "sync": {
     "include": [
       "**/*.{ts,tsx,js,jsx}"

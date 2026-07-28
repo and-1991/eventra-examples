@@ -36,7 +36,7 @@ pnpm dev:express
 ```bash
 cd examples/backend/express
 eventra init
-# "apiKey": "test", "endpoint": "http://localhost:3000/cli/events"
+# "apiKey": "test", "endpoint": "http://localhost:4000/cli/events"
 eventra sync
 ```
 

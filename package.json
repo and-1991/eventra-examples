@@ -22,7 +22,7 @@
     "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^0.3.12",
+    "@eventra_dev/eventra-cli": "^2.0.0",
     "concurrently": "^9.2.1"
   }
 }

@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { trackNuxtClick, trackNuxtPageView } from "../utils/events";
+import { trackFeature } from "../utils/tracker";
+
+const DYNAMIC_FEATURE = "nuxt_dynamic_feature";
 
 onMounted(() => {
   console.log("DOM ready");
-  trackNuxtPageView();
+  trackFeature("nuxt_page_view");
 });
-
-function handleClick() {
-  trackNuxtClick();
-}
 </script>
 
 <template>
   <main style="padding: 40px">
     <h1>Nuxt Eventra</h1>
 
-    <button @click="handleClick">
-      Click me
-    </button>
+    <TrackedButton event="nuxt_click">Click me</TrackedButton>
+    <TrackedButton :event="DYNAMIC_FEATURE">Dynamic feature</TrackedButton>
   </main>
 </template>
