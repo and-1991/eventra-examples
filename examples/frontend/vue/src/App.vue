@@ -2,6 +2,10 @@
 import { onMounted } from "vue";
 import { trackFeature } from "./tracker";
 import TrackedButton from "./components/TrackedButton.vue";
+import DynamicEvents from "./fixtures/DynamicEvents.vue";
+import StructuralEvents from "./fixtures/StructuralEvents.vue";
+import ExternalBlocks from "./fixtures/ExternalBlocks.vue";
+import MixedScript from "./fixtures/MixedScript.vue";
 
 const SECONDARY_CLICK = "vue_secondary_click";
 
@@ -17,5 +21,13 @@ onMounted(() => {
 
     <TrackedButton event="vue_click">Click me</TrackedButton>
     <TrackedButton :event="SECONDARY_CLICK">Secondary action</TrackedButton>
+
+    <section>
+      <h2>cli-plugin-vue edge cases</h2>
+      <DynamicEvents unresolved-event="vue_dynamic_unresolved_runtime" />
+      <StructuralEvents />
+      <ExternalBlocks />
+      <MixedScript />
+    </section>
   </main>
 </template>

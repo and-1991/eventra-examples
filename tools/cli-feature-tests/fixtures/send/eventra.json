@@ -1,0 +1,11 @@
+{
+  "apiKey": "",
+  "endpoint": "http://localhost:4502/api/v1/cli/events",
+  "events": ["send_test_event_one"],
+  "functionWrappers": [],
+  "plugins": [],
+  "sync": {
+    "include": ["**/*.{ts,tsx,js,jsx}"],
+    "exclude": ["node_modules", "dist", ".git"]
+  }
+}

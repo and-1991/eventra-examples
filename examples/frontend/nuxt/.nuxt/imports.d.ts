@@ -1,4 +1,4 @@
-export { useScriptTriggerConsent, useScriptEventPage, useScriptTriggerElement, useScript, useScriptGoogleAnalytics, useScriptPlausibleAnalytics, useScriptCrisp, useScriptClarity, useScriptCloudflareWebAnalytics, useScriptFathomAnalytics, useScriptMatomoAnalytics, useScriptGoogleTagManager, useScriptGoogleAdsense, useScriptSegment, useScriptMetaPixel, useScriptXPixel, useScriptIntercom, useScriptHotjar, useScriptStripe, useScriptLemonSqueezy, useScriptVimeoPlayer, useScriptYouTubePlayer, useScriptGoogleMaps, useScriptNpm, useScriptUmamiAnalytics, useScriptSnapchatPixel, useScriptRybbitAnalytics, useScriptDatabuddyAnalytics, useScriptRedditPixel, useScriptPayPal } from '#app/composables/script-stubs';
+export { useScriptTriggerConsent, useScriptEventPage, useScriptTriggerElement, useScript, useScriptGoogleAnalytics, useScriptPlausibleAnalytics, useScriptCrisp, useScriptClarity, useScriptCloudflareWebAnalytics, useScriptVercelAnalytics, useScriptPostHog, useScriptFathomAnalytics, useScriptMatomoAnalytics, useScriptMixpanelAnalytics, useScriptBingUet, useScriptGoogleTagManager, useScriptGoogleAdsense, useScriptGoogleRecaptcha, useScriptGoogleSignIn, useScriptSegment, useScriptMetaPixel, useScriptXPixel, useScriptTikTokPixel, useScriptIntercom, useScriptHotjar, useScriptStripe, useScriptLemonSqueezy, useScriptVimeoPlayer, useScriptYouTubePlayer, useScriptGoogleMaps, useScriptNpm, useScriptUmamiAnalytics, useScriptSnapchatPixel, useScriptRybbitAnalytics, useScriptDatabuddyAnalytics, useScriptRedditPixel, useScriptPayPal, useScriptGravatar, useScriptAhrefsAnalytics, useScriptLinkedInInsight, useScriptCalendly, useScriptUsercentrics, useScriptSpeedCurve } from '#app/composables/script-stubs';
 export { isVue2, isVue3 } from 'vue-demi';
 export { defineNuxtLink } from '#app/components/nuxt-link';
 export { useNuxtApp, tryUseNuxtApp, defineNuxtPlugin, definePayloadPlugin, useRuntimeConfig, defineAppConfig } from '#app/nuxt';
@@ -10,6 +10,7 @@ export { callOnce } from '#app/composables/once';
 export { useState, clearNuxtState } from '#app/composables/state';
 export { clearError, createError, isNuxtError, showError, useError } from '#app/composables/error';
 export { useFetch, useLazyFetch, createUseFetch } from '#app/composables/fetch';
+export { $fetch } from '#build/fetch.mjs';
 export { useCookie, refreshCookie } from '#app/composables/cookie';
 export { onPrehydrate, prerenderRoutes, useRequestHeader, useRequestHeaders, useResponseHeader, useRequestEvent, useRequestFetch, setResponseStatus } from '#app/composables/ssr';
 export { onNuxtReady } from '#app/composables/ready';
@@ -21,6 +22,7 @@ export { getAppManifest, getRouteRules } from '#app/composables/manifest';
 export { reloadNuxtApp } from '#app/composables/chunk';
 export { useRequestURL } from '#app/composables/url';
 export { usePreviewMode } from '#app/composables/preview';
+export { useLayout } from '#app/composables/layout';
 export { useRouteAnnouncer } from '#app/composables/route-announcer';
 export { useAnnouncer } from '#app/composables/announcer';
 export { useRuntimeHook } from '#app/composables/runtime-hook';
@@ -31,4 +33,4 @@ export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callba
 export { setInterval } from '#app/compat/interval';
 export { definePageMeta, PageMeta } from '#app/composables/pages';
 export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
-export { useNuxtDevTools } from '../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
+export { trackFeature } from '../utils/tracker';

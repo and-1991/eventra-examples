@@ -1,0 +1,54 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "direct_basic",
+    "direct_optional_chain",
+    "direct_with_userid",
+    "template_feature_abc",
+    "ternary_path_a",
+    "ternary_path_b",
+    "var_event_const",
+    "wrapper_plain_call",
+    "wrapper_prop_aliased",
+    "wrapper_prop_destructured",
+    "wrapper_prop_element",
+    "wrapper_prop_nested",
+    "wrapper_prop_optional",
+    "wrapper_prop_plain"
+  ],
+  "functionWrappers": [
+    {
+      "name": "trackDestructured"
+    },
+    {
+      "name": "trackDestructuredAliased"
+    },
+    {
+      "name": "trackFeature"
+    },
+    {
+      "name": "trackNestedDestructured"
+    },
+    {
+      "name": "trackPayload"
+    },
+    {
+      "name": "trackPayloadElement"
+    },
+    {
+      "name": "trackPayloadOptional"
+    }
+  ],
+  "plugins": [],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".git"
+    ]
+  }
+}

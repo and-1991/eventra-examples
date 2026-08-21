@@ -1,0 +1,14 @@
+{
+  "name": "sdk-feature-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node run.mjs"
+  },
+  "dependencies": {
+    "@eventra_dev/eventra-sdk": "^2.0.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}

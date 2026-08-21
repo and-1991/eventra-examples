@@ -2,15 +2,24 @@
   "apiKey": "test",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
+    "astro_button_click",
     "astro_click",
-    "astro_page_view"
+    "astro_conditional_click",
+    "astro_dynamic_resolved",
+    "astro_frontmatter_view",
+    "astro_interp_z",
+    "astro_map_item_click",
+    "astro_page_view",
+    "astro_shorthand_event"
   ],
   "functionWrappers": [
     {
       "name": "trackFeature"
     }
   ],
-  "plugins": [],
+  "plugins": [
+    "@eventra_dev/cli-plugin-astro"
+  ],
   "sync": {
     "include": [
       "**/*.{ts,tsx,js,jsx}"

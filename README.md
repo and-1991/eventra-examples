@@ -12,7 +12,7 @@
   <a href="#quick-start"><b>Quick Start</b></a> •
   <a href="#eventra-cli"><b>Eventra CLI</b></a> •
   <a href="#vue--nuxt-via-eventra_devcli-plugin-vue"><b>Vue / Nuxt</b></a> •
-  <a href="#frameworks-without-cli-support"><b>Svelte / Astro</b></a> •
+  <a href="#svelte--astro-via-cli-plugins"><b>Svelte / Astro</b></a> •
   <a href="#examples"><b>Examples</b></a> •
   <a href="https://eventra.dev/docs"><b>Docs</b></a>
 </p>
@@ -23,9 +23,11 @@
 
 This repository demonstrates:
 
-- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.0+**) — send analytics events from browser, Node.js, and edge runtimes
-- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.0.0+**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation
-- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.0+**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
+- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.3**) — send analytics events from browser, Node.js, and edge runtimes
+- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.0.5**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation
+- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.3**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
+- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.0**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
+- **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.0.0**) — Svelte plugin for the CLI, kept installed and registered for forward-compatibility even though the current CLI already scans `.svelte` files natively (see note below)
 
 Each example includes `eventra.json`, runnable app code, and a **TypeScript-first** tracking pattern where needed.
 
@@ -73,11 +75,13 @@ After `eventra init`, `sync.include` is:
 "**/*.{ts,tsx,js,jsx}"
 ```
 
-| Scanned | Requires a plugin | Not scanned |
+| Scanned natively | Scanned via plugin | Not scanned |
 |---------|--------------------|-------------|
-| `.ts`, `.tsx`, `.js`, `.jsx` | `.vue` (via `@eventra_dev/cli-plugin-vue`) | `.svelte`, `.astro`, `.html` |
+| `.ts`, `.tsx`, `.js`, `.jsx`, `.svelte`* | `.vue` (via `@eventra_dev/cli-plugin-vue`), `.astro` frontmatter (via `@eventra_dev/cli-plugin-astro`) | `.html`, inline `<script>` tags inside `.astro` body markup |
 
-The CLI uses the **TypeScript compiler API** on plain source files. Framework dialects it doesn't understand natively (Vue SFCs, Svelte components, Astro frontmatter) need a plugin — only Vue has one today.
+The CLI uses the **TypeScript compiler API** on plain source files. Framework dialects it doesn't understand natively (Vue SFCs, Astro frontmatter) need a plugin.
+
+\* As of `eventra-cli@2.0.5`, `.svelte` files (both the `<script>` block and inline event-handler expressions in the markup, e.g. `on:click={() => trackFeature(...)}`) are scanned out of the box — verified live in this repo's [Svelte example](./examples/frontend/svelte). `@eventra_dev/cli-plugin-svelte` is still installed and registered there for forward-compatibility, but in this test it made no observable difference to what `sync` found. `@eventra_dev/cli-plugin-astro` **is** required for Astro: verified live that a `trackFeature(...)` call in the frontmatter fence (`---`) is only picked up with the plugin registered — it is not found with the plugin package installed but left out of `eventra.json`'s `plugins` array. Also verified: the plugin only parses the frontmatter fence, not arbitrary `<script>` tags placed in the `.astro` file's body markup (those stay invisible to `sync` either way — use the `events.ts` pattern below for client-side handlers).
 
 ### What gets detected
 
@@ -121,13 +125,29 @@ See [examples/frontend/vue](./examples/frontend/vue) and [examples/frontend/nuxt
 
 ---
 
-## Frameworks without CLI support
+## Svelte & Astro via CLI plugins
 
-Svelte and Astro have no official CLI plugin yet — the CLI can't parse `.svelte` or `.astro` files at all, plugin or not.
+Both frameworks moved out of "no plugin" status. Current state, verified live in this repo:
 
-### Recommended pattern (used in this repo)
+- **Svelte** — `@eventra_dev/cli-plugin-svelte` is installed and registered in [examples/frontend/svelte](./examples/frontend/svelte)'s `eventra.json`, matching the Vue convention. In practice, `eventra-cli@2.0.5` already scans `.svelte` files natively without it: a direct `trackFeature("svelte_direct_click")` call in `App.svelte`'s `<script>` block, and an inline handler written straight in the markup (`on:click={() => trackFeature("svelte_inline_markup_click")}`), were both detected with the plugin absent from `plugins` (and even before the plugin package was installed at all). Keep it registered anyway — it's forward-compatible and costs nothing, and may matter for Svelte syntax this repo's example doesn't exercise (e.g. `{#each}`/`$:` reactive blocks, `<script context="module">`, Svelte 5 runes).
+- **Astro** — `@eventra_dev/cli-plugin-astro` is installed and registered in [examples/frontend/astro](./examples/frontend/astro)'s `eventra.json`, and it is **required**: a `trackFeature("astro_frontmatter_view")` call placed directly in the frontmatter fence (`---`) of `src/pages/index.astro` is only picked up by `sync` with the plugin registered — removing it from `plugins` (while leaving the package installed) makes the CLI silently drop back to 2 events. The plugin's coverage stops at the frontmatter fence, though: a `trackFeature(...)` call placed in a `<script>` tag inside the `.astro` file's *body* markup is not detected either way — that's still genuinely unscanned, same as plain `.html`.
 
-Split **runtime** and **CLI discovery**:
+```astro
+---
+import { trackFeature } from "../lib/tracker";
+
+trackFeature("astro_frontmatter_view"); // ✅ detected — cli-plugin-astro parses the frontmatter fence
+---
+
+<script type="module">
+  import { trackFeature } from "../lib/tracker";
+  trackFeature("astro_body_script_click"); // ❌ not detected — body <script> tags are not part of the frontmatter
+</script>
+```
+
+### Recommended pattern (still used in this repo)
+
+Even where a plugin (or native support) now covers direct calls, this repo keeps centralizing event names for consistency across examples:
 
 ```
 my-app/
@@ -141,16 +161,16 @@ my-app/
 
 1. Put every **event name string** in a `.ts` file (`events.ts`, `lib/events.ts`, `utils/events.ts`).
 2. Export named functions (`trackPageView`, `trackClick`) that call `trackFeature("…")`.
-3. In `.svelte` / `.astro` pages — only call those functions, no `"event_name"` literals.
+3. In `.svelte` / `.astro` pages — prefer calling those functions over inlining `"event_name"` literals, for consistency (both are detected by `sync` either way, per above).
 4. Keep `import { Eventra } from "@eventra_dev/eventra-sdk"` in `.ts` (not CDN URLs).
 5. Run `eventra sync` from the example root (where `eventra.json` lives).
 
 ### By framework (this repository)
 
-| Framework | UI files (CLI ignores) | Where events live for CLI |
+| Framework | UI files | Where events live for CLI |
 |-----------|--------------------------|---------------------------|
-| **Svelte** | `App.svelte` | `src/lib/events.ts` |
-| **Astro** | `*.astro` | `src/events.ts` (+ `client.ts` imports helpers) |
+| **Svelte** | `App.svelte` *(scanned natively — see above)* | `src/lib/events.ts` (+ a direct/inline call in `App.svelte` demonstrating native scanning) |
+| **Astro** | `*.astro` frontmatter *(scanned via `cli-plugin-astro`)*, body `<script>` tags *(not scanned)* | `src/events.ts` (+ `client.ts` imports helpers; frontmatter has one direct demo call) |
 | **React** | `App.tsx` *(tsx is scanned, but we still centralize)* | `src/events.ts` |
 | **Next.js** | `app/page.tsx` | `lib/events.ts` |
 | **Angular** | `app.component.ts` *(ts is scanned)* | `src/app/events.ts` |
@@ -207,11 +227,11 @@ Other pitfalls:
 |-----------|---------|----------|
 | React | [./examples/frontend/react](./examples/frontend/react) | Events in `src/events.ts` |
 | Vue | [./examples/frontend/vue](./examples/frontend/vue) | **Scanned via `@eventra_dev/cli-plugin-vue`** — tracked directly in `App.vue` |
-| Svelte | [./examples/frontend/svelte](./examples/frontend/svelte) | **`.svelte` not scanned** → `src/lib/events.ts` |
+| Svelte | [./examples/frontend/svelte](./examples/frontend/svelte) | **`.svelte` scanned natively** (cli-plugin-svelte installed for forward-compat) — `src/lib/events.ts` + a direct/inline call in `App.svelte` |
 | Vanilla (TS + Vite) | [./examples/frontend/vanilla](./examples/frontend/vanilla) | All in `src/*.ts` |
 | Next.js | [./examples/frontend/next](./examples/frontend/next) | Events in `lib/events.ts` |
 | Nuxt | [./examples/frontend/nuxt](./examples/frontend/nuxt) | **Scanned via `@eventra_dev/cli-plugin-vue`** — tracked directly in `pages/index.vue` |
-| Astro | [./examples/frontend/astro](./examples/frontend/astro) | **`.astro` not scanned** → `src/events.ts` |
+| Astro | [./examples/frontend/astro](./examples/frontend/astro) | **Scanned via `@eventra_dev/cli-plugin-astro`** (frontmatter only) — `src/events.ts` + a direct call in `index.astro`'s frontmatter |
 | Angular | [./examples/frontend/angular](./examples/frontend/angular) | Events in `src/app/events.ts` |
 
 ### Backend

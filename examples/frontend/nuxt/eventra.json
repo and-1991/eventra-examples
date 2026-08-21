@@ -2,6 +2,7 @@
   "apiKey": "test",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
+    "nuxt_auto_import_click",
     "nuxt_click",
     "nuxt_dynamic_feature",
     "nuxt_page_view"

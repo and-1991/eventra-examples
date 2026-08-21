@@ -1,0 +1,36 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "cast_internal_body_cast_and_nonnull",
+    "cast_internal_body_cast_only",
+    "cast_internal_body_nonnull_only",
+    "cast_typed_instance_track",
+    "nonnull_only_instance_track"
+  ],
+  "functionWrappers": [
+    {
+      "name": "trackFeature"
+    },
+    {
+      "name": "trackViaInternalCastAndNonNull"
+    },
+    {
+      "name": "trackViaInternalCastOnly"
+    },
+    {
+      "name": "trackViaInternalNonNullOnly"
+    }
+  ],
+  "plugins": [],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".git"
+    ]
+  }
+}

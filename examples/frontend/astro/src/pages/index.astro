@@ -1,4 +1,13 @@
 ---
+import { trackFeature } from "../lib/tracker";
+
+trackFeature("astro_frontmatter_view");
+
+const dynamicResolvable = "astro_dynamic_resolved";
+const event = "astro_shorthand_event";
+const showConditional = true;
+const mapItems = [1, 2, 3];
+const interpTail = "z";
 ---
 
 <html>
@@ -6,6 +15,27 @@
 <h1>Astro Eventra</h1>
 
 <button id="btn">Click me</button>
+
+<button event="astro_button_click">Literal template attribute</button>
+<button event={dynamicResolvable}>Dynamic, resolvable</button>
+<button {event}>JSX shorthand ({"{event}"})</button>
+<button event={Astro.url.pathname}>Dynamic, unresolvable</button>
+
+{showConditional && <div event="astro_conditional_click">Conditional (&&)</div>}
+
+<ul>
+  {mapItems.map((item) => <li event="astro_map_item_click">{item}</li>)}
+</ul>
+
+<!-- Edge cases, verified live:
+     - event="" and bare boolean-shorthand `event` are silently ignored (no event, no dynamic report)
+     - event={{}} (empty object expression) is reported as an unresolvable dynamic occurrence
+     - a *bare* backtick value (event=`a-${x}`, no braces) is invalid here and silently ignored;
+       it must be wrapped in braces (event={`a-${x}`}) to be parsed as an expression at all -->
+<button event="">Empty literal event (ignored)</button>
+<button event>Boolean-shorthand event (ignored)</button>
+<button event={{}}>Empty object event (dynamic, unresolvable)</button>
+<button event={`astro_interp_${interpTail}`}>Interpolated event (braced, resolves)</button>
 
 <script type="module" src="/src/client.ts"></script>
 </body>

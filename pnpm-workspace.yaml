@@ -14,3 +14,5 @@ minimumReleaseAgeExclude:
   - '@eventra_dev/eventra-sdk@1.2.42 || 2.0.0'
   - '@eventra_dev/cli-plugin-vue@1.0.0'
   - '@eventra_dev/eventra-cli@2.0.0'
+  - '@eventra_dev/cli-plugin-astro@1.0.0'
+  - '@eventra_dev/cli-plugin-svelte@1.0.0'

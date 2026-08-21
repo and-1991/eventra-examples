@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>eventra-sdk browser harness</title></head>
+<body>
+<script type="module">
+  import { Eventra } from "/node_modules/@eventra_dev/eventra-sdk/dist/index.mjs";
+
+  window.__fetchLog = [];
+
+  // A spy fetchImpl wrapping the real fetch, recording every call (url, keepalive flag, body)
+  // before delegating. Installed as fetchImpl so it's used regardless of global fetch patches.
+  function spyFetch(endpoint) {
+    return async (url, init) => {
+      let bodyParsed = null;
+      try { bodyParsed = JSON.parse(init?.body ?? "null"); } catch {}
+      window.__fetchLog.push({
+        url,
+        keepalive: !!init?.keepalive,
+        idempotencyKeys: (bodyParsed?.events ?? []).map((e) => e.idempotencyKey),
+        at: Date.now(),
+      });
+      return fetch(url, init);
+    };
+  }
+
+  window.makeTracker = (opts) => {
+    const endpoint = opts.endpoint;
+    const tracker = new Eventra({
+      apiKey: "test",
+      endpoint,
+      disableTimer: true,
+      maxBatchSize: 1000, // avoid auto-flush-on-threshold surprises unless a test wants it
+      ...opts,
+      fetchImpl: spyFetch(endpoint),
+    });
+    return tracker;
+  };
+
+  window.__trackers = {};
+  window.createNamedTracker = (name, opts) => {
+    window.__trackers[name] = window.makeTracker(opts);
+    return true;
+  };
+  window.callOnTracker = async (name, method, ...args) => {
+    return await window.__trackers[name][method](...args);
+  };
+
+  window.readQueueStorage = () => {
+    try {
+      return JSON.parse(localStorage.getItem("__eventra_q__") || "null");
+    } catch {
+      return null;
+    }
+  };
+  window.readLeaderStorage = () => {
+    try {
+      return JSON.parse(localStorage.getItem("__eventra_leader__") || "null");
+    } catch {
+      return null;
+    }
+  };
+
+  window.isLeader = (name) => !!window.__trackers[name]?.leader?.isLeader;
+  window.queueLength = (name) => window.__trackers[name]?.queue?.length ?? -1;
+
+  window.__ready = true;
+</script>
+</body>
+</html>

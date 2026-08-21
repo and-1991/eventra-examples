@@ -5,11 +5,11 @@
     "dev": "next dev"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.0",
+    "@eventra_dev/eventra-sdk": "^2.0.3",
     "next": "14"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.0.0",
+    "@eventra_dev/eventra-cli": "^2.0.5",
     "@types/react": "19.2.14"
   }
 }

@@ -2,49 +2,49 @@
   "compilerOptions": {
     "paths": {
       "@unhead/vue": [
-        "../../../../node_modules/.pnpm/@unhead+vue@2.1.13_vue@3.5.32_typescript@5.9.3_/node_modules/@unhead/vue"
+        "../../../../node_modules/.pnpm/@unhead+vue@3.3.2_@oxc-project+types@0.146.0_@vitejs+devtools-kit@0.4.9_cac@7.0.0_srvx@_43e47c0e36404af66fd5853438af197e/node_modules/@unhead/vue"
       ],
       "@nuxt/devtools": [
-        "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/@nuxt/devtools"
+        "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/@nuxt/devtools"
       ],
       "vue": [
-        "../../../../node_modules/.pnpm/vue@3.5.32_typescript@5.9.3/node_modules/vue"
+        "../../../../node_modules/.pnpm/vue@3.5.40_typescript@5.7.2/node_modules/vue"
       ],
       "@vue/runtime-core": [
-        "../../../../node_modules/.pnpm/@vue+runtime-core@3.5.32/node_modules/@vue/runtime-core"
+        "../../../../node_modules/.pnpm/@vue+runtime-core@3.5.34/node_modules/@vue/runtime-core"
       ],
       "@vue/compiler-sfc": [
-        "../../../../node_modules/.pnpm/@vue+compiler-sfc@3.5.32/node_modules/@vue/compiler-sfc"
+        "../../../../node_modules/.pnpm/@vue+compiler-sfc@3.5.40/node_modules/@vue/compiler-sfc"
       ],
       "vue-router": [
-        "../../../../node_modules/.pnpm/vue-router@5.0.4_@vue+compiler-sfc@3.5.32_vue@3.5.32_typescript@5.9.3_/node_modules/vue-router"
+        "../../../../node_modules/.pnpm/vue-router@5.2.0_@vue+compiler-sfc@3.5.40_esbuild@0.28.0_rolldown@1.2.5_rollup@4.60.3_v_07f001b4ae9a805e1c6c876354831750/node_modules/vue-router"
       ],
       "vue-router/auto-routes": [
-        "../../../../node_modules/.pnpm/vue-router@5.0.4_@vue+compiler-sfc@3.5.32_vue@3.5.32_typescript@5.9.3_/node_modules/vue-router/vue-router-auto-routes"
+        "../../../../node_modules/.pnpm/vue-router@5.2.0_@vue+compiler-sfc@3.5.40_esbuild@0.28.0_rolldown@1.2.5_rollup@4.60.3_v_07f001b4ae9a805e1c6c876354831750/node_modules/vue-router/vue-router-auto-routes.d.mts"
       ],
       "@nuxt/schema": [
-        "../../../../node_modules/.pnpm/@nuxt+schema@4.4.2/node_modules/@nuxt/schema"
+        "../../../../node_modules/.pnpm/@nuxt+schema@4.5.2/node_modules/@nuxt/schema"
       ],
       "nuxt": [
-        "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt"
+        "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt"
       ],
       "vite/client": [
-        "../../../../node_modules/.pnpm/vite@5.4.21_@types+node@25.6.0_terser@5.46.1/node_modules/vite/client"
+        "../../../../node_modules/.pnpm/vite@5.4.21_@types+node@25.6.0_less@4.2.0_lightningcss@1.33.0_sass@1.77.6_terser@5.31.6/node_modules/vite/client"
       ],
       "nitropack/types": [
-        "../../../../node_modules/.pnpm/nitropack@2.13.3_srvx@0.11.15/node_modules/nitropack/types"
+        "../../../../node_modules/.pnpm/nitropack@2.13.4_encoding@0.1.13_oxc-parser@0.140.0_rolldown@1.2.5_srvx@0.11.22_vite@8._149766943573ffab8290e4cdd92fca32/node_modules/nitropack/types"
       ],
       "nitropack/runtime": [
-        "../../../../node_modules/.pnpm/nitropack@2.13.3_srvx@0.11.15/node_modules/nitropack/runtime"
+        "../../../../node_modules/.pnpm/nitropack@2.13.4_encoding@0.1.13_oxc-parser@0.140.0_rolldown@1.2.5_srvx@0.11.22_vite@8._149766943573ffab8290e4cdd92fca32/node_modules/nitropack/runtime"
       ],
       "nitropack": [
-        "../../../../node_modules/.pnpm/nitropack@2.13.3_srvx@0.11.15/node_modules/nitropack"
+        "../../../../node_modules/.pnpm/nitropack@2.13.4_encoding@0.1.13_oxc-parser@0.140.0_rolldown@1.2.5_srvx@0.11.22_vite@8._149766943573ffab8290e4cdd92fca32/node_modules/nitropack"
       ],
       "defu": [
         "../../../../node_modules/.pnpm/defu@6.1.7/node_modules/defu"
       ],
       "h3": [
-        "../../../../node_modules/.pnpm/h3@1.15.11/node_modules/h3"
+        "../../../../node_modules/.pnpm/h3@2.0.1-rc.27_crossws@0.4.10_srvx@0.11.22_/node_modules/h3"
       ],
       "consola": [
         "../../../../node_modules/.pnpm/consola@3.4.2/node_modules/consola"
@@ -53,7 +53,7 @@
         "../../../../node_modules/.pnpm/ofetch@1.5.1/node_modules/ofetch"
       ],
       "crossws": [
-        "../../../../node_modules/.pnpm/crossws@0.3.5/node_modules/crossws"
+        "../../../../node_modules/.pnpm/crossws@0.4.10_srvx@0.11.22/node_modules/crossws"
       ],
       "~": [
         ".."
@@ -92,25 +92,25 @@
         "../server/*"
       ],
       "#app": [
-        "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt/dist/app"
+        "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt/dist/app"
       ],
       "#app/*": [
-        "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt/dist/app/*"
+        "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt/dist/app/*"
       ],
       "vue-demi": [
-        "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt/dist/app/compat/vue-demi"
+        "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt/dist/app/compat/vue-demi"
       ],
       "#vue-router": [
-        "../../../../node_modules/.pnpm/vue-router@5.0.4_@vue+compiler-sfc@3.5.32_vue@3.5.32_typescript@5.9.3_/node_modules/vue-router"
+        "../../../../node_modules/.pnpm/vue-router@5.2.0_@vue+compiler-sfc@3.5.40_esbuild@0.28.0_rolldown@1.2.5_rollup@4.60.3_v_07f001b4ae9a805e1c6c876354831750/node_modules/vue-router"
       ],
       "#unhead/composables": [
-        "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt/dist/head/runtime/composables"
+        "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt/dist/head/runtime/composables"
       ],
       "#imports": [
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/d2f78067-82c5-4312-84a7-26bd94d3aa10.json"
       ],
       "#components": [
         "./components"
@@ -126,6 +126,7 @@
     "skipLibCheck": true,
     "target": "ESNext",
     "allowJs": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
@@ -143,6 +144,7 @@
       "dom.iterable",
       "webworker"
     ],
+    "libReplacement": false,
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "types": [],
@@ -167,9 +169,9 @@
   ],
   "exclude": [
     "../../../../node_modules",
-    "../../../../node_modules/.pnpm/nuxt@4.4.2_@babel+core@7.29.0_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@emna_3d910df6d670a9d3e63b4ad6b1e2d10b/node_modules/nuxt/node_modules",
-    "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/@nuxt/devtools/node_modules",
-    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.4.2_magicast@0.5.2_/node_modules/@nuxt/telemetry/node_modules",
+    "../../../../node_modules/.pnpm/nuxt@4.5.2_@babel+plugin-syntax-jsx@7.28.6_@babel+core@7.29.0__@babel+plugin-syntax-typ_bd9c692f89a26b583ae7de556e01b977/node_modules/nuxt/node_modules",
+    "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/@nuxt/devtools/node_modules",
+    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.5.2_magic-string@1.1.0_magicast@0.5.2_oxc-parser@0.14_d67de4f664e2a30852fd909eeff28f82/node_modules/@nuxt/telemetry/node_modules",
     "../dist",
     "../.data",
     "../modules/*/runtime/server/**/*",
@@ -180,16 +182,17 @@
     "../.config/nuxt.*",
     "../layers/*/nuxt.config.*",
     "../layers/*/.config/nuxt.*",
-    "../layers/*/modules/**/*",
-    "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/dist/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/*.*",
-    "../../../../node_modules/.pnpm/@nuxt+devtools@3.2.4_vite@7.3.2_@types+node@25.6.0_jiti@2.6.1_terser@5.46.1_tsx@4.21.0__daee95ab9cd9e59da3fa8cae4b7fb208/node_modules/dist/*.*",
-    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.4.2_magicast@0.5.2_/node_modules/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.4.2_magicast@0.5.2_/node_modules/dist/runtime/server",
-    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.4.2_magicast@0.5.2_/node_modules/*.*",
-    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.4.2_magicast@0.5.2_/node_modules/dist/*.*",
-    "dev",
+    "../layers/*/modules/*.*",
+    "../layers/*/modules/*/*.*",
+    "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/dist/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/*.*",
+    "../../../../node_modules/.pnpm/@nuxt+devtools@3.4.1_db0@0.3.4_ioredis@5.10.1_magic-string@1.1.0_oxc-parser@0.140.0_rol_89d0b01cba9973e008c1534c6e954a92/node_modules/dist/*.*",
+    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.5.2_magic-string@1.1.0_magicast@0.5.2_oxc-parser@0.14_d67de4f664e2a30852fd909eeff28f82/node_modules/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.5.2_magic-string@1.1.0_magicast@0.5.2_oxc-parser@0.14_d67de4f664e2a30852fd909eeff28f82/node_modules/dist/runtime/server",
+    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.5.2_magic-string@1.1.0_magicast@0.5.2_oxc-parser@0.14_d67de4f664e2a30852fd909eeff28f82/node_modules/*.*",
+    "../../../../node_modules/.pnpm/@nuxt+telemetry@2.8.0_@nuxt+kit@4.5.2_magic-string@1.1.0_magicast@0.5.2_oxc-parser@0.14_d67de4f664e2a30852fd909eeff28f82/node_modules/dist/*.*",
+    "../.output",
     "../server"
   ],
   "vueCompilerOptions": {
