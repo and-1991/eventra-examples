@@ -16,7 +16,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.0.5",
+    "@eventra_dev/eventra-cli": "^2.0.7",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

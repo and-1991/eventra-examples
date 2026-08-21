@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "@eventra_dev/cli-plugin-astro": "^1.0.1",
-    "@eventra_dev/eventra-cli": "^2.0.5"
+    "@eventra_dev/eventra-cli": "^2.0.7"
   }
 }

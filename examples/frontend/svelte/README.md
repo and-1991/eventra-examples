@@ -10,7 +10,7 @@ Two independent detection paths, verified live (see the root README's [Svelte & 
 
 | Path | Needs the plugin? | Example in this repo |
 |------|--------------------|-----------------------|
-| Plain `track()`/`trackFeature()` **JS calls** in `<script>` or inline in the markup | No — `eventra-cli@2.0.5` scans `.svelte` files natively | `trackSveltePageView()` in `App.svelte`'s `<script>`; `trackFeature("svelte_direct_click")`; `on:click={() => trackFeature("svelte_inline_markup_click")}` |
+| Plain `track()`/`trackFeature()` **JS calls** in `<script>` or inline in the markup | No — `eventra-cli@2.0.7` scans `.svelte` files natively | `trackSveltePageView()` in `App.svelte`'s `<script>`; `trackFeature("svelte_direct_click")`; `on:click={() => trackFeature("svelte_inline_markup_click")}` |
 | Declarative **`event="..."` template attribute** (same convention as Vue's `TrackedButton`) | **Yes** — this is genuinely plugin-exclusive | `<button event="svelte_button_click">`, plus one inside every Svelte block type: `{#if}/{:else if}/{:else}`, `{#each}`, `{#await}/{:then}/{:catch}`, `{#key}`, `<slot>` |
 
 Known gap vs. `cli-plugin-astro`: the interpolated string form `event="a-{b}"` and the `{event}` shorthand are both silently ignored by this plugin (Svelte's own README never claims shorthand support, so this isn't a broken promise — just a real capability difference).
