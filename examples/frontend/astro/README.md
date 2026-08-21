@@ -14,7 +14,7 @@ Astro + **Eventra SDK** + **Eventra CLI** + **@eventra_dev/cli-plugin-astro**.
 | Declarative `event="..."` / `event={expr}` / `{event}` shorthand template attribute — any tag, including inside `{cond && <div event="...">}` and `.map()` | Yes, with the plugin |
 | `trackFeature(...)` inside a `<script>` tag in the file's **body markup** (not the frontmatter) | **No — still genuinely unscanned**, same as plain `.html` |
 
-One documentation gap found: the plugin's own README shows `` event=`a-${b}` `` (no braces) as valid interpolation syntax, but it's silently ignored as written — the working form needs braces: `` event={`a-${b}`} ``.
+One documentation gap found and **fixed upstream in `cli-plugin-astro@1.0.1`**: an earlier README revision showed `` event=`a-${b}` `` (no braces) as valid interpolation syntax, but it was silently ignored as written — the working form needs braces: `` event={`a-${b}`} ``. The plugin's README now documents this explicitly as unsupported-by-design; both forms are still exercised live in this example (see `astro_interp_z`, resolved via the braced form).
 
 | File | Role |
 |------|------|

@@ -7,7 +7,7 @@
     "test": "tsx src/test.ts"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3"
+    "@eventra_dev/eventra-sdk": "^2.0.4"
   },
   "devDependencies": {
     "@eventra_dev/eventra-cli": "^2.0.5",

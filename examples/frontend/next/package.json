@@ -5,7 +5,7 @@
     "dev": "next dev"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "next": "^15",
     "react": "^19",
     "react-dom": "^19"

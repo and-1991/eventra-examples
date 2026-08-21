@@ -5,7 +5,7 @@
     "dev": "nuxt dev"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "nuxt": "latest"
   },
   "devDependencies": {

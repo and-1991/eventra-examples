@@ -5,7 +5,7 @@
     "dev": "tsx src/index.ts"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "express": "^4.19.2"
   },
   "devDependencies": {

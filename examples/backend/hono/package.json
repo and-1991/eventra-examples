@@ -6,7 +6,7 @@
     "dev:edge": "echo \"use wrangler / edge runtime\""
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "@hono/node-server": "^1.10.0",
     "hono": "^4.4.0"
   },

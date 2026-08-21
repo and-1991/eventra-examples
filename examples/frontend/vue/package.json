@@ -6,7 +6,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "vue": "^3.5.0"
   },
   "devDependencies": {

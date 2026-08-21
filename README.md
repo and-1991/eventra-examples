@@ -23,10 +23,10 @@
 
 This repository demonstrates:
 
-- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.3**) — send analytics events from browser, Node.js, and edge runtimes
+- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.4**) — send analytics events from browser, Node.js, and edge runtimes
 - **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.0.5**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation
 - **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.3**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
-- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.0**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
+- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.1**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
 - **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.0.0**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
 
 Each example includes `eventra.json`, runnable app code, and a **TypeScript-first** tracking pattern where needed.
@@ -303,19 +303,19 @@ Beyond the example apps themselves, this repo carries two standalone, re-runnabl
 - **`tools/sdk-feature-tests/`** — `@eventra_dev/eventra-sdk` reliability internals: batching, retry+backoff, circuit breaker, idempotency, payload guards, lifecycle (`flush`/`shutdown`/`destroy`), runtime detection, plus a `browser-run.mjs` that drives real headless Chromium (Playwright) for the browser-only claims (`persistQueue`, `multiTabMode` leader election, `pagehide`/`visibilitychange` flush).
 - **`tools/cli-feature-tests/`** — `@eventra_dev/eventra-cli` core detection rules not covered by any framework plugin: wrapper property-propagation shapes, casts/non-null assertions, cross-file resolution (barrel re-exports, default exports, tsconfig path aliases), `check`/`watch` exit behavior, and the full `send` API-key/endpoint-trust/retry flow.
 
-Confirmed, reproducible findings from running both suites plus the plugin-specific fixtures in `examples/frontend/{vue,astro,svelte}`:
+Findings from running both suites plus the plugin-specific fixtures in `examples/frontend/{vue,astro,svelte}` — all 3 real bugs found are **fixed upstream as of `eventra-sdk@2.0.4` / `cli-plugin-astro@1.0.1`** (both pinned in this repo) and re-confirmed fixed live:
 
-| # | Package | Finding | Severity |
-|---|---------|---------|----------|
-| 1 | `eventra-sdk@2.0.3` | `track()` throws on a non-string event name (e.g. `track(123)`), contradicting the README's "track() never throws" guarantee | Bug |
-| 2 | `eventra-sdk@2.0.3` | A short-lived process that calls `track()` + `flush()` right before exit sends the batch **3 times** (same idempotency key) — likely `autoFlushOnExit` registering more than one exit handler | Bug |
-| 3 | `eventra-sdk@2.0.3` (browser) | The `visibilitychange` flush handler is registered on `window`, but the native event only ever fires on `document` — switching tabs away without closing them never flushes through this path (closing the tab still works via the separate `pagehide` handler) | Bug |
-| 4 | `cli-plugin-astro@1.0.0` | The README's own interpolation example `` event=`a-${b}` `` (no braces) is silently ignored; the working form needs braces: `` event={`a-${b}`} `` | Doc bug |
-| 5 | `eventra-cli@2.0.5` | An event name over 64 chars or outside `a-zA-Z0-9:_./-` is dropped with zero trace — not truncated, not flagged dynamic, no diagnostic | Worth knowing |
-| 6 | `eventra-cli@2.0.5` | `EVENTRA_ENDPOINT` bypasses the one-time `--trust-endpoint` approval gate, but only its *presence* matters — the request still targets whichever `endpoint` is written in `eventra.json` | Worth knowing |
-| 7 | `cli-plugin-svelte@1.0.0` | The interpolated string form `event="a-{b}"` and the `{event}` shorthand (both supported by `cli-plugin-astro`) are silently ignored — not a broken promise (Svelte's README never claims shorthand), just a real gap vs. Astro | Worth knowing |
+| # | Package | Finding | Status |
+|---|---------|---------|--------|
+| 1 | `eventra-sdk` | `track()` threw on a non-string event name (e.g. `track(123)`), contradicting the README's "track() never throws" guarantee | **Fixed in 2.0.4** — explicit `typeof name !== "string"` check added; re-tested live |
+| 2 | `eventra-sdk` (browser) | The `visibilitychange` flush handler was registered on `window`, but the native event only ever fires on `document` — switching tabs away without closing them never flushed through this path | **Fixed in 2.0.4** — re-tested live in headless Chromium (6/6 browser scenarios pass) |
+| 3 | `cli-plugin-astro` | The README's own interpolation example `` event=`a-${b}` `` (no braces) was silently ignored; braces are required: `` event={`a-${b}`} `` | **Fixed in 1.0.1** — README now documents this explicitly; re-tested live, still resolves correctly with braces |
+| 4 | `eventra-sdk` | A short-lived process calling `track()` + `flush()` right before exit appeared to send the batch 3 times — initially suspected as `autoFlushOnExit` registering duplicate exit handlers | **Not a bug.** Root cause was this repo's own test harness: it drove the SDK from a subprocess spawned via Node's *blocking* `spawnSync`, which freezes the parent process's event loop — starving the in-process mock server the child was calling and forcing client-side timeouts + retries. Switching the harness to non-blocking `spawn` made the duplicates disappear entirely (confirmed: `[3,3,3]` → `[1,1,1]` physical POSTs). The underlying behavior — retries reusing the same `idempotencyKey` — is at-least-once delivery working exactly as designed; `eventra-sdk`'s README now states this explicitly ("delivery is at-least-once, not exactly-once"). |
+| 5 | `eventra-cli@2.0.5` | An event name over 64 chars or outside `a-zA-Z0-9:_./-` is dropped with zero trace — not truncated, not flagged dynamic, no diagnostic | Worth knowing, not a bug |
+| 6 | `eventra-cli@2.0.5` | `EVENTRA_ENDPOINT` bypasses the one-time `--trust-endpoint` approval gate, but only its *presence* matters — the request still targets whichever `endpoint` is written in `eventra.json` | Worth knowing, not a bug |
+| 7 | `cli-plugin-svelte@1.0.0` | The interpolated string form `event="a-{b}"` and the `{event}` shorthand (both supported by `cli-plugin-astro`) are silently ignored — not a broken promise (Svelte's README never claims shorthand), just a real gap vs. Astro | Worth knowing, not a bug |
 
-Everything else tested — SDK batching/retry/circuit-breaker/idempotency/payload-guards/persistence/multi-tab, and all of the CLI's core detection + `send` flow (70/70 scenarios) — behaves exactly as documented. A full `bash tools/verify-all.sh` run after every fix above still passes cleanly across all 15 workspace examples.
+Everything else tested — SDK batching/retry/circuit-breaker/idempotency/payload-guards/persistence/multi-tab, and all of the CLI's core detection + `send` flow (70/70 scenarios) — behaves exactly as documented. As of this pass, both feature-test suites are fully green (`tools/sdk-feature-tests`: 24/24 + 6/6 browser; `tools/cli-feature-tests`: 70/70), and a full `bash tools/verify-all.sh` run passes cleanly across all 15 workspace examples.
 
 ---
 

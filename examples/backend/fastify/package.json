@@ -5,7 +5,7 @@
     "dev": "tsx src/server.ts"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.3",
+    "@eventra_dev/eventra-sdk": "^2.0.4",
     "fastify": "^4.26.2",
     "fastify-plugin": "^4.5.0"
   },
