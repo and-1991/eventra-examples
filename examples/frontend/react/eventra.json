@@ -6,6 +6,8 @@
     "new_event",
     "react_click",
     "react_click_enum",
+    "react_jsx_attr_click",
+    "react_jsx_dynamic_attr_click",
     "react_page_view"
   ],
   "functionWrappers": [

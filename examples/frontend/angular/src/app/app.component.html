@@ -1,0 +1,39 @@
+<main style="padding:40px">
+  <h1>Angular (CLI) Eventra</h1>
+
+  <button (click)="handleClick()">
+    Click me
+  </button>
+
+  <button event="angular_template_literal_click">Literal template event</button>
+
+  <button [attr.event]="dynamicClickEvent">Dynamic field event</button>
+
+  <button [attr.event]="dynamicClickEventGetter">Dynamic getter event</button>
+
+  <button [attr.event]="resolveClickEventFromMethod()">Unresolved method-call event</button>
+
+  <button [attr.event]="dynamicClickEventSignal()">Unresolved signal event</button>
+
+  @if (showConditional) {
+    <button event="angular_control_flow_if_click">If-branch control-flow event</button>
+  } @else {
+    <button event="angular_control_flow_else_click">Else-branch control-flow event</button>
+  }
+
+  <ul>
+    @for (item of items; track item.event) {
+      <li><button [attr.event]="item.event">{{ item.label }}</button></li>
+    }
+  </ul>
+
+  <div *ngIf="showLegacy">
+    <button event="angular_ngif_click">*ngIf event</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let legacyItem of legacyItems">
+      <button attr.event="{{ legacyItem }}">interpolated attribute event</button>
+    </li>
+  </ul>
+</main>

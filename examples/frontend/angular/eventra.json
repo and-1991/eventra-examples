@@ -3,10 +3,18 @@
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "angular_click",
-    "angular_page_view"
+    "angular_control_flow_else_click",
+    "angular_control_flow_if_click",
+    "angular_dynamic_field_click",
+    "angular_dynamic_getter_click",
+    "angular_ngif_click",
+    "angular_page_view",
+    "angular_template_literal_click"
   ],
   "functionWrappers": [],
-  "plugins": [],
+  "plugins": [
+    "@eventra_dev/cli-plugin-angular"
+  ],
   "sync": {
     "include": [
       "**/*.{ts,tsx,js,jsx}"
