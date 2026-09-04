@@ -183,8 +183,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.14(@angular/compiler@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))(typescript@5.5.4)
       '@eventra_dev/cli-plugin-angular':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       '@eventra_dev/eventra-cli':
         specifier: ^2.0.8
         version: 2.0.8(@types/node@25.6.0)
@@ -2195,8 +2195,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eventra_dev/cli-plugin-angular@1.0.0':
-    resolution: {integrity: sha512-Dz5h0hbf3uZ74HgX0BpmjwVW7N2k+6NT/uWCK9yjf03jI12jY1l/c/va/TpJiosVuigRUzXkWPLe8F+HQCyUJA==}
+  '@eventra_dev/cli-plugin-angular@1.0.1':
+    resolution: {integrity: sha512-PEKyRvES6xHEcgls2Wkr4iiqc6fAavQUQ7osGJmzt5gMUl5ZCADCeq3zH/CIf0w5YSg/nKYincvbzpnOPyTxEw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@eventra_dev/cli-plugin-astro@1.0.1':
@@ -11969,7 +11969,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.0':
     optional: true
 
-  '@eventra_dev/cli-plugin-angular@1.0.0':
+  '@eventra_dev/cli-plugin-angular@1.0.1':
     dependencies:
       '@angular/compiler': 20.3.30
       typescript: 5.5.4
