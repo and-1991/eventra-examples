@@ -1,0 +1,65 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "App: Trial Started",
+    "Order Completed",
+    "segment_audit_export",
+    "segment_browser_loaded",
+    "segment_dual_event",
+    "segment_eventra_only",
+    "segment_export_csv",
+    "segment_export_json",
+    "segment_invoice_paid",
+    "segment_order_viewed",
+    "segment_search",
+    "segment_search_advanced",
+    "segment_search_basic",
+    "segment_signup",
+    "segment_toolbar_cancel",
+    "segment_toolbar_save",
+    "segment_upgrade_click",
+    "segment_with_props"
+  ],
+  "functionWrappers": [
+    {
+      "name": "track"
+    },
+    {
+      "name": "trackArrow"
+    },
+    {
+      "name": "trackBoth"
+    },
+    {
+      "name": "TrackedButton"
+    },
+    {
+      "name": "trackEvent"
+    },
+    {
+      "name": "trackNamed"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "segment"
+    },
+    {
+      "callee": "audit.log",
+      "nameArg": 1
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

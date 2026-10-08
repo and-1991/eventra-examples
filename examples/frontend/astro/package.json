@@ -5,11 +5,11 @@
     "dev": "astro dev"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.4",
+    "@eventra_dev/eventra-sdk": "^2.0.5",
     "astro": "^4.0.0"
   },
   "devDependencies": {
-    "@eventra_dev/cli-plugin-astro": "^1.0.1",
-    "@eventra_dev/eventra-cli": "^2.0.8"
+    "@eventra_dev/cli-plugin-astro": "^1.0.3",
+    "@eventra_dev/eventra-cli": "^2.1.0"
   }
 }

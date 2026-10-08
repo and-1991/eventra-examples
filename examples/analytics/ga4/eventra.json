@@ -1,0 +1,32 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "add_to_cart",
+    "begin_checkout",
+    "product_details_opened",
+    "purchase"
+  ],
+  "functionWrappers": [
+    {
+      "name": "trackEvent"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "ga4"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

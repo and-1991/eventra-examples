@@ -6,12 +6,12 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.4",
+    "@eventra_dev/eventra-sdk": "^2.0.5",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.0.8",
+    "@eventra_dev/eventra-cli": "^2.1.0",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0"

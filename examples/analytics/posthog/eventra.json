@@ -1,0 +1,28 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "checkout_api_called",
+    "checkout_completed",
+    "plan_selected",
+    "pricing_viewed"
+  ],
+  "functionWrappers": [],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "posthog"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

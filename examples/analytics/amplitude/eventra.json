@@ -1,0 +1,32 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "Order Confirmation Emailed",
+    "Order Placed",
+    "Subscription Cancelled",
+    "User Registered"
+  ],
+  "functionWrappers": [
+    {
+      "name": "trackEvent"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "amplitude"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

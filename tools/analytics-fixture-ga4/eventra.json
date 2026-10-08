@@ -1,0 +1,64 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "GA4: Trial Started",
+    "ga4_checkout",
+    "ga4_dual_event",
+    "ga4_eventra_only",
+    "ga4_export_csv",
+    "ga4_export_json",
+    "ga4_gtag_literal",
+    "ga4_next_click",
+    "ga4_purchase",
+    "ga4_react_ga_object",
+    "ga4_react_ga_string",
+    "ga4_search",
+    "ga4_search_advanced",
+    "ga4_search_basic",
+    "ga4_signup",
+    "ga4_signup_viewed",
+    "ga4_toolbar_cancel",
+    "ga4_toolbar_save",
+    "ga4_vue_gtag_event",
+    "ga4_vue_this_gtag_event",
+    "ga4_window_gtag"
+  ],
+  "functionWrappers": [
+    {
+      "name": "track"
+    },
+    {
+      "name": "trackArrow"
+    },
+    {
+      "name": "trackBoth"
+    },
+    {
+      "name": "TrackedButton"
+    },
+    {
+      "name": "trackEvent"
+    },
+    {
+      "name": "trackNamed"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "ga4"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

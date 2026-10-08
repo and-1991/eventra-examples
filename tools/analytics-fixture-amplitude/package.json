@@ -1,0 +1,20 @@
+{
+  "name": "analytics-fixture-amplitude",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "eventra sync",
+    "check": "eventra check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eventra_dev/eventra-sdk": "^2.0.5",
+    "@amplitude/analytics-browser": "^2.0.0",
+    "@amplitude/analytics-node": "^1.5.0",
+    "amplitude-js": "^8.21.9"
+  },
+  "devDependencies": {
+    "@eventra_dev/eventra-cli": "^2.1.0",
+    "typescript": "^5.3.0"
+  }
+}

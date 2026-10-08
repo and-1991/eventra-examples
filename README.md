@@ -24,12 +24,14 @@
 
 This repository demonstrates:
 
-- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.4**) — send analytics events from browser, Node.js, and edge runtimes
-- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.0.8**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](./examples/frontend/react); undocumented in the package's own README as of this version)
-- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.4**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
-- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.1**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
-- **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.0.1**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
-- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.0.2**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
+- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.5**) — send analytics events from browser, Node.js, and edge runtimes
+- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.1.0**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](./examples/frontend/react); undocumented in the package's own README as of this version)
+- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.6**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
+- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.3**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
+- **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.0.3**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
+- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.0.3**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
+
+As of CLI 2.1.0 the CLI can also read events from **third-party analytics** (PostHog, Segment, Amplitude, Google Analytics 4) via `sinks` — see [Third-party analytics](#third-party-analytics-sinks) and [examples/analytics](./examples/analytics).
 
 Each example includes `eventra.json`, runnable app code, and a **TypeScript-first** tracking pattern where needed.
 
@@ -270,6 +272,29 @@ Other pitfalls:
 | Fastify | [./examples/backend/fastify](./examples/backend/fastify) |
 | Hono | [./examples/backend/hono](./examples/backend/hono) |
 | NestJS | [./examples/backend/nestjs](./examples/backend/nestjs) |
+
+### Third-party analytics
+
+Since `eventra-cli@2.1.0` the CLI is no longer limited to the Eventra SDK: declare your existing analytics in `eventra.json` under `sinks` and its calls become event sources too, with no SDK swap. Wrappers, constants and cross-file imports resolve exactly as they do for `Eventra.track()`.
+
+```json
+{
+  "sinks": [{ "preset": "posthog" }]
+}
+```
+
+Built-in presets: `posthog`, `segment`, `amplitude`, `ga4`. Anything else can be described with a custom rule, e.g. `{ "callee": "analytics.track", "nameArg": 0 }`. `eventra init` also detects these packages in `package.json` and pre-selects the matching presets. Event names follow the SDK rules (≤ 64 chars, `a-zA-Z0-9:_./-` plus space); names such as PostHog's `$pageview` are excluded.
+
+| Platform | App | Stack | Run |
+|----------|-----|-------|-----|
+| PostHog | [./examples/analytics/posthog](./examples/analytics/posthog) | Next.js + `posthog-js` (`usePostHog()`) + `posthog-node` route handler | `pnpm dev:posthog` |
+| Segment | [./examples/analytics/segment](./examples/analytics/segment) | Vite + React + `@segment/analytics-next` | `pnpm dev:segment` |
+| Amplitude | [./examples/analytics/amplitude](./examples/analytics/amplitude) | Express + `@amplitude/analytics-node` | `pnpm dev:amplitude` |
+| Google Analytics 4 | [./examples/analytics/ga4](./examples/analytics/ga4) | Vite + React + `react-ga4` | `pnpm dev:ga4` |
+
+Each app is a small, realistic project: one analytics library, one thin `trackEvent` wrapper, event names in constants. Run `eventra sync` inside it (and `eventra init`, which detects the package and pre-selects the preset).
+
+Every other call shape the presets understand (browser + server clients, `usePostHog()` re-exports, `amplitude-js`, `gtag`, `@next/third-parties`, `vue-gtag`, wrappers of every form, custom `sinks` rules, excluded names) lives in four detector fixtures: [`tools/analytics-fixture-posthog`](./tools/analytics-fixture-posthog), [`-segment`](./tools/analytics-fixture-segment), [`-amplitude`](./tools/analytics-fixture-amplitude) and [`-ga4`](./tools/analytics-fixture-ga4). They are deliberately not realistic apps - they type-check and are scanned, never run.
 
 ### Edge / Runtimes
 

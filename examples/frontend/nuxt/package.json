@@ -5,11 +5,11 @@
     "dev": "nuxt dev"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.4",
+    "@eventra_dev/eventra-sdk": "^2.0.5",
     "nuxt": "latest"
   },
   "devDependencies": {
-    "@eventra_dev/cli-plugin-vue": "^1.0.4",
-    "@eventra_dev/eventra-cli": "^2.0.8"
+    "@eventra_dev/cli-plugin-vue": "^1.0.6",
+    "@eventra_dev/eventra-cli": "^2.1.0"
   }
 }

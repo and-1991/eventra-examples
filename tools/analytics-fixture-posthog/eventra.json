@@ -1,0 +1,62 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "Posthog: Spaced Name",
+    "posthog_browser_loaded",
+    "posthog_checkout_started",
+    "posthog_dual_event",
+    "posthog_eventra_only",
+    "posthog_export_csv",
+    "posthog_export_json",
+    "posthog_invoice_paid",
+    "posthog_login",
+    "posthog_plan_changed",
+    "posthog_search",
+    "posthog_search_advanced",
+    "posthog_search_basic",
+    "posthog_share_click",
+    "posthog_signup",
+    "posthog_toolbar_cancel",
+    "posthog_toolbar_save",
+    "posthog_upgrade_click",
+    "posthog_with_props"
+  ],
+  "functionWrappers": [
+    {
+      "name": "track"
+    },
+    {
+      "name": "trackArrow"
+    },
+    {
+      "name": "trackBoth"
+    },
+    {
+      "name": "TrackedButton"
+    },
+    {
+      "name": "trackEvent"
+    },
+    {
+      "name": "trackNamed"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "posthog"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}

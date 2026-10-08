@@ -19,10 +19,14 @@
     "dev:vue": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/frontend/vue dev\"",
     "test:cf": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/cloudflare test\"",
     "verify": "bash tools/verify-all.sh",
+    "dev:posthog": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/analytics/posthog dev\"",
+    "dev:segment": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/analytics/segment dev\"",
+    "dev:amplitude": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/analytics/amplitude dev\"",
+    "dev:ga4": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/analytics/ga4 dev\"",
     "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.0.8",
+    "@eventra_dev/eventra-cli": "^2.1.0",
     "concurrently": "^9.2.1"
   }
 }

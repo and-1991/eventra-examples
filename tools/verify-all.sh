@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-export PATH="$ROOT/node_modules/.bin:${HOME}/.local/share/pnpm:${HOME}/.nvm/versions/node/v22.12.0/bin:$PATH"
+export PATH="$ROOT/node_modules/.bin:${HOME}/.local/share/pnpm:${HOME}/.nvm/versions/node/v24.11.1/bin:$PATH"
 TSX="$ROOT/examples/backend/express/node_modules/.bin/tsx"
 MOCK_LOG="/tmp/eventra-mock-$$.log"
 CLI_FAIL=0
@@ -24,6 +24,14 @@ EXPECTED[frontend/astro]="astro_page_view astro_click astro_frontmatter_view ast
 EXPECTED[frontend/angular]="angular_page_view angular_click"
 EXPECTED[runtimes/cloudflare]="cloudflare_request cloudflare_test cloudflare_after_timeout"
 EXPECTED[runtimes/vercel]="vercel_request vercel_api_hit"
+EXPECTED[analytics/posthog]="pricing_viewed plan_selected checkout_completed checkout_api_called"
+EXPECTED[analytics/segment]="Signed Up|Project Created|Invite Sent|Docs Opened"
+EXPECTED[analytics/amplitude]="User Registered|Order Placed|Subscription Cancelled|Order Confirmation Emailed"
+EXPECTED[analytics/ga4]="add_to_cart begin_checkout purchase product_details_opened"
+EXPECTED[tools/analytics-fixture-posthog]="posthog_browser_loaded posthog_invoice_paid posthog_plan_changed posthog_upgrade_click posthog_share_click posthog_toolbar_save posthog_signup posthog_checkout_started posthog_search posthog_export_csv posthog_dual_event"
+EXPECTED[tools/analytics-fixture-segment]="segment_browser_loaded segment_invoice_paid segment_upgrade_click segment_toolbar_save segment_signup segment_search segment_export_csv segment_audit_export segment_dual_event"
+EXPECTED[tools/analytics-fixture-amplitude]="amplitude_browser_loaded amplitude_object_form amplitude_legacy_log_event amplitude_legacy_instance_event amplitude_legacy_client_event amplitude_invoice_paid amplitude_signup amplitude_checkout amplitude_export_csv amplitude_dual_event"
+EXPECTED[tools/analytics-fixture-ga4]="ga4_gtag_literal ga4_window_gtag ga4_react_ga_string ga4_react_ga_object ga4_next_click ga4_toolbar_save ga4_vue_gtag_event ga4_vue_this_gtag_event ga4_signup ga4_checkout ga4_search ga4_export_csv ga4_dual_event ga4_purchase"
 
 kill_port() {
   fuser -k "$1/tcp" 2>/dev/null || true
@@ -74,7 +82,7 @@ echo "Mock OK"
 echo ""
 echo "=== CLI sync + check ==="
 for key in $(echo "${!EXPECTED[@]}" | tr ' ' '\n' | sort); do
-  dir="$ROOT/examples/$key"
+  case "$key" in tools/*) dir="$ROOT/$key" ;; *) dir="$ROOT/examples/$key" ;; esac
   cd "$dir"
   if ! eventra sync >/dev/null 2>&1; then
     echo "CLI FAIL $key (sync)"; CLI_FAIL=$((CLI_FAIL+1)); continue
@@ -84,7 +92,8 @@ for key in $(echo "${!EXPECTED[@]}" | tr ' ' '\n' | sort); do
   fi
   found=$(node -e "console.log((require('./eventra.json').events||[]).sort().join(' '))")
   exp="${EXPECTED[$key]}"; missing=""
-  for ev in $exp; do echo " $found " | grep -q " $ev " || missing="$missing $ev"; done
+  if [[ "$exp" == *"|"* ]]; then IFS='|' read -ra evs <<< "$exp"; else read -ra evs <<< "$exp"; fi
+  for ev in "${evs[@]}"; do echo " $found " | grep -qF " $ev " || missing="$missing $ev"; done
   if [ -n "$missing" ]; then echo "CLI FAIL $key missing:$missing"; CLI_FAIL=$((CLI_FAIL+1))
   else echo "CLI OK   $key"; fi
 done

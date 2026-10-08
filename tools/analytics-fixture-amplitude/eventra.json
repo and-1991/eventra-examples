@@ -1,0 +1,62 @@
+{
+  "apiKey": "test",
+  "endpoint": "http://localhost:4000/cli/events",
+  "events": [
+    "Amplitude: Trial Started",
+    "amplitude_browser_loaded",
+    "amplitude_checkout",
+    "amplitude_dual_event",
+    "amplitude_eventra_only",
+    "amplitude_export_csv",
+    "amplitude_export_json",
+    "amplitude_invoice_paid",
+    "amplitude_legacy_client_event",
+    "amplitude_legacy_instance_event",
+    "amplitude_legacy_log_event",
+    "amplitude_object_form",
+    "amplitude_object_wrapper",
+    "amplitude_search",
+    "amplitude_search_advanced",
+    "amplitude_search_basic",
+    "amplitude_signup",
+    "amplitude_signup_viewed",
+    "amplitude_with_props"
+  ],
+  "functionWrappers": [
+    {
+      "name": "track"
+    },
+    {
+      "name": "trackArrow"
+    },
+    {
+      "name": "trackBoth"
+    },
+    {
+      "name": "trackEvent"
+    },
+    {
+      "name": "trackNamed"
+    },
+    {
+      "name": "trackObject"
+    }
+  ],
+  "plugins": [],
+  "sinks": [
+    {
+      "preset": "amplitude"
+    }
+  ],
+  "sync": {
+    "include": [
+      "**/*.{ts,tsx,js,jsx}"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".git"
+    ]
+  }
+}
