@@ -6,9 +6,9 @@
     "test": "node run.mjs"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.5"
+    "@eventra_dev/eventra-sdk": "^2.0.6"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.1.0"
+    "@eventra_dev/eventra-cli": "^2.2.0"
   }
 }

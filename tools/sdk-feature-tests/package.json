@@ -6,7 +6,7 @@
     "test": "node run.mjs"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.5"
+    "@eventra_dev/eventra-sdk": "^2.0.6"
   },
   "devDependencies": {
     "playwright": "^1.48.0"

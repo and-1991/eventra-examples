@@ -24,6 +24,9 @@
   ],
   "functionWrappers": [
     {
+      "name": "TrackedButton"
+    },
+    {
       "name": "track"
     },
     {
@@ -31,9 +34,6 @@
     },
     {
       "name": "trackBoth"
-    },
-    {
-      "name": "TrackedButton"
     },
     {
       "name": "trackEvent"
