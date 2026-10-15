@@ -367,7 +367,19 @@ importers:
     devDependencies:
       '@eventra_dev/eventra-cli':
         specifier: ^2.2.0
-        version: 2.2.0(@types/node@25.6.0)
+        version: 2.2.0(@types/node@22.19.17)
+      '@types/node':
+        specifier: ^22
+        version: 22.19.17
+      '@types/react':
+        specifier: ^19
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.3.0(@types/react@19.2.14)
+      typescript:
+        specifier: ^5.3.0
+        version: 5.5.4
 
   examples/frontend/nuxt:
     dependencies:
@@ -420,8 +432,8 @@ importers:
         version: 4.2.20
     devDependencies:
       '@eventra_dev/cli-plugin-svelte':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.5
+        version: 1.0.5
       '@eventra_dev/eventra-cli':
         specifier: ^2.2.0
         version: 2.2.0(@types/node@25.6.0)
@@ -2472,8 +2484,8 @@ packages:
     resolution: {integrity: sha512-3ZWb1Qpsm1PJTvUbud/G1cfikGdz2aWjIohwjt2yOIMFL06yI7C2HHxKtAp9Wt/jVS6eqGAXw6Y6UOu3R9JfhQ==}
     engines: {node: '>=18'}
 
-  '@eventra_dev/cli-plugin-svelte@1.0.4':
-    resolution: {integrity: sha512-0VbfEujmeRexzJpTOLSfzA8anFTn83XgX8fpRIsdnb/jLPXxVqiDCwbzHz1q5VnSKkXXRlqx9C7ykFpGct4ZYw==}
+  '@eventra_dev/cli-plugin-svelte@1.0.5':
+    resolution: {integrity: sha512-xwiWp+kfQZ9ea2oe4DJPBTdUlJZ82n8pzOL0biRqMYmQ3i+HFP9DrY2FFZpI4QLDy4EwPG7eBIGhaTmUs1/uKQ==}
     engines: {node: '>=18'}
 
   '@eventra_dev/cli-plugin-vue@1.0.7':
@@ -12259,7 +12271,7 @@ snapshots:
     dependencies:
       '@astrojs/compiler': 2.13.1
 
-  '@eventra_dev/cli-plugin-svelte@1.0.4':
+  '@eventra_dev/cli-plugin-svelte@1.0.5':
     dependencies:
       svelte: 5.56.9
     transitivePeerDependencies:

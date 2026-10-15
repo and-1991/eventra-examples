@@ -52,9 +52,11 @@ async function main() {
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t1", "track", "persist_test_event"));
+      // SDK >= 2.0.5 coalesces localStorage writes (debounced), so wait for the write instead of reading immediately.
+      await page.waitForFunction("window.readQueueStorage() !== null", null, { timeout: 5000 }).catch(() => {});
       const stored = await page.evaluate(() => window.readQueueStorage());
       if (Array.isArray(stored) && stored.some((e) => e.name === "persist_test_event")) {
-        pass("persistQueue-write", `localStorage queue has ${stored.length} event(s) immediately after track(), before flush`);
+        pass("persistQueue-write", `localStorage queue has ${stored.length} event(s) after track(), before flush (write is debounced)`);
       } else {
         fail("persistQueue-write", `expected event in localStorage, got: ${JSON.stringify(stored)}`);
       }
@@ -95,6 +97,7 @@ async function main() {
       );
       await page.evaluate(() => window.callOnTracker("t3", "track", "reload_persist_event"));
       // Do NOT flush — simulate a page closing with an undelivered queue.
+      await page.waitForFunction("window.readQueueStorage() !== null", null, { timeout: 5000 }).catch(() => {});
       const beforeReload = await page.evaluate(() => window.readQueueStorage());
 
       await page.reload();
