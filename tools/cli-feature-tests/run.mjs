@@ -162,15 +162,16 @@ function testCastAssertion() {
     "cast_internal_body_cast_and_nonnull",
     "cast_typed_instance_track",
     "nonnull_only_instance_track",
+    // cli >= 2.3.1: `any`-typed instance casts / non-null are unwrapped
+    "cast_any_instance_track",
+    "cast_any_nonnull_instance_track",
   ]) {
     assert(`cast.survives.${e}`, events.has(e), "expected this cast/non-null shape to still be detected");
   }
 
-  // Does NOT survive: casting the instance to `any`, or casting/aliasing/asserting a
+  // Does NOT survive: casting/aliasing/asserting a
   // WRAPPER FUNCTION REFERENCE at its invocation site (in any form).
   for (const e of [
-    "cast_any_instance_track",
-    "cast_any_nonnull_instance_track",
     "cast_typed_wrapper_invoke",
     "nonnull_only_wrapper_invoke",
     "cast_any_wrapper_invoke",
@@ -183,6 +184,25 @@ function testCastAssertion() {
     );
   }
 
+  fs.rmSync(cwd, { recursive: true, force: true });
+}
+
+// ---------------------------------------------------------------------------
+// 5b: hook-returned helper + cached lazy getter (fixed in cli 2.3.1)
+// ---------------------------------------------------------------------------
+function testHookAndLazy() {
+  const cwd = tmpCopy("hook-lazy");
+  runEventra(["sync"], { cwd });
+  const cfg = readConfig(cwd);
+  const events = new Set(cfg.events);
+  for (const e of ["hook_bare_fn_var", "hook_bare_fn_inline", "lazy_cached_getter"]) {
+    assert(`hook-lazy.${e}`, events.has(e), "expected event to be detected (regression of cli 2.3.0 gap)");
+  }
+  assert(
+    "hook-lazy.hook-registered-as-wrapper",
+    cfg.functionWrappers.some((w) => w.name === "useTracker"),
+    "returned arrow should register under the hook name"
+  );
   fs.rmSync(cwd, { recursive: true, force: true });
 }
 
@@ -505,6 +525,7 @@ async function main() {
 
   testCoreDetection();
   testCastAssertion();
+  testHookAndLazy();
   testCrossFile();
   testCheckExitCodes();
   await testWatchSequence();

@@ -2,6 +2,7 @@
   "apiKey": "test",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
+    "$pageview",
     "Posthog: Spaced Name",
     "posthog_browser_loaded",
     "posthog_checkout_started",

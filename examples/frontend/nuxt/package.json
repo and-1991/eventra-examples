@@ -9,7 +9,7 @@
     "nuxt": "latest"
   },
   "devDependencies": {
-    "@eventra_dev/cli-plugin-vue": "^1.0.7",
-    "@eventra_dev/eventra-cli": "^2.2.0"
+    "@eventra_dev/cli-plugin-vue": "^1.1.0",
+    "@eventra_dev/eventra-cli": "^2.3.1"
   }
 }

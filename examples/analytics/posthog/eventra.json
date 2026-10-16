@@ -2,6 +2,7 @@
   "apiKey": "test",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
+    "$pageview",
     "checkout_api_called",
     "checkout_completed",
     "plan_selected",
