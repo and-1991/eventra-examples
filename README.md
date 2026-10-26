@@ -374,16 +374,16 @@ Everything else tested — SDK batching/retry/circuit-breaker/idempotency/payloa
 
 ---
 
-## Stress test: props of any name (cli 2.4.0 / plugins 1.2.0, 2026-10-27)
+## Stress test: props of any name (cli 2.4.0 / plugins 1.2.1, 2026-10-27)
 
-`eventra-cli` 2.3.2 and `cli-plugin-vue/astro/svelte/angular@1.2.0` claim that a component prop (an input in Angular) that reaches a tracking call is found at every place the component is used, whatever the prop is called. I generated 71 component/usage pairs (React 25, Vue 13, Svelte 11, Astro 10, Angular 12) with one unique event name each, ran `eventra check`, and compared found vs. expected. Each pair also passed an unrelated second prop to confirm it is *not* reported. Re-run on `eventra-cli@2.4.0` (plugins unchanged at 1.2.0) after the first run on 2.3.2:
+`eventra-cli` 2.3.2 and `cli-plugin-vue/astro/svelte/angular@1.2.0` (now 1.2.1) claim that a component prop (an input in Angular) that reaches a tracking call is found at every place the component is used, whatever the prop is called. I generated 71 component/usage pairs (React 25, Vue 13, Svelte 11, Astro 10, Angular 12) with one unique event name each, ran `eventra check`, and compared found vs. expected. Each pair also passed an unrelated second prop to confirm it is *not* reported. Re-run on `eventra-cli@2.4.0` (then re-run unchanged on plugins 1.2.1, which only fix the READMEs' props examples) after the first run on 2.3.2:
 
 | Framework | cli 2.3.2 | cli 2.4.0 | Still not found on 2.4.0 |
 |---|---|---|---|
 | React (core) | 17/25 | **22/25** | prop spread through another component (`{...props}`), usage inside `.map()`, class components (`this.props.x`) |
 | Vue | 10/13 | **11/13** | Options API (documented as unsupported) |
 | Svelte | 9/11 | **10/11** | `{...spread}` (documented as unsupported) |
-| Astro | 0/10 | **8/10** | `onclick={`...${prop}...`}` template literal (the plugin README's own example), `<script define:vars>` |
+| Astro | 0/10 | **8/10** | `onclick={`...${prop}...`}` template literal (that was text, not a call; the plugin README example was corrected in 1.2.1), `<script define:vars>` |
 | Angular | 10/12 | **11/12** | inline `template:` child (documented as unsupported) |
 
 2.4.0 fixed `memo`/`forwardRef`/`memo(forwardRef())`, props handed on through other components (React, Vue, Svelte, Astro), the Angular setter input and Astro prop following in frontmatter. No false positives in any framework: a prop that never reaches tracking is never reported.
@@ -402,7 +402,7 @@ Everything else tested — SDK batching/retry/circuit-breaker/idempotency/payloa
 
 ### To fix upstream
 
-1. `cli-plugin-astro`: template-literal `onclick` (the example in its own README) and `<script define:vars>` are not followed.
+1. `cli-plugin-astro`: `<script define:vars>` is not followed.
 2. `eventra-cli`: warn instead of staying silent on unparseable files and on event names that are dropped (emoji, over-long).
 3. `eventra-cli`: do not list a wrapper's own forwarding call as a dynamic occurrence.
 4. `eventra-cli`: memory/time on large projects (3,000 files: 41 s, ~3 GB).
