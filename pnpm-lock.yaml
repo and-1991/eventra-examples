@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
@@ -25,8 +25,8 @@ importers:
         version: 4.22.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@22.19.17)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@22.19.17)
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.25
@@ -53,8 +53,8 @@ importers:
         version: 2.1.0
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.31
@@ -90,8 +90,8 @@ importers:
         version: 19.2.5(react@19.2.5)
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@22.19.17)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@22.19.17)
       '@types/node':
         specifier: ^22
         version: 22.19.17
@@ -118,8 +118,8 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.31
@@ -146,8 +146,8 @@ importers:
         version: 4.22.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.25
@@ -171,8 +171,8 @@ importers:
         version: 4.5.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       tsx:
         specifier: ^4.7.0
         version: 4.21.0
@@ -193,8 +193,8 @@ importers:
         version: 4.12.18
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       tsx:
         specifier: ^4.7.0
         version: 4.21.0
@@ -224,8 +224,8 @@ importers:
         version: 7.8.2
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@nestjs/cli':
         specifier: ^10.0.0
         version: 10.4.9
@@ -246,8 +246,8 @@ importers:
         version: 2.0.6
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       tsx:
         specifier: ^4.7.0
         version: 4.21.0
@@ -304,11 +304,11 @@ importers:
         specifier: ^18.2.0
         version: 18.2.14(@angular/compiler@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))(typescript@5.5.4)
       '@eventra_dev/cli-plugin-angular':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/jasmine':
         specifier: ~5.1.0
         version: 5.1.15
@@ -344,11 +344,11 @@ importers:
         version: 4.16.19(@types/node@25.6.0)(less@4.2.0)(lightningcss@1.33.0)(rollup@4.60.3)(sass@1.77.6)(terser@5.46.2)(typescript@5.9.3)
     devDependencies:
       '@eventra_dev/cli-plugin-astro':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
 
   examples/frontend/next:
     dependencies:
@@ -366,8 +366,8 @@ importers:
         version: 19.2.5(react@19.2.5)
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@22.19.17)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@22.19.17)
       '@types/node':
         specifier: ^22
         version: 22.19.17
@@ -391,11 +391,11 @@ importers:
         version: 4.5.2(@babel/plugin-syntax-jsx@7.28.6(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.0))(@oxc-project/types@0.146.0)(@parcel/watcher@2.5.6)(@types/node@25.6.0)(@vitejs/devtools-kit@0.4.9(cac@7.0.0)(srvx@0.11.22)(typescript@5.9.3)(vite@8.2.2(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.7.0)(less@4.2.0)(sass@1.77.6)(terser@5.46.2)(tsx@4.21.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.40)(cac@7.0.0)(db0@0.3.4)(encoding@0.1.13)(esbuild@0.28.0)(ioredis@5.10.1)(less@4.2.0)(lightningcss@1.33.0)(magicast@0.5.2)(oxc-parser@0.140.0)(rolldown@1.2.5)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.5)(rollup@4.60.3))(rollup@4.60.3)(sass@1.77.6)(srvx@0.11.22)(terser@5.46.2)(tsx@4.21.0)(typescript@5.9.3)(vite@8.2.2(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.7.0)(less@4.2.0)(sass@1.77.6)(terser@5.46.2)(tsx@4.21.0)(yaml@2.9.0))(webpack@5.97.1(esbuild@0.28.0)(lightningcss@1.33.0)(postcss@8.5.26))(yaml@2.9.0)
     devDependencies:
       '@eventra_dev/cli-plugin-vue':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
 
   examples/frontend/react:
     dependencies:
@@ -410,8 +410,8 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@vitejs/plugin-react':
         specifier: ^5.0.0
         version: 5.2.0(vite@5.4.21(@types/node@25.6.0)(less@4.2.0)(lightningcss@1.33.0)(sass@1.77.6)(terser@5.46.2))
@@ -432,11 +432,11 @@ importers:
         version: 4.2.20
     devDependencies:
       '@eventra_dev/cli-plugin-svelte':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.1.2(svelte@4.2.20)(vite@5.4.21(@types/node@25.6.0)(less@4.2.0)(lightningcss@1.33.0)(sass@1.77.6)(terser@5.46.2))
@@ -454,8 +454,8 @@ importers:
         version: 2.0.6
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       typescript:
         specifier: ^5.3.0
         version: 5.5.4
@@ -473,11 +473,11 @@ importers:
         version: 3.5.34(typescript@5.5.4)
     devDependencies:
       '@eventra_dev/cli-plugin-vue':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
         version: 5.2.4(vite@5.4.21(@types/node@25.6.0)(less@4.2.0)(lightningcss@1.33.0)(sass@1.77.6)(terser@5.46.2))(vue@3.5.34(typescript@5.5.4))
@@ -495,8 +495,8 @@ importers:
         version: 2.0.6
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       tsx:
         specifier: ^4.0.0
         version: 4.21.0
@@ -517,8 +517,8 @@ importers:
         version: 14.2.35(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.77.6)
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/react':
         specifier: 19.2.14
         version: 19.2.14
@@ -539,8 +539,8 @@ importers:
         version: 8.21.10
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       typescript:
         specifier: ^5.3.0
         version: 5.5.4
@@ -570,8 +570,8 @@ importers:
         version: 2.1.2(vue@3.5.40(typescript@5.5.4))
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/gtag.js':
         specifier: ^0.0.20
         version: 0.0.20
@@ -598,8 +598,8 @@ importers:
         version: 18.3.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.31
@@ -623,8 +623,8 @@ importers:
         version: 18.3.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.31
@@ -639,8 +639,8 @@ importers:
         version: 2.0.6
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
 
   tools/mock-server:
     dependencies:
@@ -652,8 +652,8 @@ importers:
         version: 4.22.1
     devDependencies:
       '@eventra_dev/eventra-cli':
-        specifier: ^2.3.1
-        version: 2.3.1(@types/node@25.6.0)
+        specifier: ^2.3.2
+        version: 2.3.2(@types/node@25.6.0)
 
   tools/sdk-feature-tests:
     dependencies:
@@ -2476,24 +2476,24 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eventra_dev/cli-plugin-angular@1.1.0':
-    resolution: {integrity: sha512-qMa115UW1V94TiZrjholxDN/VtqpmR2h/ThZ51KVarJNZBJSM9Z0C8KJGE2uZdtFJnMUvoQN6oZ2LHsNgxbIQQ==}
+  '@eventra_dev/cli-plugin-angular@1.2.0':
+    resolution: {integrity: sha512-fPgCRqZP9y4Pv/ccfdwrnZDEzl2Gd2ouf5M+XR7w5jTb5JE/JgVt7F4PAsyKYHSOpxvbt1X9kDj+mUAxJjZGwA==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
-  '@eventra_dev/cli-plugin-astro@1.1.0':
-    resolution: {integrity: sha512-0/lcNbbjomcQ0BstmbZCS9taHz0dPEKSv9oyMaqRQBgNlZJETZNGZhMbKgcGgcQcZmBGXykH3NcqswAQZT473A==}
+  '@eventra_dev/cli-plugin-astro@1.2.0':
+    resolution: {integrity: sha512-ODot0dm0z3qQFsTqiIFXJxTaEqf7XAAPEtGxP5Q0U/gOXnwdS7/SC1WXVSdaL9yIkN8gujI4y/ZWWIJoMER0+Q==}
     engines: {node: '>=18'}
 
-  '@eventra_dev/cli-plugin-svelte@1.1.0':
-    resolution: {integrity: sha512-J8DRXQomphN/cSIS0WFQXmv0nwIPnWQgXlP36MRTsf/j5pf2Xhip3YAQoTstisHD06MDoeo9FScNpI3BcyfJ3w==}
+  '@eventra_dev/cli-plugin-svelte@1.2.0':
+    resolution: {integrity: sha512-3K4Gf19YOf/cnICR3tsoqKAijgpzwTJFlxDur3iLMM0Ypb7OQBwV22XDZRiVwaS7LQlEZ7ov2Xq4O+Poe7V2JQ==}
     engines: {node: '>=18'}
 
-  '@eventra_dev/cli-plugin-vue@1.1.0':
-    resolution: {integrity: sha512-FLiPLIQf1rfRqPXuwzH1Pix1gB6F8zG4pToIVa38/i/nLixA8fycmq53s9rJVbE1cSO0ifrJlcM8QkwBOYswtQ==}
+  '@eventra_dev/cli-plugin-vue@1.2.0':
+    resolution: {integrity: sha512-bdnQuNl+tB1O/gC4Ifjs3AkdX6ArGuVb/JNTi7n1Al18KESG/685x1o6DgY48I8sNdBKT5HrKhrhqq3wOzgYRQ==}
     engines: {node: '>=18'}
 
-  '@eventra_dev/eventra-cli@2.3.1':
-    resolution: {integrity: sha512-g70oMyjFntotbZ7AAHOo0R3f2r1/xFojNq0c9N/lIYKEaoMQYVhrTPy3tYVEqBZD5xVg6kFd1OH15L7rYV4aVw==}
+  '@eventra_dev/eventra-cli@2.3.2':
+    resolution: {integrity: sha512-3y0HsQtmWrWCF2b5Jxmp5mZgdiu9NtxxkoGq+Eus69EwuB1oGx47441PzpuC45KhiBo5eZbr1FET3ZH3NSU/ow==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -12262,28 +12262,28 @@ snapshots:
   '@esbuild/win32-x64@0.28.0':
     optional: true
 
-  '@eventra_dev/cli-plugin-angular@1.1.0':
+  '@eventra_dev/cli-plugin-angular@1.2.0':
     dependencies:
       '@angular/compiler': 20.3.30
       typescript: 5.5.4
 
-  '@eventra_dev/cli-plugin-astro@1.1.0':
+  '@eventra_dev/cli-plugin-astro@1.2.0':
     dependencies:
       '@astrojs/compiler': 2.13.1
 
-  '@eventra_dev/cli-plugin-svelte@1.1.0':
+  '@eventra_dev/cli-plugin-svelte@1.2.0':
     dependencies:
       svelte: 5.56.9
     transitivePeerDependencies:
       - '@typescript-eslint/types'
 
-  '@eventra_dev/cli-plugin-vue@1.1.0':
+  '@eventra_dev/cli-plugin-vue@1.2.0':
     dependencies:
       '@vue/compiler-core': 3.5.41
       '@vue/compiler-dom': 3.5.41
       '@vue/compiler-sfc': 3.5.40
 
-  '@eventra_dev/eventra-cli@2.3.1(@types/node@22.19.17)':
+  '@eventra_dev/eventra-cli@2.3.2(@types/node@22.19.17)':
     dependencies:
       chalk: 4.1.2
       chokidar: 5.0.0
@@ -12295,7 +12295,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@eventra_dev/eventra-cli@2.3.1(@types/node@25.6.0)':
+  '@eventra_dev/eventra-cli@2.3.2(@types/node@25.6.0)':
     dependencies:
       chalk: 4.1.2
       chokidar: 5.0.0

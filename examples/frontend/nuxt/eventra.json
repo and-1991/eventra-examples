@@ -9,6 +9,9 @@
   ],
   "functionWrappers": [
     {
+      "name": "TrackedButton"
+    },
+    {
       "name": "trackFeature"
     }
   ],

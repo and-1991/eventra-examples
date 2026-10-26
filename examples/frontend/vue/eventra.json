@@ -4,6 +4,7 @@
   "events": [
     "vue_click",
     "vue_dynamic_resolved",
+    "vue_dynamic_unresolved_runtime",
     "vue_external_script_click",
     "vue_external_template_click",
     "vue_for_click",
@@ -17,6 +18,12 @@
     "vue_slot_click"
   ],
   "functionWrappers": [
+    {
+      "name": "DynamicEvents"
+    },
+    {
+      "name": "TrackedButton"
+    },
     {
       "name": "trackFeature"
     }
