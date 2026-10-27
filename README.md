@@ -25,11 +25,11 @@
 This repository demonstrates:
 
 - **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.6**) — send analytics events from browser, Node.js, and edge runtimes
-- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.4.0**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](./examples/frontend/react); undocumented in the package's own README as of this version)
-- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.0.7**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
-- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.0.4**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
-- **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.0.5**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
-- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.0.3**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
+- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.5.0**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](./examples/frontend/react); undocumented in the package's own README as of this version)
+- **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.2.2**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
+- **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.2.2**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
+- **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.2.2**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
+- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.2.2**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
 
 As of CLI 2.1.0 the CLI can also read events from **third-party analytics** (PostHog, Segment, Amplitude, Google Analytics 4) via `sinks` — see [Third-party analytics](#third-party-analytics-sinks) and [examples/analytics](./examples/analytics).
 
@@ -374,42 +374,42 @@ Everything else tested — SDK batching/retry/circuit-breaker/idempotency/payloa
 
 ---
 
-## Stress test: props of any name (cli 2.4.0 / plugins 1.2.1, 2026-10-27)
+## Stress test: props of any name (cli 2.5.0 / plugins 1.2.2, 2026-10-27)
 
-`eventra-cli` 2.3.2 and `cli-plugin-vue/astro/svelte/angular@1.2.0` (now 1.2.1) claim that a component prop (an input in Angular) that reaches a tracking call is found at every place the component is used, whatever the prop is called. I generated 71 component/usage pairs (React 25, Vue 13, Svelte 11, Astro 10, Angular 12) with one unique event name each, ran `eventra check`, and compared found vs. expected. Each pair also passed an unrelated second prop to confirm it is *not* reported. Re-run on `eventra-cli@2.4.0` (then re-run unchanged on plugins 1.2.1, which only fix the READMEs' props examples) after the first run on 2.3.2:
+`eventra-cli` and `cli-plugin-vue/astro/svelte/angular` claim that a component prop (an input in Angular) that reaches a tracking call is found at every place the component is used, whatever the prop is called. I generated 71 component/usage pairs (React 25, Vue 13, Svelte 11, Astro 10, Angular 12) with one unique event name each, ran `eventra sync`, and compared found vs. expected. Each pair also passed an unrelated second prop to confirm it is *not* reported. The first runs were on cli 2.3.2 and 2.4.0 (plugins 1.2.0/1.2.1). For 2.5.0 the generator was rebuilt (the original was not kept in the repo; a few variants differ, e.g. `.map()` usage and Svelte `export let` with a default), so the 2.5.0 run is compared against **2.4.0 + plugins 1.2.1 on the same rebuilt set**, not against the numbers of the earlier runs:
 
-| Framework | cli 2.3.2 | cli 2.4.0 | Still not found on 2.4.0 |
-|---|---|---|---|
-| React (core) | 17/25 | **22/25** | prop spread through another component (`{...props}`), usage inside `.map()`, class components (`this.props.x`) |
-| Vue | 10/13 | **11/13** | Options API (documented as unsupported) |
-| Svelte | 9/11 | **10/11** | `{...spread}` (documented as unsupported) |
-| Astro | 0/10 | **8/10** | `onclick={`...${prop}...`}` template literal (that was text, not a call; the plugin README example was corrected in 1.2.1), `<script define:vars>` |
-| Angular | 10/12 | **11/12** | inline `template:` child (documented as unsupported) |
+| Framework | cli 2.3.2 (original set) | cli 2.4.0 (original set) | cli 2.4.0 (rebuilt set) | cli 2.5.0 (rebuilt set) | Still not found on 2.5.0 |
+|---|---|---|---|---|---|
+| React (core) | 17/25 | 22/25 | 23/25 | **23/25** | prop spread through another component (`{...props}`), class components (`this.props.x`) |
+| Vue | 10/13 | 11/13 | 12/13 | **12/13** | Options API (documented as unsupported) |
+| Svelte | 9/11 | 10/11 | 10/11 | **10/11** | `{...spread}` (documented as unsupported) |
+| Astro | 0/10 | 8/10 | 8/10 | **8/10** | `onclick={`...${prop}...`}` template literal (text, not a call), `<script define:vars>` |
+| Angular | 10/12 | 11/12 | 11/12 | **11/12** | inline `template:` child (documented as unsupported) |
 
-2.4.0 fixed `memo`/`forwardRef`/`memo(forwardRef())`, props handed on through other components (React, Vue, Svelte, Astro), the Angular setter input and Astro prop following in frontmatter. No false positives in any framework: a prop that never reaches tracking is never reported.
+2.5.0 finds exactly the same events as 2.4.0 on this set (64/71, no differences), so detection did not change. Usage inside `.map()` is found on both versions with the rebuilt variant (it was not on the original run). No false positives in any framework: a prop that never reaches tracking is never reported (0 of 71 decoys).
 
-### CLI robustness (3,000-file synthetic project, unchanged in 2.4.0)
+### CLI robustness (2.4.0 vs 2.5.0)
 
-| Case | Result |
-|---|---|
-| 3,000 files, one wrapper each | all 3,000 events found, but **41 s and ~3 GB RSS** |
-| Unicode file name, BOM, CRLF, wrapper import cycle, symlink loop | handled |
-| File > 2 MB | skipped **with a clear warning** |
-| File with a syntax error | **silently skipped**, `All good`, no `skip:` line |
-| Event name containing an emoji | **silently dropped**, `All good` |
-| Event name of 5,000 characters | **silently dropped**, `All good` |
-| Wrapper-internal `t.track(n)` | listed under "Dynamic event names" once per wrapper, which drowns the report in large projects |
+| Case | 2.4.0 | 2.5.0 |
+|---|---|---|
+| File with a syntax error | silently skipped, `All good` | **listed** with file, line and reason ("events after the error may be missed"); still scanned; `sync --strict` still exits 0 |
+| Event name containing an emoji | silently dropped, `All good` | **listed** with file, line and reason |
+| Event name of 5,000 characters | silently dropped, `All good` | **listed** (name truncated in the output) with the 64-character limit |
+| File > 2 MB | skipped with a clear warning | unchanged |
+| Wrapper-internal `t.track(n)` | listed under "Dynamic event names" | **still listed** |
+| 3,000 files (1,500 wrappers + 1,500 cross-file callers, or 3,000 self-contained wrappers) | 2.3 s, ~320 MB, all events found | 2.4 s, ~315 MB, all events found |
+
+The earlier 41 s / ~3 GB result for 3,000 files came from a differently shaped synthetic project that is not in the repo; I could not reproduce it with the two shapes above on either version, so I make no claim about it either way. After the lists of skipped names and syntax errors, `check` still ends with `All good` and exits 0.
 
 ### To fix upstream
 
 1. `cli-plugin-astro`: `<script define:vars>` is not followed.
-2. `eventra-cli`: warn instead of staying silent on unparseable files and on event names that are dropped (emoji, over-long).
-3. `eventra-cli`: do not list a wrapper's own forwarding call as a dynamic occurrence.
-4. `eventra-cli`: memory/time on large projects (3,000 files: 41 s, ~3 GB).
-5. React: `{...props}` spread, JSX inside `.map()`, class components.
-6. Documented gaps worth closing: Vue Options API, Svelte spreads, Angular inline templates.
+2. `eventra-cli`: `check` still prints `All good` after listing skipped event names; do not list a wrapper's own forwarding call as a dynamic occurrence.
+3. `eventra-cli`: memory/time on large projects (earlier 41 s, ~3 GB; not reproduced with the rebuilt shapes).
+4. React: `{...props}` spread and class components.
+5. Documented gaps worth closing: Vue Options API, Svelte spreads, Angular inline templates.
 
-Everything else is green on 2.4.0: `verify-all` (0 CLI / 0 SDK failures), `cli-feature-tests` 74/74, `sdk-feature-tests` 24/24.
+Everything else is green on 2.5.0: `verify-all` (0 CLI / 0 SDK failures), `cli-feature-tests` 74/74.
 
 ## Documentation
 

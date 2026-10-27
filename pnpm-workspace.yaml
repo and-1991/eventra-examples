@@ -35,3 +35,8 @@ minimumReleaseAgeExclude:
   - '@eventra_dev/cli-plugin-svelte@1.2.1'
   - '@eventra_dev/cli-plugin-angular@1.2.1'
   - '@eventra_dev/cli-plugin-vue@1.2.1'
+  - '@eventra_dev/eventra-cli@2.5.0'
+  - '@eventra_dev/cli-plugin-vue@1.2.2'
+  - '@eventra_dev/cli-plugin-astro@1.2.2'
+  - '@eventra_dev/cli-plugin-svelte@1.2.2'
+  - '@eventra_dev/cli-plugin-angular@1.2.2'
