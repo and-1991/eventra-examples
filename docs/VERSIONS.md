@@ -29,6 +29,8 @@ pnpm use-version v1.2.0         # check out that tag (detached HEAD) and install
 pnpm use-version latest         # back to main
 ```
 
+The script exists from v1.3.0 on. Older tags don't contain it, so to return from one of them run `git switch main` (then `pnpm install`).
+
 Equivalent by hand: `git switch --detach v1.2.0 && pnpm install --frozen-lockfile`.
 
 The script refuses to switch if you have uncommitted changes to tracked files. After checking out a tag you are in *detached HEAD* — to make changes, branch off: `git switch -c my-fix`.
