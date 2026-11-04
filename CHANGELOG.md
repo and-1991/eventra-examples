@@ -17,6 +17,7 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 - CI `verify:cli` failed on Nuxt (`nuxt_auto_import_click` missing) because the generated `.nuxt/` is no longer tracked: the Nuxt example now runs `nuxt prepare` on `postinstall` (and `verify-all.sh` falls back to it), and declares `"type": "module"`.
 
 ### Changed
+- GitHub Actions: `actions/checkout` v7, `actions/setup-node` v7, `pnpm/action-setup` v6 (Node 24 runtime, removes the Node 20 deprecation warning) and runners pinned to `ubuntu-24.04` instead of `ubuntu-latest`.
 - README rewritten without logo, badges or emoji (plain text and tables); icons/emoji removed from all docs; `assets/eventra-icon-animated.svg` deleted. Every example README now has the same CLI block (`EVENTRA_API_KEY`, `sync`, `check`) and a detected-events list regenerated from its `eventra.json` (Angular, React and Vue lists were stale).
 - README no longer hard-codes test counts or a static test badge (the version badge reads the latest tag); `docs/TEST-RESULTS.md` marks the browser and SDK-smoke rows as manual.
 
