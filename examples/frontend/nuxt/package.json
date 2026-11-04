@@ -1,8 +1,10 @@
 {
   "name": "nuxt-eventra",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "nuxt dev"
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@eventra_dev/eventra-sdk": "^2.0.9",

@@ -85,6 +85,8 @@ echo "Mock OK"
 
 echo ""
 echo "=== CLI sync + check ==="
+# Nuxt auto-imports are resolved from the generated .nuxt/imports.d.ts
+[ -f "$ROOT/examples/frontend/nuxt/.nuxt/imports.d.ts" ] || (cd "$ROOT/examples/frontend/nuxt" && pnpm exec nuxt prepare >/dev/null 2>&1) || echo "warning: nuxt prepare failed"
 for key in $(echo "${!EXPECTED[@]}" | tr ' ' '\n' | sort); do
   case "$key" in tools/*) dir="$ROOT/$key" ;; *) dir="$ROOT/examples/$key" ;; esac
   cd "$dir"
