@@ -40,6 +40,7 @@ The script refuses to switch if you have uncommitted changes to tracked files. A
 1. Bump packages, run `pnpm test:cli && pnpm test:sdk && pnpm verify`.
 2. Update `CHANGELOG.md`, the table above and `"version"` in the root `package.json`.
 3. Commit, then `git tag -a vX.Y.Z -m "eventra-examples vX.Y.Z: eventra-cli A, sdk B, plugins C"` and `git push --follow-tags`.
+4. Nothing else: the **Release** workflow (`.github/workflows/release.yml`) creates the GitHub Release from the matching `CHANGELOG.md` section and fails if that section is missing. Preview the notes locally with `bash tools/release-notes.sh vX.Y.Z`. To backfill an existing tag: Actions → Release → Run workflow → enter the tag.
 
 Convention: patch = plugin/SDK patch bump or doc fix, minor = CLI/SDK/plugin minor bump or new examples, major = restructure or a change to how examples are run.
 

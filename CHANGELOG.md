@@ -6,6 +6,11 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 > Tags before `v1.0.0` were added retroactively on 2026-11-04 to historic commits; they were not re-tested at that time. Pinned package ranges are read from the `package.json` files at each commit.
 
+## [Unreleased]
+
+### Added
+- `.github/workflows/release.yml`: pushing a `vX.Y.Z` tag now creates a GitHub Release automatically, with the matching section of this file as notes (`tools/release-notes.sh`). `v0.*` are marked pre-release.
+
 ## [1.3.0] — 2026-11-04
 
 Pinned: **eventra-cli 2.5.3 · eventra-sdk 2.0.9 · cli-plugin-vue 1.2.5 · cli-plugin-svelte 1.2.5 · cli-plugin-astro 1.2.4 · cli-plugin-angular 1.2.4**

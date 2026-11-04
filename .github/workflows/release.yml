@@ -1,0 +1,55 @@
+name: Release
+
+# Creates a GitHub Release from the matching CHANGELOG.md section
+# whenever a version tag (vX.Y.Z) is pushed.
+# Manual run (Actions -> Release -> Run workflow) backfills a release for an existing tag.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release, e.g. v1.2.0"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Build release notes from CHANGELOG.md
+        run: |
+          # CHANGELOG.md in the tagged commit may not have its own entry (old tags);
+          # fall back to the default branch's changelog.
+          if ! bash tools/release-notes.sh "$TAG" > notes.md 2>/dev/null; then
+            git fetch origin "${{ github.event.repository.default_branch }}" --depth=1
+            git show "origin/${{ github.event.repository.default_branch }}:CHANGELOG.md" > CHANGELOG.md
+            bash tools/release-notes.sh "$TAG" > notes.md
+          fi
+          {
+            echo
+            echo "---"
+            echo "Switch to this version: \`git switch --detach $TAG && pnpm install --frozen-lockfile\` — see [docs/VERSIONS.md](https://github.com/${{ github.repository }}/blob/$TAG/docs/VERSIONS.md)."
+          } >> notes.md
+          cat notes.md
+
+      - name: Create or update release
+        run: |
+          prerelease=""
+          case "$TAG" in v0.*) prerelease="--prerelease" ;; esac
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$TAG" --notes-file notes.md $prerelease
+          else
+            gh release create "$TAG" --title "$TAG" --notes-file notes.md --verify-tag $prerelease
+          fi
