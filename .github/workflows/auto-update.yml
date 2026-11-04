@@ -25,7 +25,6 @@ jobs:
       tag: ${{ steps.publish.outputs.tag }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGS: ${{ runner.temp }}
 
     steps:
       - uses: actions/checkout@v4
@@ -58,14 +57,14 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         run: |
           set -o pipefail
-          pnpm test:cli     2>&1 | tee "$LOGS/cli.log"
-          pnpm test:sdk     2>&1 | tee "$LOGS/sdk.log"
-          pnpm verify:cli   2>&1 | tee "$LOGS/verify.log"
+          pnpm test:cli     2>&1 | tee "$RUNNER_TEMP/cli.log"
+          pnpm test:sdk     2>&1 | tee "$RUNNER_TEMP/sdk.log"
+          pnpm verify:cli   2>&1 | tee "$RUNNER_TEMP/verify.log"
 
       - name: Update docs, CHANGELOG, VERSIONS
         if: steps.check.outputs.changed == 'true'
         id: fin
-        run: node tools/auto-update.mjs finalize "$LOGS/cli.log" "$LOGS/sdk.log" "$LOGS/verify.log"
+        run: node tools/auto-update.mjs finalize "$RUNNER_TEMP/cli.log" "$RUNNER_TEMP/sdk.log" "$RUNNER_TEMP/verify.log"
 
       - name: Commit, tag, push
         if: steps.check.outputs.changed == 'true'
