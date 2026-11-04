@@ -10,6 +10,20 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 _Nothing yet._
 
+## [1.4.1] — 2026-11-04
+
+Pinned: **cli 2.6.1 · sdk 2.0.9 · vue 1.3.0 · svelte 1.3.0 · astro 1.3.0 · angular 1.3.0**
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.0 → 2.6.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-cli/v/2.6.1))
+- Name rules follow cli 2.6.1: letters of any language, digits, space and `$ : _ . / - [ ] ( ) # @ + & , '` are accepted, `!` and other characters are rejected; the CLI suite checks truncation to 64, accepted real-world names (`Save & Continue`, `[Amplitude] Page Viewed`), rejection of `bad chars!@#$%` and the printed reason. Analytics fixtures lose `"bad name!"` again.
+- Re-recorded all 21 GIFs on cli 2.6.1.
+
+Upstream 2.6.1 release notes also list: fix for `eventra send` when a name was cut in the middle of a character, odd characters in names printed as plain escapes (verified: `\u202e`, `\x07`, `\u200b`), and event helpers handed back through `useCallback` (not reproduced for a plain SDK wrapper; see `docs/CLI-LIMITATIONS.md`). The upstream notes also say emoji are rejected, which corrects the 2.6.0 notes quoted under 1.4.0.
+
+### Verified (local run)
+CLI feature tests 90/90 · SDK feature tests 24/24 · SDK browser tests 6/6 · `pnpm verify`: 23 CLI + 15 SDK smoke, 0 failures.
+
 ## [1.4.0] — 2026-11-04
 
 Pinned: **cli 2.6.0 · sdk 2.0.9 · vue 1.3.0 · svelte 1.3.0 · astro 1.3.0 · angular 1.3.0**
@@ -124,6 +138,7 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
+[1.4.1]: https://github.com/and-1991/eventra-examples/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/and-1991/eventra-examples/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/and-1991/eventra-examples/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/and-1991/eventra-examples/compare/v1.1.1...v1.2.0

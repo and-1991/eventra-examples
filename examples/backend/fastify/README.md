@@ -1,7 +1,7 @@
 # Eventra + Fastify
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.6.0 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+<sub>Real session on eventra-cli 2.6.1 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
 
 Fastify + **Eventra SDK** + **Eventra CLI**.
 

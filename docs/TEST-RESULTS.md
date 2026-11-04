@@ -6,7 +6,7 @@ Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. T
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.6.0 |
+| `@eventra_dev/eventra-cli` | 2.6.1 |
 | `@eventra_dev/eventra-sdk` | 2.0.9 |
 | `@eventra_dev/cli-plugin-vue` | 1.3.0 |
 | `@eventra_dev/cli-plugin-svelte` | 1.3.0 |
@@ -17,7 +17,7 @@ Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. T
 
 | Suite | Command | Result |
 |---|---|---|
-| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **88 / 88** |
+| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **90 / 90** |
 | SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes) | `pnpm test:sdk` | **24 / 24** |
 | SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `node tools/sdk-feature-tests/browser-run.mjs` | **6 / 6** |
 | Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |

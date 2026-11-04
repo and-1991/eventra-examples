@@ -4,7 +4,7 @@
 
 The GIF replays a real session (commands and output captured from actual runs on 2026-11-04, then rendered to frames). Flow (run on a throw-away copy of the example, the real files are untouched): `sync` finds 14 events → add a `<TrackedButton>` → `sync` finds 15 → remove it → `check` exits 1 on the stale event → `sync && check` is green → SDK call reaches the mock server (`TRACK HIT`).
 
-Real, unedited output captured on **eventra-cli 2.6.0 + cli-plugin-vue 1.3.0** (2026-11-04), from a copy of `examples/frontend/vue`:
+Real, unedited output captured on **eventra-cli 2.6.1 + cli-plugin-vue 1.3.0** (2026-11-04), from a copy of `examples/frontend/vue`:
 
 ```text
 $ eventra sync

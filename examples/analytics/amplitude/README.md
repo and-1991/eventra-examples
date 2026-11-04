@@ -1,7 +1,7 @@
 # Eventra + Amplitude (Express)
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.6.0: `sync` and `check` read events through the analytics `sinks` preset.</sub>
+<sub>Real session on eventra-cli 2.6.1: `sync` and `check` read events through the analytics `sinks` preset.</sub>
 
 An Express API using **@amplitude/analytics-node**: a `trackEvent` wrapper plus a direct `amplitude.track({ event_type })` call. Enabled in `eventra.json` through the `amplitude` preset:
 

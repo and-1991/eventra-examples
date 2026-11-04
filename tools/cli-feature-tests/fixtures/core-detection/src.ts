@@ -59,3 +59,5 @@ tracker.track(
   "this-name-is-way-too-long-to-fit-within-the-sixty-four-char-limit-1234567890"
 );
 tracker.track("bad chars!@#$%");
+tracker.track("Save & Continue");
+tracker.track("[Amplitude] Page Viewed");

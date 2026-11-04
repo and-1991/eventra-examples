@@ -129,8 +129,9 @@ function testCoreDetection() {
     assert(`core.ignored.non-sdk.${e}`, !events.has(e), "false positive — non-SDK track() call was recorded");
   }
 
-  // 8. event names are read the way the SDK sends them (cli >= 2.6.0): a name over 64 chars is
-  //    cut to 64, punctuation/emoji are accepted; only empty names or names with a tab/line break are rejected.
+  // 8. event names are read the way the SDK sends them (cli >= 2.6.1): letters of any language, digits, space and
+  //    $ : _ . / - [ ] ( ) # @ + & , ' are accepted; a name over 64 chars is cut to 64; other characters
+  //    (! % ; = ? ~ | < > " \\, emoji, tab, line break) are rejected and listed with the reason.
   const longName = "this-name-is-way-too-long-to-fit-within-the-sixty-four-char-limit-1234567890";
   const raw = fs.readFileSync(path.join(cwd, "eventra.json"), "utf8");
   const cfg8 = JSON.parse(raw);
@@ -140,9 +141,21 @@ function testCoreDetection() {
     "expected the 64-char prefix of the long name, and not the full name"
   );
   assert(
-    "core.names.punctuation-accepted",
-    cfg8.events.includes("bad chars!@#$%"),
-    "a name with spaces/punctuation should be accepted since 2.6.0"
+    "core.names.real-world-punctuation-accepted",
+    cfg8.events.includes("Save & Continue") && cfg8.events.includes("[Amplitude] Page Viewed"),
+    "names with spaces, & and [ ] should be accepted"
+  );
+  assert(
+    "core.names.unsupported-characters-rejected",
+    !cfg8.events.includes("bad chars!@#$%"),
+    "a name containing ! or % must not be written to eventra.json"
+  );
+  const namesRun = spawnSync(EVENTRA_BIN, ["sync"], { cwd, encoding: "utf8", env: process.env });
+  const namesOut = (namesRun.stdout ?? "") + (namesRun.stderr ?? "");
+  assert(
+    "core.names.rejected-name-is-listed-with-reason",
+    /bad chars/.test(namesOut) && /letters of any language/i.test(namesOut),
+    "sync should list the rejected name and say which characters a name can use"
   );
 
   fs.rmSync(cwd, { recursive: true, force: true });
