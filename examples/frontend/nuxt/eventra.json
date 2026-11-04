@@ -1,5 +1,5 @@
 {
-  "apiKey": "test",
+  "apiKey": "",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "nuxt_auto_import_click",

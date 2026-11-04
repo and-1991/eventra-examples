@@ -35,3 +35,9 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 
+.astro/
+.angular/
+.output/
+
+# Local Eventra overrides
+eventra.local.json

@@ -12,6 +12,15 @@ const HERE = fileURLToPath(new URL(".", import.meta.url));
 // SDK's own "multiple instances detected" warning from being drowned in unrelated noise.
 process.setMaxListeners(50);
 
+// The SDK's "multiple instances" warning is expected here (see above); count it instead of
+// printing it after every test, and report the total once in the summary.
+let multiInstanceWarnings = 0;
+const origWarn = console.warn.bind(console);
+console.warn = (...a) => {
+  if (String(a[0]).includes("multiple SDK instances detected")) { multiInstanceWarnings++; return; }
+  origWarn(...a);
+};
+
 const results = [];
 function record(name, ok, detail) {
   results.push({ name, ok, detail });
@@ -595,4 +604,5 @@ const failed = results.filter((r) => r.ok === false);
 const unverified = results.filter((r) => r.ok === null);
 console.log("");
 console.log(`=== Summary: ${results.length - failed.length - unverified.length} passed, ${failed.length} failed, ${unverified.length} unverified ===`);
+console.log(`(expected "multiple SDK instances" warnings suppressed: ${multiInstanceWarnings})`);
 process.exit(failed.length > 0 ? 1 : 0);

@@ -1,5 +1,8 @@
 # Eventra + Segment (Vite + React)
 
+![demo](./demo.gif)
+<sub>Real session on eventra-cli 2.5.3: `sync` and `check` read events through the analytics `sinks` preset.</sub>
+
 A Vite + React app using **@segment/analytics-next**: one shared `AnalyticsBrowser.load(...)` client, a thin `trackEvent` wrapper, and a couple of direct `analytics.track(...)` calls. Enabled in `eventra.json` through the `segment` preset:
 
 ```json

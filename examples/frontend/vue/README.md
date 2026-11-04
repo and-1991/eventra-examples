@@ -1,5 +1,8 @@
 # Eventra + Vue
 
+![demo](./demo.gif)
+<sub>Real session on eventra-cli 2.5.3 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+
 Vue 3 (Vite) + **Eventra SDK** + **Eventra CLI** + **@eventra_dev/cli-plugin-vue**.
 
 ---

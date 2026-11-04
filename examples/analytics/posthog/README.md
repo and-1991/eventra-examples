@@ -1,5 +1,8 @@
 # Eventra + PostHog (Next.js)
 
+![demo](./demo.gif)
+<sub>Real session on eventra-cli 2.5.3: `sync` and `check` read events through the analytics `sinks` preset.</sub>
+
 A small Next.js app using **posthog-js** (`PostHogProvider`, `usePostHog()`) in the browser and **posthog-node** in a route handler. The CLI reads PostHog events through the `posthog` preset in `eventra.json`:
 
 ```json

@@ -1,7 +1,7 @@
 import { Eventra } from "@eventra_dev/eventra-sdk";
 
 export const tracker = new Eventra({
-  apiKey: "test",
+  apiKey: (import.meta as any).env?.PUBLIC_EVENTRA_API_KEY ?? "test", // mock key for the local mock server — set PUBLIC_EVENTRA_API_KEY
   // Optional: override the default API endpoint (useful for local development or self-hosted servers)
   endpoint: "http://localhost:4000/track",
 });

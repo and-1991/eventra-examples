@@ -1,5 +1,5 @@
 {
-  "apiKey": "test",
+  "apiKey": "",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "node_started"

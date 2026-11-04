@@ -2,9 +2,13 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-export PATH="$ROOT/node_modules/.bin:${HOME}/.local/share/pnpm:${HOME}/.nvm/versions/node/v24.11.1/bin:$PATH"
+export EVENTRA_API_KEY="${EVENTRA_API_KEY:-test}"  # mock key; eventra.json keeps apiKey empty
+export PATH="$ROOT/node_modules/.bin:${PNPM_HOME:-$HOME/.local/share/pnpm}:$PATH"
+command -v node >/dev/null || for n in "$HOME"/.nvm/versions/node/v2[0-9]*/bin; do [ -x "$n/node" ] && PATH="$n:$PATH"; done  # nvm fallback
+command -v node >/dev/null || { echo "node not found"; exit 1; }
+command -v fuser >/dev/null || echo "warning: fuser missing (psmisc) - port cleanup disabled"
 TSX="$ROOT/examples/backend/express/node_modules/.bin/tsx"
-MOCK_LOG="/tmp/eventra-mock-$$.log"
+MOCK_LOG="$(mktemp "${TMPDIR:-/tmp}/eventra-mock.XXXXXX")"
 CLI_FAIL=0
 SDK_FAIL=0
 
@@ -47,7 +51,7 @@ wait_mock() {
 }
 
 hits() {
-  grep -c "TRACK HIT" "$MOCK_LOG" 2>/dev/null | tr -d '\n' || echo 0
+  { grep -c "TRACK HIT" "$MOCK_LOG" 2>/dev/null || true; } | head -1
 }
 
 sdk_ok() {
@@ -98,6 +102,9 @@ for key in $(echo "${!EXPECTED[@]}" | tr ' ' '\n' | sort); do
   else echo "CLI OK   $key"; fi
 done
 
+if [ "${VERIFY_MODE:-all}" = "cli" ]; then
+  echo ""; echo "(VERIFY_MODE=cli: SDK smoke skipped)"
+else
 echo ""
 echo "=== SDK smoke (mock :4000/track) ==="
 
@@ -128,6 +135,8 @@ sdk_ok angular timeout 8 bash -c "cd \"$ROOT/examples/frontend/angular\" && \"$T
 
 kill_port 3000
 sdk_ok vercel bash -c "cd \"$ROOT/examples/runtimes/vercel\" && pnpm exec next dev -p 3000 & sleep 14 && curl -sf http://localhost:3000/api/track >/dev/null && sleep 2; fuser -k 3000/tcp 2>/dev/null || true"
+
+fi
 
 echo ""
 echo "=== Summary ==="

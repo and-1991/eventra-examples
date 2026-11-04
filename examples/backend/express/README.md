@@ -1,5 +1,8 @@
 # Eventra + Express
 
+![demo](./demo.gif)
+<sub>Real session on eventra-cli 2.5.3 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+
 Express + **Eventra SDK** + **Eventra CLI**.
 
 Backend code is plain TypeScript — **full CLI support** (no SFC). See [root README](../../../README.md#frameworks-without-cli-support) for Vue/Svelte/Nuxt patterns.
