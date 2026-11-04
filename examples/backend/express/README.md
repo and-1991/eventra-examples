@@ -38,12 +38,12 @@ pnpm dev:express
 
 ```bash
 cd examples/backend/express
-eventra init
-# "apiKey": "test", "endpoint": "http://localhost:4000/cli/events"
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `express_request`, `express_home`
+**Detected events:** `express_home`, `express_request`
 
 ---
 

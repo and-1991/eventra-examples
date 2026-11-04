@@ -35,11 +35,12 @@ SDK: http://localhost:4000/track
 
 ```bash
 cd examples/runtimes/cloudflare
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `cloudflare_request`, `cloudflare_test`, `cloudflare_after_timeout`
+**Detected events:** `cloudflare_after_timeout`, `cloudflare_request`, `cloudflare_test`
 
 ---
 

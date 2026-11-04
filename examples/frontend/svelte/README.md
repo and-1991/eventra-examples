@@ -62,11 +62,12 @@ pnpm dev:svelte
 
 ```bash
 cd examples/frontend/svelte
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `svelte_page_view`, `svelte_click`, `svelte_direct_click`, `svelte_inline_markup_click`, `svelte_button_click`, `svelte_dynamic_attr_resolved`, `svelte_if_click`, `svelte_elseif_click`, `svelte_else_click`, `svelte_each_click`, `svelte_await_pending_click`, `svelte_await_then_click`, `svelte_await_catch_click`, `svelte_key_click`, `svelte_slot_default_click`
+**Detected events:** `svelte_await_catch_click`, `svelte_await_pending_click`, `svelte_await_then_click`, `svelte_button_click`, `svelte_click`, `svelte_direct_click`, `svelte_dynamic_attr_resolved`, `svelte_each_click`, `svelte_else_click`, `svelte_elseif_click`, `svelte_if_click`, `svelte_inline_markup_click`, `svelte_key_click`, `svelte_page_view`, `svelte_slot_default_click`
 
 ---
 

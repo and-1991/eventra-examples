@@ -38,11 +38,12 @@ pnpm dev:vercel
 
 ```bash
 cd examples/runtimes/vercel
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `vercel_request`, `vercel_api_hit`
+**Detected events:** `vercel_api_hit`, `vercel_request`
 
 ---
 

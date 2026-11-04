@@ -29,11 +29,11 @@ CLI test groups: core detection, send, casts, check exit codes, watch, cross-fil
 
 | Area | Examples | CLI sync/check | SDK smoke |
 |---|---|---|---|
-| Frontend | react, vue, svelte, vanilla, next, nuxt, astro, angular | ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ | ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ |
-| Backend | node, express, fastify, hono, nestjs | ✅ ✅ ✅ ✅ ✅ | ✅ ✅ ✅ ✅ ✅ |
-| Runtimes | cloudflare, vercel | ✅ ✅ | ✅ ✅ |
-| Analytics sinks | posthog, segment, amplitude, ga4 | ✅ ✅ ✅ ✅ | — (CLI-only) |
-| Analytics fixtures (`tools/analytics-fixture-*`) | same four, adversarial call shapes | ✅ ✅ ✅ ✅ | — |
+| Frontend | react, vue, svelte, vanilla, next, nuxt, astro, angular | all pass | all pass |
+| Backend | node, express, fastify, hono, nestjs | all pass | all pass |
+| Runtimes | cloudflare, vercel | all pass | all pass |
+| Analytics sinks | posthog, segment, amplitude, ga4 | all pass | — (CLI-only) |
+| Analytics fixtures (`tools/analytics-fixture-*`) | same four, adversarial call shapes | all pass | — |
 
 ## Plugin coverage
 

@@ -19,7 +19,7 @@ A Vite + React app using **@segment/analytics-next**: one shared `AnalyticsBrows
 pnpm dev:segment
 
 cd examples/analytics/segment
-eventra init
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
 eventra sync              # 4 events
 eventra check
 ```

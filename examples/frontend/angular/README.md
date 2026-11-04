@@ -49,11 +49,12 @@ pnpm dev:angular
 
 ```bash
 cd examples/frontend/angular
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `angular_page_view`, `angular_click`
+**Detected events:** `angular_click`, `angular_control_flow_else_click`, `angular_control_flow_if_click`, `angular_dynamic_field_click`, `angular_dynamic_getter_click`, `angular_ngif_click`, `angular_page_view`, `angular_template_literal_click`
 
 ---
 

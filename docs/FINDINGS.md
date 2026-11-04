@@ -98,7 +98,7 @@ With the plugin enabled, `.vue` SFCs are parsed with the real Vue compiler and b
 import { trackFeature } from "./tracker";
 
 onMounted(() => {
-  trackFeature("page_view"); // ✅ detected directly, no indirection needed
+  trackFeature("page_view"); // OK: detected directly, no indirection needed
 });
 </script>
 
@@ -126,12 +126,12 @@ Both frameworks moved out of "no plugin" status. Current state, verified live in
 ---
 import { trackFeature } from "../lib/tracker";
 
-trackFeature("astro_frontmatter_view"); // ✅ detected — cli-plugin-astro parses the frontmatter fence
+trackFeature("astro_frontmatter_view"); // OK: detected — cli-plugin-astro parses the frontmatter fence
 ---
 
 <script type="module">
   import { trackFeature } from "../lib/tracker";
-  trackFeature("astro_body_script_click"); // ❌ not detected — body <script> tags are not part of the frontmatter
+  trackFeature("astro_body_script_click"); // BAD: not detected — body <script> tags are not part of the frontmatter
 </script>
 ```
 
@@ -199,12 +199,12 @@ Vue, Nuxt, and Angular are no longer in this table — see the [Vue/Nuxt](#vue--
 <script setup>
 import { useNuxtApp } from '#app'
 const { $trackFeature } = useNuxtApp()
-$trackFeature('nuxt_click')   // ❌ not a statically traceable import/wrapper
+$trackFeature('nuxt_click')   // BAD: not a statically traceable import/wrapper
 </script>
 ```
 
 ```ts
-// ✅ utils/tracker.ts
+// OK: utils/tracker.ts
 export function trackNuxtClick() {
   trackFeature('nuxt_click')
 }
@@ -213,7 +213,7 @@ export function trackNuxtClick() {
 ```vue
 <script setup>
 import { trackNuxtClick } from '../utils/tracker'
-trackNuxtClick()   // ✅ detected — traceable import chain
+trackNuxtClick()   // OK: detected — traceable import chain
 </script>
 ```
 

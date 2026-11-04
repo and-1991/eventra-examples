@@ -77,12 +77,12 @@ pnpm dev:vue
 
 ```bash
 cd examples/frontend/vue
-eventra init
-# "apiKey": "test", "endpoint": "http://localhost:4000/cli/events"
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `vue_page_view`, `vue_click`, `vue_secondary_click`, `vue_dynamic_resolved`, `vue_external_script_click`, `vue_external_template_click`, `vue_for_click`, `vue_if_click`, `vue_mixed_script_click`, `vue_mixed_template_click`, `vue_multi_a`, `vue_multi_b`, `vue_slot_click`
+**Detected events:** `vue_click`, `vue_dynamic_resolved`, `vue_dynamic_unresolved_runtime`, `vue_external_script_click`, `vue_external_template_click`, `vue_for_click`, `vue_if_click`, `vue_mixed_script_click`, `vue_mixed_template_click`, `vue_multi_a`, `vue_multi_b`, `vue_page_view`, `vue_secondary_click`, `vue_slot_click`
 
 ---
 

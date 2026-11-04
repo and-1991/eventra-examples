@@ -20,7 +20,7 @@ A small Next.js app using **posthog-js** (`PostHogProvider`, `usePostHog()`) in 
 pnpm dev:posthog          # app on http://localhost:3000 (PostHog host points at the mock server)
 
 cd examples/analytics/posthog
-eventra init
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
 eventra sync              # 4 events
 eventra check
 ```

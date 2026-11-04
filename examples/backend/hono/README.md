@@ -38,11 +38,12 @@ pnpm dev:hono
 
 ```bash
 cd examples/backend/hono
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `hono_request`, `hono_response`, `hono_home`
+**Detected events:** `hono_home`, `hono_request`, `hono_response`
 
 ---
 

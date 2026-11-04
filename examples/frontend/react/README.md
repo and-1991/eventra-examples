@@ -49,11 +49,12 @@ pnpm dev:react
 
 ```bash
 cd examples/frontend/react
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `react_page_view`, `new_event`, `check_mode`, `react_click`, `react_click_enum`
+**Detected events:** `check_mode`, `new_event`, `react_click`, `react_click_enum`, `react_jsx_attr_click`, `react_jsx_dynamic_attr_click`, `react_page_view`
 
 ---
 

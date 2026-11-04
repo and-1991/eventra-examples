@@ -49,11 +49,12 @@ pnpm dev:next
 
 ```bash
 cd examples/frontend/next
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `next_page_view`, `next_click`
+**Detected events:** `next_click`, `next_page_view`
 
 ---
 

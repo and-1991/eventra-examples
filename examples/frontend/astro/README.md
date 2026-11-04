@@ -66,11 +66,12 @@ pnpm dev:astro
 
 ```bash
 cd examples/frontend/astro
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `astro_page_view`, `astro_click`, `astro_frontmatter_view`, `astro_button_click`, `astro_conditional_click`, `astro_dynamic_resolved`, `astro_interp_z`, `astro_map_item_click`, `astro_shorthand_event`
+**Detected events:** `astro_button_click`, `astro_click`, `astro_conditional_click`, `astro_dynamic_resolved`, `astro_frontmatter_view`, `astro_interp_z`, `astro_map_item_click`, `astro_page_view`, `astro_shorthand_event`
 
 ---
 

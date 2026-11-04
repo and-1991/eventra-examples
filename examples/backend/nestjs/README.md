@@ -38,11 +38,12 @@ pnpm dev:nest
 
 ```bash
 cd examples/backend/nestjs
-eventra init
-eventra sync
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
+eventra sync                  # discover events and write them to eventra.json
+eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `nestjs_request`, `nestjs_response`, `nestjs_home`
+**Detected events:** `nestjs_home`, `nestjs_request`, `nestjs_response`
 
 ---
 

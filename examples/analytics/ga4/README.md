@@ -19,7 +19,7 @@ A Vite + React shop using **react-ga4**: a `trackEvent` wrapper around `ReactGA.
 pnpm dev:ga4
 
 cd examples/analytics/ga4
-eventra init
+export EVENTRA_API_KEY=test   # mock key; eventra.json keeps "apiKey": ""
 eventra sync              # 4 events
 eventra check
 ```
