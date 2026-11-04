@@ -1,0 +1,102 @@
+name: Auto-update
+
+# Fully automatic release pipeline, once a day:
+#   new Eventra package on npm -> bump all pins -> run tests -> update docs/CHANGELOG/VERSIONS
+#   -> commit + tag vX.Y.Z -> GitHub Release (release.yml).
+# If tests fail nothing is committed and an issue is opened instead.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: auto-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.publish.outputs.tag }}
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      LOGS: ${{ runner.temp }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Check npm for new versions
+        id: check
+        run: node tools/auto-update.mjs check
+
+      - name: Bump pins
+        if: steps.check.outputs.changed == 'true'
+        id: apply
+        run: node tools/auto-update.mjs apply
+
+      - name: Install
+        if: steps.check.outputs.changed == 'true'
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Test
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          set -o pipefail
+          pnpm test:cli     2>&1 | tee "$LOGS/cli.log"
+          pnpm test:sdk     2>&1 | tee "$LOGS/sdk.log"
+          pnpm verify:cli   2>&1 | tee "$LOGS/verify.log"
+
+      - name: Update docs, CHANGELOG, VERSIONS
+        if: steps.check.outputs.changed == 'true'
+        id: fin
+        run: node tools/auto-update.mjs finalize "$LOGS/cli.log" "$LOGS/sdk.log" "$LOGS/verify.log"
+
+      - name: Commit, tag, push
+        if: steps.check.outputs.changed == 'true'
+        id: publish
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          v="${{ steps.fin.outputs.version }}"
+          git add -A
+          git commit -m "release v$v: update Eventra packages"
+          git tag -a "v$v" -m "${{ steps.fin.outputs.tag_message }}"
+          git push origin "HEAD:${{ github.event.repository.default_branch }}" --follow-tags
+          echo "tag=v$v" >> "$GITHUB_OUTPUT"
+
+      - name: Open an issue if the update failed
+        if: failure() && steps.check.outputs.changed == 'true'
+        run: |
+          title="Auto-update failed: $(node -e "console.log(JSON.parse(require('fs').readFileSync('.auto-update.json','utf8')).updates.map(u=>u.pkg.replace('@eventra_dev/','')+' '+u.to).join(', '))" 2>/dev/null || echo 'new Eventra versions')"
+          if [ -z "$(gh issue list --state open --search "$title in:title" --json number -q '.[0].number')" ]; then
+            gh issue create --title "$title" --body "A newer Eventra package was found on npm but the test run failed, so nothing was committed or released.
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          This is either a regression in the new version or a needed change in the examples. The job retries daily."
+          fi
+
+  release:
+    needs: update
+    if: needs.update.outputs.tag != ''
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yml
+    with:
+      tag: ${{ needs.update.outputs.tag }}

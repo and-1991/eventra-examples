@@ -1,6 +1,6 @@
 # Test results
 
-Run on **2026-11-04**, Node 24.11.1, pnpm 10.22.0, Linux. All suites green.
+Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-04 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
 
 ## Package versions under test
 
@@ -19,11 +19,11 @@ Run on **2026-11-04**, Node 24.11.1, pnpm 10.22.0, Linux. All suites green.
 |---|---|---|
 | CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **74 / 74** |
 | SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes) | `pnpm test:sdk` | **24 / 24** |
-| SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) | `node tools/sdk-feature-tests/browser-run.mjs` | **6 / 6** |
-| Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify` | **23 / 23** |
-| Example matrix: SDK smoke — real `POST` reaches mock server | `pnpm verify` | **15 / 15** |
+| SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `node tools/sdk-feature-tests/browser-run.mjs` | **6 / 6** |
+| Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |
+| Example matrix: SDK smoke — real `POST` reaches mock server — *manual* | `pnpm verify` | **15 / 15** |
 
-CLI test groups: core detection 28, send 17, casts 11, check exit codes 5, watch 5, cross-file 4, lazy hooks 4.
+CLI test groups: core detection, send, casts, check exit codes, watch, cross-file, lazy hooks.
 
 ## Example matrix (`pnpm verify`)
 

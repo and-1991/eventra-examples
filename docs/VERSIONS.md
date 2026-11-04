@@ -37,10 +37,19 @@ The script refuses to switch if you have uncommitted changes to tracked files. A
 
 ## Releasing a new version
 
-1. Bump packages, run `pnpm test:cli && pnpm test:sdk && pnpm verify`.
-2. Update `CHANGELOG.md`, the table above and `"version"` in the root `package.json`.
-3. Commit, then `git tag -a vX.Y.Z -m "eventra-examples vX.Y.Z: eventra-cli A, sdk B, plugins C"` and `git push --follow-tags`.
-4. Nothing else: the **Release** workflow (`.github/workflows/release.yml`) creates the GitHub Release from the matching `CHANGELOG.md` section and fails if that section is missing. Preview the notes locally with `bash tools/release-notes.sh vX.Y.Z`. To backfill an existing tag: Actions → Release → Run workflow → enter the tag.
+**Automatic (default).** The **Auto-update** workflow runs daily (and on demand: Actions → Auto-update → Run workflow):
+
+1. `tools/auto-update.mjs check` compares the six pinned `@eventra_dev/*` packages with npm.
+2. If something is newer: bump every `package.json` and `pnpm-workspace.yaml`, `pnpm install`, then run `test:cli`, `test:sdk` and `verify:cli`.
+3. If green: update the package tables in README/docs, `docs/TEST-RESULTS.md`, `docs/VERSIONS.md`, write a new `CHANGELOG.md` section (anything under *Unreleased* is carried into it) and bump the repo version — **minor** if a CLI/SDK/plugin minor or major moved, otherwise **patch**.
+4. Commit, tag `vX.Y.Z`, push; the **Release** workflow then publishes the GitHub Release from the changelog section.
+5. If the tests fail: nothing is committed or released and an issue is opened (once per version); the job retries the next day.
+
+Repo setting required: *Settings → Actions → General → Workflow permissions → Read and write*. GitHub disables scheduled workflows after 60 days without repo activity — re-enable under the Actions tab if that happens.
+
+**Manual** (new examples, restructures, major bumps): update `CHANGELOG.md`, the table above and `"version"` in `package.json`, commit, then `git tag -a vX.Y.Z -m "..."` and `git push --follow-tags` — the Release workflow does the rest.
+
+Dry run of the automation locally: `AUTO_UPDATE_FAKE='{"@eventra_dev/eventra-cli":"9.9.9"}' node tools/auto-update.mjs check`.
 
 Convention: patch = plugin/SDK patch bump or doc fix, minor = CLI/SDK/plugin minor bump or new examples, major = restructure or a change to how examples are run.
 

@@ -12,6 +12,11 @@ on:
       tag:
         description: "Existing tag to release, e.g. v1.2.0"
         required: true
+  workflow_call:          # used by auto-update.yml (tags pushed with GITHUB_TOKEN do not trigger the push event)
+    inputs:
+      tag:
+        type: string
+        required: true
 
 permissions:
   contents: write
@@ -20,13 +25,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      TAG: ${{ inputs.tag || github.ref_name }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
+          ref: ${{ inputs.tag && format('refs/tags/{0}', inputs.tag) || github.ref }}
 
       - name: Build release notes from CHANGELOG.md
         run: |

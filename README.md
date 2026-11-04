@@ -10,14 +10,13 @@
 
 <p align="center">
   <a href="https://github.com/and-1991/eventra-examples/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/and-1991/eventra-examples/actions/workflows/ci.yml/badge.svg" /></a>
-  <img alt="tests" src="https://img.shields.io/badge/tests-104%20passing-brightgreen" />
   <img alt="license" src="https://img.shields.io/badge/license-MIT-blue" />
-  <a href="./CHANGELOG.md"><img alt="version" src="https://img.shields.io/badge/version-1.3.0-informational" /></a>
+  <a href="./CHANGELOG.md"><img alt="version" src="https://img.shields.io/github/v/tag/and-1991/eventra-examples?label=version&color=informational" /></a>
 </p>
 
 <p align="center">
   <img src="./assets/overview.gif" alt="pnpm verify across all examples" width="720" />
-  <br /><sub><code>pnpm verify</code> — 23 CLI checks + 15 SDK smoke tests, real run. Every example has its own <code>demo.gif</code>.</sub>
+  <br /><sub><code>pnpm verify</code> across all examples — real run. Every example has its own <code>demo.gif</code>.</sub>
 </p>
 
 <p align="center">
@@ -82,13 +81,13 @@ Dev scripts: `pnpm dev:<react|vue|nuxt|astro|svelte|vanilla|angular|next|node|ex
 ## Tests
 
 ```bash
-pnpm test:cli     # 74 CLI scenarios
-pnpm test:sdk     # 24 SDK scenarios
+pnpm test:cli     # CLI scenarios (detection, send, watch, check…)
+pnpm test:sdk     # SDK scenarios (batching, retry, circuit breaker…)
 pnpm verify:cli   # sync + check + expected events across all 23 examples/fixtures (also in CI)
 pnpm verify       # same + live SDK smoke against the mock server (local only: needs next/nest/workerd)
 ```
 
-Plus 6 headless-Chromium browser scenarios (`tools/sdk-feature-tests/browser-run.mjs`). Latest results and plugin coverage: [docs/TEST-RESULTS.md](./docs/TEST-RESULTS.md). CI runs `test:cli`, `test:sdk` and `verify:cli`; the full `verify` and the browser suite stay local.
+Plus headless-Chromium browser scenarios (`tools/sdk-feature-tests/browser-run.mjs`). Latest results and plugin coverage: [docs/TEST-RESULTS.md](./docs/TEST-RESULTS.md). CI runs `test:cli`, `test:sdk` and `verify:cli`; the full `verify` and the browser suite stay local.
 
 ## Repository layout
 
