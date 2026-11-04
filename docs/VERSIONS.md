@@ -6,7 +6,8 @@ This repo is versioned with git tags. Each tag pins a specific set of Eventra pa
 
 | Repo version | Date | eventra-cli | eventra-sdk | vue | svelte | astro | angular | Highlights |
 |---|---|---|---|---|---|---|---|---|
-| **v1.3.0** | 2026-11-04 | 2.5.3 | 2.0.9 | 1.2.5 | 1.2.5 | 1.2.4 | 1.2.4 | latest packages, LICENSE, docs, GIFs, CI |
+| **v1.4.0** | 2026-11-04 | 2.6.0 | 2.0.9 | 1.3.0 | 1.3.0 | 1.3.0 | 1.3.0 | cli 2.6.0 (strict check, dynamic-name reasons), plugins 1.3.0 |
+| v1.3.0 | 2026-11-04 | 2.5.3 | 2.0.9 | 1.2.5 | 1.2.5 | 1.2.4 | 1.2.4 | latest packages, LICENSE, docs, GIFs, CI |
 | v1.2.0 | 2026-10-27 | 2.5.0 | 2.0.6 | 1.2.2 | 1.2.2 | 1.2.2 | 1.2.2 | cli 2.5.0, props stress test |
 | v1.1.1 | 2026-10-26 | 2.4.0 | 2.0.6 | 1.2.1 | 1.2.1 | 1.2.1 | 1.2.1 | plugins 1.2.1 |
 | v1.1.0 | 2026-10-26 | 2.4.0 | 2.0.6 | 1.2.0 | 1.2.0 | 1.2.0 | 1.2.0 | cli 2.4.0 |

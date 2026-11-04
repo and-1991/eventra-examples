@@ -11,9 +11,9 @@ allowBuilds:
   sharp: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@eventra_dev/eventra-cli@2.5.3'
+  - '@eventra_dev/eventra-cli@2.6.0'
   - '@eventra_dev/eventra-sdk@2.0.9'
-  - '@eventra_dev/cli-plugin-vue@1.2.5'
-  - '@eventra_dev/cli-plugin-svelte@1.2.5'
-  - '@eventra_dev/cli-plugin-astro@1.2.4'
-  - '@eventra_dev/cli-plugin-angular@1.2.4'
+  - '@eventra_dev/cli-plugin-vue@1.3.0'
+  - '@eventra_dev/cli-plugin-svelte@1.3.0'
+  - '@eventra_dev/cli-plugin-astro@1.3.0'
+  - '@eventra_dev/cli-plugin-angular@1.3.0'

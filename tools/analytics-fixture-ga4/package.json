@@ -18,7 +18,7 @@
     "vue-gtag": "^2.0.1"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.5.3",
+    "@eventra_dev/eventra-cli": "^2.6.0",
     "@types/gtag.js": "^0.0.20",
     "@types/react": "^18.3.31",
     "typescript": "^5.3.0"

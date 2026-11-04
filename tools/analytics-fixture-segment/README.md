@@ -8,7 +8,7 @@ Static event discovery for **Segment** (`@segment/analytics-next`, `@segment/ana
 
 ## What is covered
 
-- `lib/browser.ts` — `const [analytics] = await AnalyticsBrowser.load(...)`, `analytics.track("x", props)`; `"bad name!"` is excluded
+- `lib/browser.ts` — `const [analytics] = await AnalyticsBrowser.load(...)`, `analytics.track("x", props)`; `"bad name!"` is **included** since eventra-cli 2.6.0 (names are read the way the SDK sends them; earlier versions dropped it)
 - `lib/server.ts` — analytics-node `client.track({ userId, event })`, including a typed class field
 - `components/Buttons.tsx` — direct calls and a `TrackedButton event="..."` JSX component prop
 - `lib/wrappers.ts` + `features/orders.ts` — wrappers, constants, enums, ternaries, template literals, names with spaces/colons (`Order Completed`, `App: Trial Started`)

@@ -20,7 +20,8 @@
     "amplitude_search_basic",
     "amplitude_signup",
     "amplitude_signup_viewed",
-    "amplitude_with_props"
+    "amplitude_with_props",
+    "bad name!"
   ],
   "functionWrappers": [
     {

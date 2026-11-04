@@ -8,7 +8,7 @@ Static event discovery for **PostHog** (`posthog-js`, `posthog-node`, `posthog-j
 
 ## What is covered
 
-- `lib/browser.ts` — `posthog.capture("x")` on the posthog-js singleton; `$pageview` and `"bad name!"` are excluded
+- `lib/browser.ts` — `posthog.capture("x")` on the posthog-js singleton; `$pageview` is excluded and `"bad name!"` is **included** since eventra-cli 2.6.0 (earlier versions dropped it)
 - `lib/server.ts` — posthog-node `client.capture({ distinctId, event })`, including a typed class field (`this.analytics.capture(...)`)
 - `components/Buttons.tsx` — `usePostHog()` under any variable name, the re-exported hook (`hooks.ts`: `usePostHog as useAnalytics`) and a `TrackedButton event="..."` JSX component prop
 - `lib/wrappers.ts` + `features/*.ts` — wrappers (plain, property of the parameter, destructured+aliased, arrow), constants, enums, object members, ternaries, template literals, names with spaces, resolved cross-file

@@ -1,7 +1,7 @@
 # Eventra + Svelte
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.5.3 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+<sub>Real session on eventra-cli 2.6.0 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
 
 Svelte (Vite) + **Eventra SDK** + **Eventra CLI** + **@eventra_dev/cli-plugin-svelte**.
 
@@ -16,7 +16,7 @@ Two independent detection paths, verified live (see the root README's [Svelte & 
 | Plain `track()`/`trackFeature()` **JS calls** in `<script>` or inline in the markup | No — `eventra-cli@2.0.7` scans `.svelte` files natively | `trackSveltePageView()` in `App.svelte`'s `<script>`; `trackFeature("svelte_direct_click")`; `on:click={() => trackFeature("svelte_inline_markup_click")}` |
 | Declarative **`event="..."` template attribute** (same convention as Vue's `TrackedButton`) | **Yes** — this is genuinely plugin-exclusive | `<button event="svelte_button_click">`, plus one inside every Svelte block type: `{#if}/{:else if}/{:else}`, `{#each}`, `{#await}/{:then}/{:catch}`, `{#key}`, `<slot>` |
 
-Known gap vs. `cli-plugin-astro`: the interpolated string form `event="a-{b}"` and the `{event}` shorthand are both silently ignored by this plugin (Svelte's own README never claims shorthand support, so this isn't a broken promise — just a real capability difference).
+Since `cli-plugin-svelte@1.3.0` the interpolated string form `event="a-{b}"` (found here as `a-y`) and the `{event}` shorthand (found as `svelte_shorthand_attr_click`) are both read, closing the gap this plugin had compared with `cli-plugin-astro` up to 1.2.x.
 
 | File | Role |
 |------|------|
@@ -67,7 +67,7 @@ eventra sync                  # discover events and write them to eventra.json
 eventra check                 # exit code 1 on drift (CI gate)
 ```
 
-**Detected events:** `svelte_await_catch_click`, `svelte_await_pending_click`, `svelte_await_then_click`, `svelte_button_click`, `svelte_click`, `svelte_direct_click`, `svelte_dynamic_attr_resolved`, `svelte_each_click`, `svelte_else_click`, `svelte_elseif_click`, `svelte_if_click`, `svelte_inline_markup_click`, `svelte_key_click`, `svelte_page_view`, `svelte_slot_default_click`
+**Detected events:** `a-y`, `svelte_await_catch_click`, `svelte_await_pending_click`, `svelte_await_then_click`, `svelte_button_click`, `svelte_click`, `svelte_direct_click`, `svelte_dynamic_attr_resolved`, `svelte_each_click`, `svelte_else_click`, `svelte_elseif_click`, `svelte_if_click`, `svelte_inline_markup_click`, `svelte_key_click`, `svelte_page_view`, `svelte_shorthand_attr_click`, `svelte_slot_default_click`
 
 ---
 

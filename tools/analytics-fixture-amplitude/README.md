@@ -8,7 +8,7 @@ Static event discovery for **Amplitude** (`@amplitude/analytics-browser`, `@ampl
 
 ## What is covered
 
-- `lib/browser.ts` — `amplitude.track("x")` and the object form `amplitude.track({ event_type: "x" })`; `"bad name!"` is excluded
+- `lib/browser.ts` — `amplitude.track("x")` and the object form `amplitude.track({ event_type: "x" })`; `"bad name!"` is **included** since eventra-cli 2.6.0 (names are read the way the SDK sends them; earlier versions dropped it)
 - `lib/legacy.ts` — amplitude-js `logEvent("x")`, `getInstance().logEvent("x")` and a client under another variable name
 - `lib/server.ts` — `@amplitude/analytics-node` with constants and the object form
 - `lib/wrappers.ts` + `features/signup.ts` — wrappers, constants, enums, ternaries, template literals. Known gap: `amplitude.track({ event_type: payload.event })` (a *property* of the wrapper parameter inside the object form) is not propagated in eventra-cli 2.1.0

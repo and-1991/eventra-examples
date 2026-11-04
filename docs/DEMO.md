@@ -2,16 +2,16 @@
 
 ![demo](../assets/demo.gif)
 
-The GIF replays a real session (commands and output captured from actual runs on 2026-11-04, then rendered to frames). Flow: `sync` finds 14 events → add a `<TrackedButton>` → `sync` finds 15 → remove it → `check` exits 1 on the stale event → `sync && check` is green → SDK call reaches the mock server (`TRACK HIT`).
+The GIF replays a real session (commands and output captured from actual runs on 2026-11-04, then rendered to frames). Flow (run on a throw-away copy of the example, the real files are untouched): `sync` finds 14 events → add a `<TrackedButton>` → `sync` finds 15 → remove it → `check` exits 1 on the stale event → `sync && check` is green → SDK call reaches the mock server (`TRACK HIT`).
 
-Real, unedited output captured on **eventra-cli 2.5.3 + cli-plugin-vue 1.2.5** (2026-11-04), from `examples/frontend/vue`:
+Real, unedited output captured on **eventra-cli 2.6.0 + cli-plugin-vue 1.3.0** (2026-11-04), from a copy of `examples/frontend/vue`:
 
 ```text
 $ eventra sync
 Scanning...
 Found 14 events, 3 function wrappers
 
-Dynamic event names:
+Inside a wrapper (each caller is checked on its own):
 ~ src/components/TrackedButton.vue:7 trackFeature(...)
 ~ template of src/fixtures/DynamicEvents.vue: trackFeature(...)
 ~ template of src/fixtures/DynamicEvents.vue: event="unresolvedEvent"
@@ -20,7 +20,7 @@ Dynamic event names:
 $ eventra check
 Checking events and function wrappers...
 
-Dynamic event names:
+Inside a wrapper (each caller is checked on its own):
 ~ src/components/TrackedButton.vue:7 trackFeature(...)
 ~ template of src/fixtures/DynamicEvents.vue: trackFeature(...)
 ~ template of src/fixtures/DynamicEvents.vue: event="unresolvedEvent"
@@ -30,7 +30,7 @@ All good
 
 Notes:
 - `sync` writes the discovered event list into `eventra.json`; `check` exits `1` on drift, so it works as a CI gate.
-- The `~` lines are *dynamic* names (computed at runtime) — the CLI reports them instead of silently skipping.
+- Since cli 2.6.0 the `~` lines under "Inside a wrapper" are forwarding calls of wrappers (their callers are checked on their own). Real computed names are listed separately, each with a reason such as `[env: ...]` or `[variable: ...]`; see [CLI-LIMITATIONS.md](./CLI-LIMITATIONS.md). `check` prints `All good` only for a clean scan; otherwise it prints `No drift, but the scan was not clean`.
 - Run it yourself: `export EVENTRA_API_KEY=test && cd examples/frontend/vue && pnpm exec eventra sync`.
 
 ## Runtime path (SDK → mock ingestion)

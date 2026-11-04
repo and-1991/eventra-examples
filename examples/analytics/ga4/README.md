@@ -1,7 +1,7 @@
 # Eventra + Google Analytics 4 (Vite + React)
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.5.3: `sync` and `check` read events through the analytics `sinks` preset.</sub>
+<sub>Real session on eventra-cli 2.6.0: `sync` and `check` read events through the analytics `sinks` preset.</sub>
 
 A Vite + React shop using **react-ga4**: a `trackEvent` wrapper around `ReactGA.event(...)` plus a direct `ReactGA.event({ category, action })` call. Enabled in `eventra.json` through the `ga4` preset:
 

@@ -3,6 +3,7 @@
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
     "GA4: Trial Started",
+    "bad name!",
     "ga4_checkout",
     "ga4_dual_event",
     "ga4_eventra_only",

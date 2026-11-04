@@ -4,6 +4,7 @@
   "events": [
     "$pageview",
     "Posthog: Spaced Name",
+    "bad name!",
     "posthog_browser_loaded",
     "posthog_checkout_started",
     "posthog_dual_event",

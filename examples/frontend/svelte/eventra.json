@@ -2,6 +2,7 @@
   "apiKey": "",
   "endpoint": "http://localhost:4000/cli/events",
   "events": [
+    "a-y",
     "svelte_await_catch_click",
     "svelte_await_pending_click",
     "svelte_await_then_click",
@@ -16,6 +17,7 @@
     "svelte_inline_markup_click",
     "svelte_key_click",
     "svelte_page_view",
+    "svelte_shorthand_attr_click",
     "svelte_slot_default_click"
   ],
   "functionWrappers": [

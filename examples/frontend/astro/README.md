@@ -1,7 +1,7 @@
 # Eventra + Astro
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.5.3 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+<sub>Real session on eventra-cli 2.6.0 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
 
 Astro + **Eventra SDK** + **Eventra CLI** + **@eventra_dev/cli-plugin-astro**.
 
@@ -15,7 +15,7 @@ Astro + **Eventra SDK** + **Eventra CLI** + **@eventra_dev/cli-plugin-astro**.
 |------|-----------|
 | `trackFeature(...)` in the frontmatter fence | Yes, with the plugin |
 | Declarative `event="..."` / `event={expr}` / `{event}` shorthand template attribute — any tag, including inside `{cond && <div event="...">}` and `.map()` | Yes, with the plugin |
-| `trackFeature(...)` inside a `<script>` tag in the file's **body markup** (not the frontmatter) | **No — still genuinely unscanned**, same as plain `.html` |
+| `trackFeature(...)` inside a `<script>` tag in the file's **body markup** (not the frontmatter) | **Scanned since `cli-plugin-astro@1.3.0`** (verified); up to 1.2.x it was unscanned, same as plain `.html` |
 
 One documentation gap found and **fixed upstream in `cli-plugin-astro@1.0.1`**: an earlier README revision showed `` event=`a-${b}` `` (no braces) as valid interpolation syntax, but it was silently ignored as written — the working form needs braces: `` event={`a-${b}`} ``. The plugin's README now documents this explicitly as unsupported-by-design; both forms are still exercised live in this example (see `astro_interp_z`, resolved via the braced form).
 
@@ -23,7 +23,7 @@ One documentation gap found and **fixed upstream in `cli-plugin-astro@1.0.1`**: 
 |------|------|
 | `src/lib/tracker.ts` | SDK instance + `trackFeature()` wrapper |
 | `src/events.ts` | Event literals for the "centralize in `.ts`" convention |
-| `src/client.ts` | Browser entry — imports from `events.ts`, used by the body `<script>` (unscanned) path |
+| `src/client.ts` | Browser entry — imports from `events.ts`, used by the body `<script>` path (body scripts are scanned since plugin 1.3.0, so this indirection is no longer required) |
 | `src/pages/index.astro` | Frontmatter direct call + the full `event="..."` template-attribute matrix (literal, dynamic, shorthand, conditional, `.map()`, edge cases) |
 
 ---

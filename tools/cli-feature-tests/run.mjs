@@ -5,7 +5,7 @@
 // Every scenario runs against a fresh temp copy of its fixture under fixtures/<name>/,
 // so this script is safe to re-run any number of times and never mutates the checked-in
 // fixtures.
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -129,17 +129,20 @@ function testCoreDetection() {
     assert(`core.ignored.non-sdk.${e}`, !events.has(e), "false positive — non-SDK track() call was recorded");
   }
 
-  // 8. invalid event names (too long / bad chars) are silently dropped, no trace
+  // 8. event names are read the way the SDK sends them (cli >= 2.6.0): a name over 64 chars is
+  //    cut to 64, punctuation/emoji are accepted; only empty names or names with a tab/line break are rejected.
+  const longName = "this-name-is-way-too-long-to-fit-within-the-sixty-four-char-limit-1234567890";
   const raw = fs.readFileSync(path.join(cwd, "eventra.json"), "utf8");
+  const cfg8 = JSON.parse(raw);
   assert(
-    "core.invalid-names.dropped-silently",
-    !raw.includes("this-name-is-way-too-long") && !raw.includes("bad chars"),
-    "an invalid event name leaked into eventra.json verbatim"
+    "core.names.long-name-truncated-to-64",
+    cfg8.events.includes(longName.slice(0, 64)) && !raw.includes(longName),
+    "expected the 64-char prefix of the long name, and not the full name"
   );
   assert(
-    "core.invalid-names.no-diagnostic-in-stdout",
-    !stdout.includes("too long") && !stdout.includes("invalid character"),
-    "expected no diagnostic for invalid names (documenting observed silent-drop behavior)"
+    "core.names.punctuation-accepted",
+    cfg8.events.includes("bad chars!@#$%"),
+    "a name with spaces/punctuation should be accepted since 2.6.0"
   );
 
   fs.rmSync(cwd, { recursive: true, force: true });
@@ -264,6 +267,51 @@ function testCheckExitCodes() {
 // ---------------------------------------------------------------------------
 // 10: eventra watch across a sequence of edits
 // ---------------------------------------------------------------------------
+// cli >= 2.6.0: computed names are split ("Inside a wrapper" vs real dynamic names) and carry a reason;
+// `check` only says "All good" for a clean scan; `--strict` fails on dynamic names; `dynamicEvents`
+// declares what a computed call can produce.
+function testDynamicReporting() {
+  const cwd = tmpCopy("dynamic-reporting");
+  // execFileSync drops stderr on success and the closing "scan was not clean" line goes to stderr
+  const syncRun = spawnSync(EVENTRA_BIN, ["sync"], { cwd, encoding: "utf8", env: process.env });
+  const out = (syncRun.stdout ?? "") + (syncRun.stderr ?? "");
+  const cfg = readConfig(cwd);
+
+  assert("dyn.literal-and-wrapper-caller-found",
+    cfg.events.includes("dyn_plain_literal") && cfg.events.includes("dyn_wrapper_caller_literal"), "literal events missing");
+  assert("dyn.wrapper-forward-listed-apart", /Inside a wrapper/.test(out), "no 'Inside a wrapper' section");
+  assert("dyn.reason.env", /\[env:/.test(out), "no [env: ...] reason");
+  assert("dyn.reason.variable", /\[variable:/.test(out), "no [variable: ...] reason");
+  assert("dyn.reason.template", /\[template:/.test(out), "no [template: ...] reason");
+  assert("dyn.reason.call", /\[call:/.test(out), "no [call: ...] reason");
+  assert("dyn.sync-says-scan-not-clean", /scan was not clean/i.test(out), "sync did not say the scan was not clean");
+
+  const check = runEventra(["check"], { cwd });
+  assert("dyn.check-exit-0-without-strict", check.code === 0, `exit ${check.code}`);
+  assert("dyn.check-not-all-good-when-unclean", !/All good/.test(check.stdout), "check printed 'All good' for an unclean scan");
+  assert("dyn.check-mentions-unclean", /not clean/i.test(check.stdout), "check did not say the scan was not clean");
+
+  const strict = runEventra(["check", "--strict"], { cwd });
+  assert("dyn.strict-fails-on-dynamic-names", strict.code === 1, `exit ${strict.code}`);
+
+  const cfgPath = path.join(cwd, "eventra.json");
+  const c = JSON.parse(fs.readFileSync(cfgPath, "utf8"));
+  c.dynamicEvents = ["dyn_declared_a", "dyn_declared_b"];
+  fs.writeFileSync(cfgPath, JSON.stringify(c, null, 2));
+  const sync2 = runEventra(["sync"], { cwd });
+  const cfg2 = readConfig(cwd);
+  assert("dyn.declared-names-count-as-found",
+    cfg2.events.includes("dyn_declared_a") && cfg2.events.includes("dyn_declared_b"), "dynamicEvents names not in events after sync");
+  const strict2 = runEventra(["check", "--strict"], { cwd });
+  assert("dyn.declared-names-make-strict-pass", strict2.code === 0, `exit ${strict2.code}: ${strict2.stdout.slice(-200)}`);
+
+  fs.writeFileSync(path.join(cwd, "broken.ts"), "export const x = (;\n");
+  const strict3 = runEventra(["check", "--strict"], { cwd });
+  assert("dyn.strict-fails-on-syntax-error", strict3.code === 1, `exit ${strict3.code}`);
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+}
+
 async function testWatchSequence() {
   const cwd = tmpCopy("watch-seq");
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -528,6 +576,7 @@ async function main() {
   testHookAndLazy();
   testCrossFile();
   testCheckExitCodes();
+  testDynamicReporting();
   await testWatchSequence();
   await testSend();
 

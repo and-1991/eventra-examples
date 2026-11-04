@@ -6,18 +6,18 @@ Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. T
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.5.3 |
+| `@eventra_dev/eventra-cli` | 2.6.0 |
 | `@eventra_dev/eventra-sdk` | 2.0.9 |
-| `@eventra_dev/cli-plugin-vue` | 1.2.5 |
-| `@eventra_dev/cli-plugin-svelte` | 1.2.5 |
-| `@eventra_dev/cli-plugin-astro` | 1.2.4 |
-| `@eventra_dev/cli-plugin-angular` | 1.2.4 |
+| `@eventra_dev/cli-plugin-vue` | 1.3.0 |
+| `@eventra_dev/cli-plugin-svelte` | 1.3.0 |
+| `@eventra_dev/cli-plugin-astro` | 1.3.0 |
+| `@eventra_dev/cli-plugin-angular` | 1.3.0 |
 
 ## Summary
 
 | Suite | Command | Result |
 |---|---|---|
-| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **74 / 74** |
+| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **88 / 88** |
 | SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes) | `pnpm test:sdk` | **24 / 24** |
 | SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `node tools/sdk-feature-tests/browser-run.mjs` | **6 / 6** |
 | Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |
@@ -39,18 +39,18 @@ CLI test groups: core detection, send, casts, check exit codes, watch, cross-fil
 
 | Plugin | Example | Events detected | Notes |
 |---|---|---|---|
-| vue | vue, nuxt | 14 (vue) | SFC script/template, slots, `v-for`/`v-if`, external script/template |
-| svelte | svelte | 15 | `{#if}`/`{#each}`/`{#await}`/`{#key}`/slots; interpolated `a-{b}` and `{event}` shorthand **not** detected (open, finding #7) |
-| astro | astro | 9 | frontmatter only; interpolation/shorthand supported |
-| angular | angular | 2 | `event=""`, `[attr.event]` |
+| vue | vue, nuxt | 14 (vue), 4 (nuxt) | SFC script/template, slots, `v-for`/`v-if`, external script/template; Options API props since 1.3.0 |
+| svelte | svelte | 17 | `{#if}`/`{#each}`/`{#await}`/`{#key}`/slots; `{event}` shorthand and `event="a-{b}"` found since 1.3.0 |
+| astro | astro | 9 | frontmatter, template `event=` (incl. template literals), body `<script>` since 1.3.0 |
+| angular | angular | 8 | `event=""`, `[attr.event]`, inline `template:` since 1.3.0 |
 
 ## Open items / known limitations
 
 Full list with evidence levels: [CLI-LIMITATIONS.md](./CLI-LIMITATIONS.md). Highlights:
 
-- Svelte plugin: no `event="a-{b}"` / `{event}` shorthand ([FINDINGS #7](./FINDINGS.md)).
-- Astro plugin scans only the frontmatter fence, not body `<script>` tags.
-- Upstream peer warning from Nuxt's CLI (`cac@^6.7.14`, found 7.0.0) — not ours.
+- Computed event names (env, variable, template, call) are not resolved; declare them in `dynamicEvents`.
+- `check` no longer prints `All good` when dynamic names exist (cli 2.6.0); judge it by exit code.
+- Upstream peer warning from Nuxt's CLI (`cac@^6.7.14`, found 7.0.0) is not ours.
 - The SDK intentionally warns on multiple instances; the SDK suite creates ~20 and prints the total instead of each warning.
 
 History of bugs found and their status: [FINDINGS.md](./FINDINGS.md).

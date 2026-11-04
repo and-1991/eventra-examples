@@ -2,72 +2,85 @@
 
 Static analysis cannot see everything. This is the consolidated list of known gaps for `eventra-cli` and its plugins, so you can set expectations before a demo or a migration.
 
-**Evidence level:** **verified** = re-verified on cli 2.5.3 / plugins 1.2.4–1.2.5 (2026-11-04) · **stress test** = measured on cli 2.5.0 / plugins 1.2.2 in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)); detection was identical between 2.4.0 and 2.5.0, not re-run on 2.5.3 · **README** = stated in the package's own README.
+**Current versions:** eventra-cli 2.6.0, cli-plugin-vue/svelte/astro/angular 1.3.0.
+
+**Evidence level:**
+- **verified** = re-run in this repo on 2.6.0 / 1.3.0 (2026-11-04), by the CLI feature suite, an example, or a throw-away fixture.
+- **changelog** = stated in the upstream release notes, not re-run here.
+- **earlier** = measured on 2.5.x in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)) and not repeated; the generator for those 71 component/usage pairs is not in the repo.
 
 ## 1. Names that are not static
 
 | Gap | Behavior | Workaround | Evidence |
 |---|---|---|---|
-| Event name computed at runtime (`track(getName())`) | Listed under "Dynamic event names" (`~`), not added to `events` | Use constants/literals; add to `events` by hand | verified |
-| Name > 64 chars or outside `a-zA-Z0-9:_./-` (emoji, spaces) | Not added. Since 2.5 it is **listed** with file/line/reason; before it was dropped silently. `check` still ends with `All good`, exit 0 | Keep to the allowed charset | stress test, README |
-| Runtime dependency injection (`const { $trackFeature } = useNuxtApp()`) | Not discovered | Import a tracker module statically | verified (Nuxt example) |
-| Wrapper whose event is the **2nd** argument (`trackFeature(app, name)`) | Wrapper not recognized | Put the name first | README |
-| Remote/CDN imports (`https://esm.sh/...`) | Static resolution breaks | Use package imports | README |
-| Dynamic `import("./x.js")` | File may sit outside the analysis graph | Static imports | README |
+| Event name computed at runtime (`track(getName())`, `track(process.env.X)`, `track(variable)`, `` track(`a_${x}`) ``) | Listed under "Dynamic event names" with a reason (`env`, `variable`, `template`, `call`, `expression`), not added to `events` | Use constants/literals, or declare the possible names in `dynamicEvents` in `eventra.json` | verified |
+| Remote imports (`https://esm.sh/...`), dynamic `import()` | Computed names; same handling | `dynamicEvents` | changelog |
+| Nuxt `useNuxtApp().$trackFeature(...)` (runtime injection) | Not discovered by default | Add a `sinks` rule `{ "callee": "$trackFeature" }` or import a tracker module statically | changelog (rule), verified (default miss, Nuxt example) |
+| Wrapper whose event is the **2nd** argument (`trackFeature(app, name)`) | Wrapper not recognized | Put the name first | earlier |
+| Name over 64 chars | Cut to 64 characters (no longer dropped) | Keep names short | verified |
+| Empty name, or a name containing a tab or line break | Rejected | | changelog |
+| Spaces, punctuation, emoji in a name | **Accepted** since 2.6.0 (older versions dropped them) | | verified for punctuation/spaces, changelog for emoji |
 
-## 1a. How the CLI labels "dynamic" names — and why it can mislead
+### 1a. How "dynamic" names are reported (2.6.0)
 
-`eventra sync` prints every call whose name argument it cannot reduce to a string literal under **"Dynamic event names" (`~`)**. Checked on cli 2.5.3 with a scratch file (verified):
+`eventra sync` / `check` print two separate lists. Verified on a fixture (`tools/cli-feature-tests/fixtures/dynamic-reporting`):
 
-| Call in source | What the CLI prints | Added to `events`? |
+| Call in source | Printed as | In `events`? |
 |---|---|---|
-| `track("literal")`, `track(CONST)`, `track(Enum.A)`, `wrap("x")` | nothing (found) | yes |
-| `track(cond ? "a" : "b")` | `~ file:line tracker.track(...) (resolved: a, b)` | yes, both branches |
-| `track(process.env.EVENT_NAME)` | `~ file:line tracker.track(...)` | **no** |
-| `track(runtimeVar)` | `~ file:line tracker.track(...)` | **no** |
-| `` track(`user_${x}`) `` | `~ file:line tracker.track(...)` | **no** |
-| `wrap(runtimeVar)` (through a wrapper) | `~ file:line wrap(...)` | **no** |
-| `function wrap(name){ tracker.track(name) }` (the wrapper's own forwarding call) | `~ file:line tracker.track(...)` — **identical to a real runtime name** | no (correctly: the real names are at the `wrap(...)` call sites) |
+| `track("literal")`, constant, enum, `wrap("x")` | nothing (found) | yes |
+| `track(cond ? "a" : "b")` | `~ ... (resolved: a, b)` | yes, both branches |
+| `track(process.env.NAME)` | `~ ... [env: read from the environment]` | no |
+| `track(variable)` | `~ ... [variable: a variable with no known value]` | no |
+| `` track(`user_${x}`) `` | `~ ... [template: a template string with a part that is not known]` | no |
+| `track(getName())` | `~ ... [call: the result of a call]` | no |
+| `function wrap(name){ tracker.track(name) }` (the wrapper's own forwarding call) | under a separate heading, **"Inside a wrapper (each caller is checked on its own)"** | no (the real names are at the call sites) |
 
-So `~` means "I could not determine the name here", nothing more. Three things to keep in mind:
-
-1. **A runtime value is never guessed.** An env var or computed name is not added to `eventra.json`; that event stays invisible to `check`/`send` until you add it by hand or switch to a literal/constant.
-2. **The label does not say why.** The harmless wrapper-internal forward and a genuinely missed runtime event look the same; only the "resolved: …" suffix distinguishes the partially-resolved case. In every example in this repo the lone `~ tracker.track(...)` is the wrapper's forward.
-3. **It is not a failure.** `check` still prints `All good` and exits 0 with `~` lines present.
-
-Suggested upstream improvement: separate "wrapper forward" from "unresolved at call site" and print the reason (`env`, `variable`, `template`).
+What this means:
+1. A runtime value is never guessed. Until you list it in `dynamicEvents` it stays invisible to `check` and `send`.
+2. Before 2.6.0 the forwarding call inside a wrapper looked exactly like a real runtime name; now it is listed apart and the reason is printed.
+3. `check` exits 0 with dynamic names present, but no longer prints `All good`: it prints `No drift, but the scan was not clean: N dynamic event names.` `check --strict` exits 1 on dynamic names, skipped files, syntax errors and rejected names. Names declared in `dynamicEvents` count as found and stop failing `--strict`.
 
 ## 2. Framework dialects
 
-| Area | Not covered | Evidence |
-|---|---|---|
-| **React (core)** | Props spread through another component (`{...props}`); class components (`this.props.x`) — 23/25 in stress set | stress test |
-| **Vue** | Options API (documented unsupported) — 12/13 | stress test, README |
-| **Svelte** | `event="a-{b}"` interpolation and `{event}` shorthand; `{...spread}` — 10/11 | verified, stress test |
-| **Astro** | Only the frontmatter fence is parsed: `<script>` tags in the body, `<script define:vars>`, and `onclick={`...${prop}...`}` template literals are invisible — 8/10 | stress test, README |
-| **Angular** | Inline `template:` in the component decorator (only `.html` templates are parsed); `[event]="x"` is detected but does not compile on a plain element — use `[attr.event]` — 11/12 | stress test, README |
+2.6.0 / 1.3.0 closed most of the gaps measured in the 2.5.x stress test (64/71 events found). Status of each former gap:
 
-Detection is conservative: **0 false positives** in 71 generated component/usage pairs (a prop that never reaches tracking is never reported). Overall 64/71 true events found.
+| Area | Former gap | Now | Evidence |
+|---|---|---|---|
+| React | Props spread through another component (`{...props}`); class components (`this.props.x`) | Both found | verified (throw-away fixture: `t26_react_class`, `t26_react_spread`) |
+| Vue | Options API props | Found | verified (`t26_vue_options`) |
+| Vue | `v-bind="obj"` | Followed | changelog |
+| Svelte | `event="a-{b}"` interpolation, `{event}` shorthand | Both found (`a-y`, `svelte_shorthand_attr_click` in the Svelte example) | verified |
+| Svelte | `{...obj}` spread | Followed | changelog |
+| Astro | `event={`...${x}`}` template literal | Found (`t26_astro_tpl_x`) | verified |
+| Astro | `<script>` tag in the **body** | Now scanned (`trackFeature` call found) | verified |
+| Astro | `<script define:vars>` | Read | changelog |
+| Astro | `{...obj}` spread | Followed | changelog |
+| Angular | Inline `template: "..."` | Read (`t26_ng_inline`) | verified |
+| Angular | `[event]` on a plain element does not compile (`NG8002`) | Still invalid in Angular, but the plugin now warns: `[event] on <button> is a property binding that Angular rejects (NG8002) ... write [attr.event] instead` | verified |
+
+Not re-measured: the stress-test counts per framework (the generator is not in the repo). Detection was conservative in 2.5.x (0 false positives in 71 pairs); that has not been re-measured on 2.6.0.
 
 ## 3. Reporting and exit codes
 
-- `check` prints `All good` and exits `0` even after listing skipped names or files with syntax errors; `sync --strict` also exits `0` in that case (stress test).
-- A wrapper's own forwarding call (`t.track(n)` inside the wrapper) is listed as a dynamic occurrence — noise, not an error (verified, see 1a).
-- Files over 2 MB are skipped with a warning (stress test).
-- A file with a syntax error is still scanned, but events after the error may be missed (stress test).
+- `check` prints `All good` only for a clean scan. With dynamic names it prints `No drift, but the scan was not clean` and still exits 0; `--strict` exits 1 (verified).
+- Skipped files, syntax errors and rejected names are listed in the closing summary; `--strict` fails on them. A syntax error fails `--strict` (verified); files over the size limit (2,000,000 characters by default, raise it with `sync.maxFileSize`) are ignored with a warning and do not fail `--strict` (changelog / package README).
+- A closing line such as `The scan was not clean: ...` goes to **stderr**; scripts that capture only stdout will not see it.
+- Tools that grep for `All good` (for example older versions of `tools/verify-all.sh`) break on 2.6.0; judge `check` by its exit code.
 
 ## 4. Config and security behavior (by design, easy to trip over)
 
-- A non-empty `"apiKey"` in a committed `eventra.json` triggers a warning in 2.5.x — use `EVENTRA_API_KEY` or gitignored `eventra.local.json` verified.
-- `EVENTRA_ENDPOINT` only bypasses the one-time `--trust-endpoint` gate; it does **not** redirect the request, which targets the `endpoint` in `eventra.json` verified (CLI suite).
-- A changed `endpoint` re-blocks `send` until re-approved verified.
+- A non-empty `"apiKey"` in a committed `eventra.json` triggers a warning; use `EVENTRA_API_KEY` or gitignored `eventra.local.json` (verified).
+- `EVENTRA_ENDPOINT` only bypasses the one-time `--trust-endpoint` gate; it does not redirect the request, which targets the `endpoint` in `eventra.json` (verified, CLI suite).
+- A changed `endpoint` re-blocks `send` until re-approved (verified).
+- A non-default `endpoint` in `eventra.json` needs local approval before `send`; `EVENTRA_API_KEY` set in your shell overrides `eventra.local.json` (key priority is tested in the CLI suite; do not export a key when running that suite).
 
 ## 5. Third-party `sinks`
 
-Presets: `posthog`, `segment`, `amplitude`, `ga4`. Anything else needs a custom `{ "callee": "...", "nameArg": N }` rule. The adversarial fixtures in `tools/analytics-fixture-*` cover wrappers, re-exports, legacy `amplitude-js`, `gtag`, `@next/third-parties` and `vue-gtag` (verified 4/4 pass); other shapes (e.g. a client built by a factory) were not tested.
+Presets: `posthog`, `segment`, `amplitude`, `ga4`. Anything else needs a custom `{ "callee": "...", "nameArg": N }` rule. The adversarial fixtures in `tools/analytics-fixture-*` cover wrappers, re-exports, legacy `amplitude-js`, `gtag`, `@next/third-parties` and `vue-gtag` (verified, all four pass); other shapes (for example a client built by a factory) were not tested.
 
 ## 6. Not tested here
 
-- Windows/macOS (suites ran on Linux, Node 24 only; CI uses Node 20).
-- Projects larger than the synthetic 3,000-file shapes; the earlier 41 s / ~3 GB report was not reproducible (stress test).
+- Windows and macOS (suites ran on Linux, Node 24 only; CI uses Node 20).
+- Projects larger than the synthetic 3,000-file shapes of the 2.4/2.5 stress test; the earlier 41 s / ~3 GB report was not reproducible. Upstream says several thousand files take tens of seconds and a few GB.
 - Monorepos with several `eventra.json` roots beyond this repo's per-example layout.
+- `<script define:vars>` and `{...obj}` spreads in Svelte/Astro, `v-bind="obj"` in Vue (changelog only).

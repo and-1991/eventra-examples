@@ -4,6 +4,7 @@
   "events": [
     "App: Trial Started",
     "Order Completed",
+    "bad name!",
     "segment_audit_export",
     "segment_browser_loaded",
     "segment_dual_event",

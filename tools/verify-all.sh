@@ -20,7 +20,7 @@ EXPECTED[backend/hono]="hono_home hono_request hono_response"
 EXPECTED[backend/nestjs]="nestjs_home nestjs_request nestjs_response"
 EXPECTED[frontend/react]="react_page_view new_event check_mode react_click react_click_enum"
 EXPECTED[frontend/vue]="vue_page_view vue_click vue_secondary_click vue_dynamic_resolved vue_external_script_click vue_external_template_click vue_for_click vue_if_click vue_mixed_script_click vue_mixed_template_click vue_multi_a vue_multi_b vue_slot_click"
-EXPECTED[frontend/svelte]="svelte_page_view svelte_click svelte_direct_click svelte_inline_markup_click svelte_await_catch_click svelte_await_pending_click svelte_await_then_click svelte_button_click svelte_dynamic_attr_resolved svelte_each_click svelte_else_click svelte_elseif_click svelte_if_click svelte_key_click svelte_slot_default_click"
+EXPECTED[frontend/svelte]="svelte_page_view svelte_click svelte_direct_click svelte_inline_markup_click svelte_await_catch_click svelte_await_pending_click svelte_await_then_click svelte_button_click svelte_dynamic_attr_resolved svelte_each_click svelte_else_click svelte_elseif_click svelte_if_click svelte_key_click svelte_slot_default_click svelte_shorthand_attr_click a-y"
 EXPECTED[frontend/vanilla]="vanilla_page_view vanilla_click"
 EXPECTED[frontend/next]="next_page_view next_click"
 EXPECTED[frontend/nuxt]="nuxt_page_view nuxt_click nuxt_dynamic_feature nuxt_auto_import_click"
@@ -93,7 +93,8 @@ for key in $(echo "${!EXPECTED[@]}" | tr ' ' '\n' | sort); do
   if ! eventra sync >/dev/null 2>&1; then
     echo "CLI FAIL $key (sync)"; CLI_FAIL=$((CLI_FAIL+1)); continue
   fi
-  if ! eventra check 2>&1 | grep -q "All good"; then
+  # exit code 0 = events match (cli >= 2.6 prints "No drift, but the scan was not clean" when dynamic names exist; older: "All good")
+  if ! eventra check >/dev/null 2>&1; then
     echo "CLI FAIL $key (check)"; CLI_FAIL=$((CLI_FAIL+1)); continue
   fi
   found=$(node -e "console.log((require('./eventra.json').events||[]).sort().join(' '))")
