@@ -49,6 +49,8 @@ Repo setting required: *Settings → Actions → General → Workflow permission
 
 **Manual** (new examples, restructures, major bumps): update `CHANGELOG.md`, the table above and `"version"` in `package.json`, commit, then `git tag -a vX.Y.Z -m "..."` and `git push --follow-tags` — the Release workflow does the rest.
 
+**Dry run on GitHub** (safe, nothing is committed, tagged or released): Actions → Auto-update → Run workflow, then either fill `simulate_from` with an old tag such as `v1.2.0` (the job pretends the repo still pins that tag's packages, finds the real newer versions, bumps, installs and runs all tests) or tick `dry_run`. The job summary shows the changed files and the release notes that would be published.
+
 Dry run of the automation locally: `AUTO_UPDATE_FAKE='{"@eventra_dev/eventra-cli":"9.9.9"}' node tools/auto-update.mjs check`.
 
 Convention: patch = plugin/SDK patch bump or doc fix, minor = CLI/SDK/plugin minor bump or new examples, major = restructure or a change to how examples are run.

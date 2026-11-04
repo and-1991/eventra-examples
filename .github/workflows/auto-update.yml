@@ -9,6 +9,16 @@ on:
   schedule:
     - cron: "0 6 * * *"
   workflow_dispatch:
+    inputs:
+      simulate_from:
+        description: "Dry run: pretend the repo still pins the packages of this tag (e.g. v1.2.0) so the pipeline finds real newer versions. Nothing is committed, tagged or released."
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry run: run everything but do not commit, tag or release (a report is written to the job summary)"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -25,6 +35,8 @@ jobs:
       tag: ${{ steps.publish.outputs.tag }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SIMULATE_FROM: ${{ inputs.simulate_from }}
+      DRY_RUN: ${{ (inputs.dry_run || inputs.simulate_from != '') && 'true' || 'false' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +51,10 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 10
+
+      - name: Simulate an older state (dry run only)
+        if: env.SIMULATE_FROM != ''
+        run: node tools/auto-update.mjs simulate "$SIMULATE_FROM"
 
       - name: Check npm for new versions
         id: check
@@ -66,8 +82,27 @@ jobs:
         id: fin
         run: node tools/auto-update.mjs finalize "$RUNNER_TEMP/cli.log" "$RUNNER_TEMP/sdk.log" "$RUNNER_TEMP/verify.log"
 
+      - name: Dry-run report (nothing is committed, tagged or released)
+        if: steps.check.outputs.changed == 'true' && env.DRY_RUN == 'true'
+        run: |
+          v="${{ steps.fin.outputs.version }}"
+          {
+            echo "## Dry run: would release v$v"
+            echo
+            echo "Tag message: \`${{ steps.fin.outputs.tag_message }}\`"
+            echo
+            echo "### Changed files"
+            echo '```'
+            git diff --stat | tail -40
+            echo '```'
+            echo
+            echo "### Release notes that would be published"
+            echo
+            bash tools/release-notes.sh "v$v"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Commit, tag, push
-        if: steps.check.outputs.changed == 'true'
+        if: steps.check.outputs.changed == 'true' && env.DRY_RUN != 'true'
         id: publish
         run: |
           git config user.name  "github-actions[bot]"
@@ -80,7 +115,7 @@ jobs:
           echo "tag=v$v" >> "$GITHUB_OUTPUT"
 
       - name: Open an issue if the update failed
-        if: failure() && steps.check.outputs.changed == 'true'
+        if: failure() && steps.check.outputs.changed == 'true' && env.DRY_RUN != 'true'
         run: |
           title="Auto-update failed: $(node -e "console.log(JSON.parse(require('fs').readFileSync('.auto-update.json','utf8')).updates.map(u=>u.pkg.replace('@eventra_dev/','')+' '+u.to).join(', '))" 2>/dev/null || echo 'new Eventra versions')"
           if [ -z "$(gh issue list --state open --search "$title in:title" --json number -q '.[0].number')" ]; then

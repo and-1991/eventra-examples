@@ -10,6 +10,7 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 ### Added
 - `.github/workflows/release.yml`: pushing a `vX.Y.Z` tag now creates a GitHub Release automatically, with the matching section of this file as notes (`tools/release-notes.sh`). `v0.*` are marked pre-release.
+- Auto-update dry run: `simulate_from` (pretend an older tag) and `dry_run` inputs on the workflow; the job summary previews the diff and release notes without committing, tagging or releasing.
 - `.github/workflows/auto-update.yml` + `tools/auto-update.mjs`: daily check of npm for new `@eventra_dev/*` versions; on a new one it bumps all pins, runs `test:cli`, `test:sdk` and `verify:cli`, updates docs/CHANGELOG/VERSIONS, bumps the repo version, tags and releases — or opens an issue if tests fail.
 
 ### Fixed
