@@ -7,11 +7,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.9",
+    "@eventra_dev/eventra-sdk": "^2.0.11",
     "nuxt": "latest"
   },
   "devDependencies": {
     "@eventra_dev/cli-plugin-vue": "^1.3.0",
-    "@eventra_dev/eventra-cli": "^2.6.1"
+    "@eventra_dev/eventra-cli": "^2.6.4"
   }
 }

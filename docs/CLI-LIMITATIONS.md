@@ -2,10 +2,10 @@
 
 Static analysis cannot see everything. This is the consolidated list of known gaps for `eventra-cli` and its plugins, so you can set expectations before a demo or a migration.
 
-**Current versions:** eventra-cli 2.6.1, cli-plugin-vue/svelte/astro/angular 1.3.0.
+**Current versions:** eventra-cli 2.6.4, cli-plugin-vue/svelte/astro/angular 1.3.0.
 
 **Evidence level:**
-- **verified** = re-run in this repo on 2.6.1 / 1.3.0 (2026-11-04), by the CLI feature suite, an example, or a throw-away fixture.
+- **verified** = re-run in this repo on 2.6.4 / 1.3.0 (2026-11-06), by the CLI feature suite, an example, or a throw-away fixture.
 - **changelog** = stated in the upstream release notes, not re-run here.
 - **earlier** = measured on 2.5.x in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)) and not repeated; the generator for those 71 component/usage pairs is not in the repo.
 
@@ -62,19 +62,22 @@ What this means:
 
 Not re-measured: the stress-test counts per framework (the generator is not in the repo). Detection was conservative in 2.5.x (0 false positives in 71 pairs); that has not been re-measured on 2.6.0.
 
-Hook helpers: per the 2.6.1 README, functions a hook hands back (`return { capture }`, or a function returned through `useCallback`) are followed, mainly for `sinks` receivers such as a typed `usePostHog()`-style hook. A plain SDK wrapper built as `const track = useCallback((n) => tracker.track(n), [])` and returned from a hook was **not** found in a throw-away fixture on 2.6.1 (it is listed as a forwarding call); the changelog claim for `useCallback` was not reproduced for that shape.
+Hook helpers (re-measured on 2.6.4, cli suite `hook-callback`): a function a hook hands back through `useCallback` or `useMemo` is found when it is called as a member of the hook result (`const h = useTrack(); h.track("x")`, `useTrack().track("x")`), including the property forms `return { track: useCallback(...) }` and `const api = { track: useCallback(...) }; return api` (fixed in 2.6.4; on 2.6.3 the property forms were missed). Destructuring the result (`const { track } = useTrack()`) works on 2.6.4 only when the `react` types are installed (`@types/react`): then the type of the hook result survives. Without them (CI before install, a fresh clone) `useCallback`/`useMemo` return `any`, and destructuring is **not** followed, in a separate file or the same one, with or without renaming; the event is missed and the call stays in the "inside a wrapper" list. The upstream notes first said destructuring "already worked" (true with types) and later explained the untyped case; a fix for it is reported upstream but not published as of 2.6.4. This repo first mis-recorded the gap as unconditional because its throw-away fixture had no react types. A plain returned function (no `useCallback`) is followed in both forms. The suite pins this gap, so it fails the day upstream closes it.
 
 ## 3. Reporting and exit codes
 
 - `check` prints `All good` only for a clean scan. With dynamic names it prints `No drift, but the scan was not clean` and still exits 0; `--strict` exits 1 (verified).
-- Skipped files, syntax errors and rejected names are listed in the closing summary; `--strict` fails on them. A syntax error fails `--strict` (verified); files over the size limit (2,000,000 characters by default, raise it with `sync.maxFileSize`) are ignored with a warning and do not fail `--strict` (changelog / package README).
+- Skipped files, syntax errors and rejected names are listed in the closing summary; `--strict` fails on them. A syntax error fails `--strict` (verified); files over the size limit (2,000,000 characters by default, raise it with `sync.maxFileSize`) are ignored with a warning and, since 2.6.4, **do** fail `--strict` (on 2.6.3 they exited 0; verified, CLI suite `maxFileSize`). Breaking for CI with a vendored or generated file over the limit: put it in `sync.exclude` or raise `sync.maxFileSize`.
 - A closing line such as `The scan was not clean: ...` goes to **stderr**; scripts that capture only stdout will not see it.
 - Tools that grep for `All good` (for example older versions of `tools/verify-all.sh`) break on 2.6.0; judge `check` by its exit code.
 
 ## 4. Config and security behavior (by design, easy to trip over)
 
 - A non-empty `"apiKey"` in a committed `eventra.json` triggers a warning; use `EVENTRA_API_KEY` or gitignored `eventra.local.json` (verified).
-- `EVENTRA_ENDPOINT` only bypasses the one-time `--trust-endpoint` gate; it does not redirect the request, which targets the `endpoint` in `eventra.json` (verified, CLI suite).
+- `EVENTRA_ENDPOINT` takes priority over `endpoint` in `eventra.json` since 2.6.3: when set and not empty, events and the API key go there, and the one-time `--trust-endpoint` approval is not needed. On 2.6.2 and earlier the variable only skipped the approval and the request still went to the committed endpoint (verified on 2.6.3, CLI suite).
+- `send` prints a warning when the endpoint is plain `http` outside localhost (2.6.3); it still sends. `127.0.0.2` counts as outside localhost (verified).
+- A 403 whose body says the key is "not valid for this endpoint" makes `send` print how to get a key with CLI access, and does not retry (2.6.3, verified against a mock). Which access a key has (SDK or CLI) is set in the dashboard; that part is not testable from this repo.
+- The API key prompt is a password prompt: what you type is shown as `*` (2.6.3, verified in a pseudo-terminal).
 - A changed `endpoint` re-blocks `send` until re-approved (verified).
 - A non-default `endpoint` in `eventra.json` needs local approval before `send`; `EVENTRA_API_KEY` set in your shell overrides `eventra.local.json` (key priority is tested in the CLI suite; do not export a key when running that suite).
 

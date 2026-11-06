@@ -5,7 +5,7 @@ import http from "node:http";
  * circuit-breaker/idempotency behavior against real HTTP round-trips.
  *
  * `behavior(requestIndex, body)` is called for each POST and must return one of:
- *   { status, body?, delayMs? }              -> respond normally after optional delay
+ *   { status, body?, headers?, delayMs? }            -> respond normally after optional delay
  *   { destroy: true }                        -> destroy the socket (simulates a transport error)
  */
 export function createMockServer(behavior) {
@@ -46,7 +46,7 @@ export function createMockServer(behavior) {
       }
       const status = result?.status ?? 200;
       const payload = JSON.stringify(result?.body ?? { ok: status < 300 });
-      res.writeHead(status, { "content-type": "application/json" });
+      res.writeHead(status, { "content-type": "application/json", ...(result?.headers ?? {}) });
       res.end(payload);
     });
   });

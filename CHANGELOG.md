@@ -10,6 +10,30 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 _Nothing yet._
 
+## [1.4.2] — 2026-11-06
+
+Pinned: **cli 2.6.4 · sdk 2.0.11 · vue 1.3.0 · svelte 1.3.0 · astro 1.3.0 · angular 1.3.0**
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.1 → 2.6.4 and `@eventra_dev/eventra-sdk` 2.0.9 → 2.0.11 (2.6.2 and 2.6.3 were never pinned on their own; 2.6.3 was tested first and its gaps were reported upstream). Plugins are unchanged at 1.3.0.
+- `EVENTRA_ENDPOINT` now overrides the endpoint in `eventra.json`; the old test that pinned the opposite behavior now asserts the new one.
+- `docs/CLI-LIMITATIONS.md`: hook helpers re-measured, `--strict` behavior on oversized files confirmed, endpoint/key notes updated.
+
+### Fixed upstream after our report, re-verified on 2.6.4 / 2.0.11
+- `check --strict` and `sync --strict` now fail on files over the size limit (2.6.3 exited 0). Breaking for CI with a big vendored file.
+- `useCallback` helpers held as a property (`return { track: useCallback(...) }`) are found. Destructuring the hook result works on 2.6.4 only with `@types/react` installed (our first fixture had none, so it was recorded as a gap by mistake); without the types it is still missed, and an upstream fix for that is not published yet.
+- SDK 2.0.11 logs one warning per instance when the endpoint answers with a redirect (`onDeliveryFailed` is deliberately not called); verified.
+
+### Added (tests)
+- CLI suite (90 → 109): `EVENTRA_ENDPOINT` priority, plain-http warning outside localhost (and none on localhost), 403 "key made for the SDK" hint without retry, `useCallback`/`useMemo` helpers from a hook (member and property forms found; destructuring found with `@types/react`, pinned as a known gap without it), `sync.maxFileSize` and `--strict` on an oversized file.
+- SDK suite (24 → 28): plain-http warning on a remote host, no warning on loopback/https, a redirect is never followed (target receives nothing), and 2.0.11 warns once about it.
+
+### Verified (local run)
+CLI feature tests 109/109 · SDK feature tests 28/28 · SDK browser tests 6/6 · `pnpm verify`: 23 CLI + 15 SDK smoke, 0 failures.
+
+### Upstream notes not reproduced here
+Per-key access (SDK or CLI), role and invitation rules, usage counting, emails, analytics report timeout and sign-in hardening are server-side changes of the Eventra service and cannot be tested from this repo. The package diff of sdk 2.0.9 → 2.0.10 contains exactly: the plain-http warning, `redirect: "error"` on requests, and README text; 2.0.11 was verified by behavior, not by diff.
+
 ## [1.4.1] — 2026-11-04
 
 Pinned: **cli 2.6.1 · sdk 2.0.9 · vue 1.3.0 · svelte 1.3.0 · astro 1.3.0 · angular 1.3.0**
@@ -138,6 +162,7 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
+[1.4.2]: https://github.com/and-1991/eventra-examples/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/and-1991/eventra-examples/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/and-1991/eventra-examples/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/and-1991/eventra-examples/compare/v1.2.0...v1.3.0

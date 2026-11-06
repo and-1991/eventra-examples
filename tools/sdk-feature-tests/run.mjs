@@ -591,6 +591,88 @@ await step("9b disableTimer really disables periodic auto-flush", async () => {
 });
 
 // ---------------------------------------------------------------------------
+// 11. 2.0.10: plain-http warning, redirects are never followed
+// ---------------------------------------------------------------------------
+await step("11a plain http on a remote host warns once at construction (2.0.10)", async () => {
+  const warnings = [];
+  const prev = console.warn;
+  console.warn = (...a) => { if (String(a[0]).includes("plain http")) warnings.push(String(a[0])); else prev(...a); };
+  try {
+    const t = new Eventra({ apiKey: "k", endpoint: "http://example.invalid/ingest", disableTimer: true });
+    await t.destroy();
+  } finally {
+    console.warn = prev;
+  }
+  record("11a remote http endpoint warns", warnings.length === 1 && /https/.test(warnings[0]), `warnings=${JSON.stringify(warnings)}`);
+});
+
+await step("11b no warning for localhost / 127.0.0.1 / [::1] / https (2.0.10)", async () => {
+  const warnings = [];
+  const prev = console.warn;
+  console.warn = (...a) => { if (String(a[0]).includes("plain http")) warnings.push(String(a[0])); else prev(...a); };
+  try {
+    for (const endpoint of ["http://localhost:1/x", "http://127.0.0.1:1/x", "http://[::1]:1/x", "https://example.invalid/x"]) {
+      const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true });
+      await t.destroy();
+    }
+  } finally {
+    console.warn = prev;
+  }
+  record("11b loopback and https endpoints do not warn", warnings.length === 0, `warnings=${JSON.stringify(warnings)}`);
+});
+
+await step("11c a redirect is never followed, the key is not forwarded (2.0.10)", async () => {
+  const portTarget = nextPort();
+  const portRedirect = nextPort();
+  const target = createMockServer(() => ({ status: 200 }));
+  await target.listen(portTarget);
+  const redirector = createMockServer(() => ({ status: 307, headers: { location: `http://127.0.0.1:${portTarget}/stolen` } }));
+  await redirector.listen(portRedirect);
+  let failed = null;
+  const t = new Eventra({
+    apiKey: "secret-key",
+    endpoint: `http://127.0.0.1:${portRedirect}/ingest`,
+    disableTimer: true,
+    maxRetries: 0,
+    onDeliveryFailed: (info) => (failed = info),
+  });
+  t.track("evt.redirect");
+  await t.flush();
+  await sleep(100);
+  await t.destroy();
+  await redirector.close();
+  await target.close();
+  record(
+    "11c redirect not followed: target got 0 requests",
+    target.requests.length === 0 && redirector.requests.length >= 1,
+    `target=${target.requests.length} redirector=${redirector.requests.length} onDeliveryFailed=${JSON.stringify(failed && { status: failed.status })}`
+  );
+});
+
+await step("11d a redirect logs one warning per instance, no onDeliveryFailed (2.0.11)", async () => {
+  const portTarget = nextPort();
+  const portRedirect = nextPort();
+  const target = createMockServer(() => ({ status: 200 }));
+  await target.listen(portTarget);
+  const redirector = createMockServer(() => ({ status: 301, headers: { location: `http://127.0.0.1:${portTarget}/x` } }));
+  await redirector.listen(portRedirect);
+  const warnings = [];
+  const prev = console.warn;
+  console.warn = (...a) => { if (/redirect/i.test(String(a[0]))) warnings.push(String(a[0])); else prev(...a); };
+  let failed = null;
+  try {
+    const t = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${portRedirect}/ingest`, disableTimer: true, maxRetries: 0, onDeliveryFailed: (i) => (failed = i) });
+    t.track("evt.r1"); await t.flush();
+    t.track("evt.r2"); await t.flush();
+    await t.destroy();
+  } finally {
+    console.warn = prev;
+  }
+  await redirector.close(); await target.close();
+  record("11d redirect: exactly one warning, target untouched, no onDeliveryFailed", warnings.length === 1 && target.requests.length === 0 && failed === null, `warnings=${JSON.stringify(warnings)} target=${target.requests.length} failed=${JSON.stringify(failed)}`);
+});
+
+// ---------------------------------------------------------------------------
 // 10. Browser-only claims — now verified separately in browser-run.mjs (real headless
 // Chromium via Playwright: persistQueue write/no-write/reload-persistence, multiTabMode
 // leader election, keepalive-on-pagehide all PASS; found a real bug — the SDK's

@@ -8,13 +8,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.9",
+    "@eventra_dev/eventra-sdk": "^2.0.11",
     "posthog-js": "^1.0.0",
     "posthog-node": "^5.0.0",
     "react": "^18.3.1"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.6.1",
+    "@eventra_dev/eventra-cli": "^2.6.4",
     "@types/react": "^18.3.31",
     "typescript": "^5.3.0"
   }

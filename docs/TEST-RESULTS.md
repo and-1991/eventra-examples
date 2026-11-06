@@ -1,13 +1,13 @@
 # Test results
 
-Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-04 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
+Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-06**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-06 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
 
 ## Package versions under test
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.6.1 |
-| `@eventra_dev/eventra-sdk` | 2.0.9 |
+| `@eventra_dev/eventra-cli` | 2.6.4 |
+| `@eventra_dev/eventra-sdk` | 2.0.11 |
 | `@eventra_dev/cli-plugin-vue` | 1.3.0 |
 | `@eventra_dev/cli-plugin-svelte` | 1.3.0 |
 | `@eventra_dev/cli-plugin-astro` | 1.3.0 |
@@ -17,13 +17,13 @@ Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-04**. T
 
 | Suite | Command | Result |
 |---|---|---|
-| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **90 / 90** |
-| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes) | `pnpm test:sdk` | **24 / 24** |
+| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **109 / 109** |
+| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes) | `pnpm test:sdk` | **28 / 28** |
 | SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `node tools/sdk-feature-tests/browser-run.mjs` | **6 / 6** |
 | Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |
 | Example matrix: SDK smoke — real `POST` reaches mock server — *manual* | `pnpm verify` | **15 / 15** |
 
-CLI test groups: core detection, send, casts, check exit codes, watch, cross-file, lazy hooks.
+CLI test groups: core detection, send, casts, check exit codes, watch, cross-file, lazy hooks, hooks via useCallback/useMemo, maxFileSize, strict on oversized files.
 
 ## Example matrix (`pnpm verify`)
 

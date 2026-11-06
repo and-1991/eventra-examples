@@ -223,6 +223,74 @@ function testHookAndLazy() {
 }
 
 // ---------------------------------------------------------------------------
+// 5c: helpers a hook hands back through useCallback / useMemo (cli 2.6.2/2.6.3)
+// ---------------------------------------------------------------------------
+const HERE_TESTS = path.dirname(fileURLToPath(import.meta.url));
+function testHookCallback() {
+  const cwd = tmpCopy("hook-callback");
+  runEventra(["sync"], { cwd });
+  const events = new Set(readConfig(cwd).events);
+  assert("hook-callback.useCallback-member-access", events.has("hook_usecallback_member"), "expected h.viaCallback(...) to be found (2.6.3)");
+  assert("hook-callback.useMemo-member-access", events.has("hook_usememo_member"), "expected h.viaMemo(...) to be found (2.6.3)");
+  // 2.6.4: `return { track: useCallback(...) }` and `const api = { track: useCallback(...) }; return api`
+  for (const e of ["hook_prop_member", "hook_prop_chain", "hook_holder_member"]) {
+    assert(`hook-callback.${e} (2.6.4)`, events.has(e), "property-form useCallback helper not found");
+  }
+  // Without `react` types installed (CI before install, fresh clone) useCallback/useMemo give back `any`
+  // and destructuring the hook result is not followed on 2.6.4 (upstream fix reported, not yet published).
+  // The day this passes, the gap is closed: update docs/CLI-LIMITATIONS.md and make this a positive check.
+  assert(
+    "hook-callback.destructured-without-react-types-is-a-gap [known gap, flips when upstream publishes the fix]",
+    !events.has("hook_usecallback_destructured") && !events.has("hook_usememo_destructured"),
+    "destructured hook result is now followed without react types: update docs/CLI-LIMITATIONS.md and turn this into a positive check"
+  );
+
+  // With @types/react installed the type of the result survives and destructuring works (2.6.4)
+  const typedDir = path.join(cwd, "node_modules", "@types");
+  fs.mkdirSync(typedDir, { recursive: true });
+  fs.symlinkSync(path.join(HERE_TESTS, "node_modules", "@types", "react"), path.join(typedDir, "react"));
+  runEventra(["sync"], { cwd });
+  const typed = new Set(readConfig(cwd).events);
+  for (const e of ["hook_usecallback_destructured", "hook_usememo_destructured"]) {
+    assert(`hook-callback.${e}-with-react-types (2.6.4)`, typed.has(e), "destructured helper not found although @types/react is installed");
+  }
+  fs.rmSync(cwd, { recursive: true, force: true });
+}
+
+// ---------------------------------------------------------------------------
+// 5d: sync.maxFileSize (2.6.0) and what --strict does with an oversized file
+// ---------------------------------------------------------------------------
+function testMaxFileSize() {
+  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "eventra-cli-test-bigfile-"));
+  fs.mkdirSync(path.join(cwd, "src"));
+  fs.writeFileSync(
+    path.join(cwd, "src", "big.ts"),
+    'import { Eventra } from "@eventra_dev/eventra-sdk";\nconst t = new Eventra({ apiKey: "x" });\nt.track("big_file_event");\n// ' + "x".repeat(3_000_000) + "\n"
+  );
+  const writeCfg = (sync) =>
+    fs.writeFileSync(path.join(cwd, "eventra.json"), JSON.stringify({ apiKey: "", endpoint: "http://localhost:4000/cli/events", plugins: [], sync }));
+
+  writeCfg({ include: ["src/**/*.ts"] });
+  const def = runEventra(["sync"], { cwd });
+  assert("maxFileSize.default-skips-3MB-file", !readConfig(cwd).events.includes("big_file_event"), def.stdout);
+  const strict = runEventra(["check", "--strict"], { cwd });
+  const both = spawnSync(EVENTRA_BIN, ["check"], { cwd, encoding: "utf8" });
+  assert("maxFileSize.check-names-the-file-and-limit", /big\.ts: file is larger than 2 MB/.test(both.stdout + both.stderr), both.stdout + both.stderr);
+  assert("maxFileSize.check-reports-scan-not-clean", /scan was not clean/.test(strict.stdout), strict.stdout);
+  // Fixed in 2.6.4: on 2.6.3 an oversized file exited 0 even under --strict
+  assert(
+    "maxFileSize.strict-fails-on-oversized-file (2.6.4)",
+    strict.code === 1,
+    `check --strict exits ${strict.code} for an oversized file, expected 1`
+  );
+
+  writeCfg({ include: ["src/**/*.ts"], maxFileSize: 5_000_000 });
+  runEventra(["sync"], { cwd });
+  assert("maxFileSize.raised-limit-reads-the-file", readConfig(cwd).events.includes("big_file_event"), "event not found with maxFileSize 5000000");
+  fs.rmSync(cwd, { recursive: true, force: true });
+}
+
+// ---------------------------------------------------------------------------
 // 6: cross-file (barrel re-export, default-export wrapper, tsconfig paths)
 // ---------------------------------------------------------------------------
 function testCrossFile() {
@@ -406,6 +474,7 @@ function startMockServer(mode, port) {
         if (mode === "fail-500-2")
           return void (count <= 2 ? res.writeHead(500).end("{}") : res.writeHead(200).end('{"ok":true}'));
         if (mode === "permanent-401") return void res.writeHead(401).end('{"error":"unauthorized"}');
+        if (mode === "sdk-key-403") return void res.writeHead(403).end('{"error":"This API key is not valid for this endpoint"}');
         if (mode === "always-429") return void res.writeHead(429).end("{}");
         res.writeHead(500).end("unknown mode");
       });
@@ -487,8 +556,7 @@ async function testSend() {
   }
 
   // --- 11c: endpoint re-blocks on change; EVENTRA_ENDPOINT env var bypasses approval
-  //          (but — confirmed live — does NOT actually redirect the request target;
-  //          the request still goes to eventra.json's configured `endpoint`) ---
+  //          and (since 2.6.3) also overrides the request target ---
   {
     const cwd = tmpCopy("send");
     writeSendFixture(cwd, { endpoint });
@@ -516,11 +584,35 @@ async function testSend() {
         bypassed.code === 0,
         `expected EVENTRA_ENDPOINT to bypass the approval gate, got exit ${bypassed.code}`
       );
+      // 2.6.3: EVENTRA_ENDPOINT now takes priority over the endpoint in eventra.json
       const lastReq = requestLog[requestLog.length - 1];
       assert(
-        "send.EVENTRA_ENDPOINT-does-NOT-override-target-url [confirmed quirk, not a crash]",
-        lastReq && lastReq.url.includes("-CHANGED"),
-        "EVENTRA_ENDPOINT's own value was actually used as the request target — if this now fails, the documented behavior changed (re-verify against the README's wording)"
+        "send.EVENTRA_ENDPOINT-overrides-eventra.json-endpoint (2.6.3)",
+        lastReq && lastReq.url.includes("totally-different-path") && !lastReq.url.includes("-CHANGED"),
+        `request went to ${lastReq && lastReq.url}, expected the EVENTRA_ENDPOINT path`
+      );
+      assert(
+        "send.plain-http-on-localhost-does-not-warn",
+        !/plain http|insecure|not encrypted|unencrypted/i.test(bypassed.stdout + bypassed.stderr),
+        `unexpected warning for localhost: ${bypassed.stdout}${bypassed.stderr}`
+      );
+
+      // 2.6.3: warns when the endpoint is plain http outside localhost
+      const before = requestLog.length;
+      const remote = await runEventraAsync(["send"], {
+        cwd,
+        env: { EVENTRA_API_KEY: "x", EVENTRA_ENDPOINT: `http://127.0.0.2:${PORT}/remote-http-path` },
+        input: "",
+      });
+      assert(
+        "send.plain-http-outside-localhost-warns (2.6.3)",
+        /http/i.test(remote.stdout + remote.stderr) && /warn|plain|insecure|https/i.test(remote.stdout + remote.stderr),
+        `no warning printed: ${remote.stdout}${remote.stderr}`
+      );
+      assert(
+        "send.plain-http-outside-localhost-still-sends",
+        remote.code === 0 && requestLog.length === before + 1,
+        `exit ${remote.code}, requests ${requestLog.length - before}`
       );
     } finally {
       server.close();
@@ -539,6 +631,7 @@ async function testSend() {
       ["fail-500-2", 0, "send.retry.500-then-success"],
       ["permanent-401", 1, "send.no-retry-on-permanent-4xx"],
       ["always-429", 1, "send.retry.gives-up-after-max-attempts"],
+      ["sdk-key-403", 1, "send.sdk-key-403-fails"],
     ]) {
       const { server, count } = await startMockServer(mode, PORT);
       try {
@@ -546,6 +639,14 @@ async function testSend() {
         assert(label, res.code === expectCode, `exit ${res.code}, requests seen: ${count()}`);
         if (mode === "permanent-401") {
           assert("send.no-retry-on-permanent-4xx.single-attempt", count() === 1, `expected exactly 1 attempt, got ${count()}`);
+        }
+        if (mode === "sdk-key-403") {
+          assert("send.sdk-key-403.no-retry", count() === 1, `expected 1 attempt, got ${count()}`);
+          assert(
+            "send.sdk-key-403.explains-how-to-get-the-right-key (2.6.3)",
+            /created for the SDK/.test(res.stdout + res.stderr) && /EVENTRA_API_KEY/.test(res.stdout + res.stderr),
+            `hint missing: ${res.stdout}${res.stderr}`
+          );
         }
         if (mode === "always-429") {
           assert("send.retry.max-4-attempts-total", count() === 4, `expected exactly 4 attempts, got ${count()}`);
@@ -587,6 +688,8 @@ async function main() {
   testCoreDetection();
   testCastAssertion();
   testHookAndLazy();
+  testHookCallback();
+  testMaxFileSize();
   testCrossFile();
   testCheckExitCodes();
   testDynamicReporting();
