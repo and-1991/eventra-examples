@@ -236,14 +236,11 @@ function testHookCallback() {
   for (const e of ["hook_prop_member", "hook_prop_chain", "hook_holder_member"]) {
     assert(`hook-callback.${e} (2.6.4)`, events.has(e), "property-form useCallback helper not found");
   }
-  // Without `react` types installed (CI before install, fresh clone) useCallback/useMemo give back `any`
-  // and destructuring the hook result is not followed on 2.6.4 (upstream fix reported, not yet published).
-  // The day this passes, the gap is closed: update docs/CLI-LIMITATIONS.md and make this a positive check.
-  assert(
-    "hook-callback.destructured-without-react-types-is-a-gap [known gap, flips when upstream publishes the fix]",
-    !events.has("hook_usecallback_destructured") && !events.has("hook_usememo_destructured"),
-    "destructured hook result is now followed without react types: update docs/CLI-LIMITATIONS.md and turn this into a positive check"
-  );
+  // Without `react` types installed (CI before install, fresh clone) useCallback/useMemo give back `any`.
+  // Destructuring the hook result was missed there on 2.6.4; fixed in 2.6.5.
+  for (const e of ["hook_usecallback_destructured", "hook_usememo_destructured"]) {
+    assert(`hook-callback.${e}-without-react-types (2.6.5)`, events.has(e), "destructured helper not found without @types/react");
+  }
 
   // With @types/react installed the type of the result survives and destructuring works (2.6.4)
   const typedDir = path.join(cwd, "node_modules", "@types");

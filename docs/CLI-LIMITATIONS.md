@@ -2,10 +2,10 @@
 
 Static analysis cannot see everything. This is the consolidated list of known gaps for `eventra-cli` and its plugins, so you can set expectations before a demo or a migration.
 
-**Current versions:** eventra-cli 2.6.4, cli-plugin-vue/svelte/astro/angular 1.3.0.
+**Current versions:** eventra-cli 2.6.7, cli-plugin-vue/angular 1.3.2, cli-plugin-svelte/astro 1.3.1.
 
 **Evidence level:**
-- **verified** = re-run in this repo on 2.6.4 / 1.3.0 (2026-11-06), by the CLI feature suite, an example, or a throw-away fixture.
+- **verified** = re-run in this repo on 2.6.7 / 1.3.2 (2026-11-10), by the CLI feature suite, an example, or a throw-away fixture.
 - **changelog** = stated in the upstream release notes, not re-run here.
 - **earlier** = measured on 2.5.x in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)) and not repeated; the generator for those 71 component/usage pairs is not in the repo.
 
@@ -62,7 +62,7 @@ What this means:
 
 Not re-measured: the stress-test counts per framework (the generator is not in the repo). Detection was conservative in 2.5.x (0 false positives in 71 pairs); that has not been re-measured on 2.6.0.
 
-Hook helpers (re-measured on 2.6.4, cli suite `hook-callback`): a function a hook hands back through `useCallback` or `useMemo` is found when it is called as a member of the hook result (`const h = useTrack(); h.track("x")`, `useTrack().track("x")`), including the property forms `return { track: useCallback(...) }` and `const api = { track: useCallback(...) }; return api` (fixed in 2.6.4; on 2.6.3 the property forms were missed). Destructuring the result (`const { track } = useTrack()`) works on 2.6.4 only when the `react` types are installed (`@types/react`): then the type of the hook result survives. Without them (CI before install, a fresh clone) `useCallback`/`useMemo` return `any`, and destructuring is **not** followed, in a separate file or the same one, with or without renaming; the event is missed and the call stays in the "inside a wrapper" list. The upstream notes first said destructuring "already worked" (true with types) and later explained the untyped case; a fix for it is reported upstream but not published as of 2.6.4. This repo first mis-recorded the gap as unconditional because its throw-away fixture had no react types. A plain returned function (no `useCallback`) is followed in both forms. The suite pins this gap, so it fails the day upstream closes it.
+Hook helpers (re-measured on 2.6.5, cli suite `hook-callback`): a function a hook hands back through `useCallback` or `useMemo` is found when it is called as a member of the hook result (`const h = useTrack(); h.track("x")`, `useTrack().track("x")`), including the property forms `return { track: useCallback(...) }` and `const api = { track: useCallback(...) }; return api` (fixed in 2.6.4; on 2.6.3 the property forms were missed). Destructuring the result (`const { track } = useTrack()`) is followed since 2.6.5, with or without the `react` types installed (on 2.6.4 it worked only with `@types/react`; without them `useCallback`/`useMemo` return `any` and the event was missed). The suite checks both cases. A plain returned function (no `useCallback`) is followed in both forms.
 
 ## 3. Reporting and exit codes
 
@@ -84,6 +84,14 @@ Hook helpers (re-measured on 2.6.4, cli suite `hook-callback`): a function a hoo
 ## 5. Third-party `sinks`
 
 Presets: `posthog`, `segment`, `amplitude`, `ga4`. Anything else needs a custom `{ "callee": "...", "nameArg": N }` rule. The adversarial fixtures in `tools/analytics-fixture-*` cover wrappers, re-exports, legacy `amplitude-js`, `gtag`, `@next/third-parties` and `vue-gtag` (verified, all four pass); other shapes (for example a client built by a factory) were not tested.
+
+## 7. Claims of the 2.6.5 / 1.3.1 release notes, all hold on 2.6.7 / 1.3.2 (2026-11-10)
+
+Every item of those notes has a test (`tools/cli-feature-tests/run-2.6.5-core.mjs`, `run-2.6.5-plugins.mjs`, `tools/sdk-feature-tests/run-2.0.12.mjs`). The SDK items all hold. Four things that did not hold on 2.6.5 / 1.3.1 were fixed after our report and are now ordinary checks: `send` skips duplicates from `eventra.json` (2.6.6), Vue and Angular template errors name the line (plugins 1.3.2), a whitespace-only API key is treated as missing with "API key required" (2.6.7), and `sync` warns about a `sync.include` / `sync.exclude` that is a number, object or boolean (2.6.7; a single pattern as text stays valid on purpose). A missing plugin now ends with `Install it in your project with: npm install -D <name>` (2.6.7); a plugin that is installed but throws while loading shows its own error without that hint.
+
+Nothing from the notes is left open. (An earlier version of this section claimed that `check --fix` does not report wrong-typed values. That was a mistake in our test: `sync` had already rewritten `eventra.json` before `check --fix` ran. On a fresh file `check --fix` and plain `check` report every wrong-typed key, as the notes say.)
+
+Also measured, not promised by the notes: `const { track } = t`, `t.track.bind(t)` and `.apply` are not followed; a bare directory such as `"src"` in `include` matches nothing; an unanchored `*.test.ts` in `exclude` misses nested files; an absolute path in `exclude` is ignored. The "large Angular folders scan much faster" claim cannot be compared here (the old plugin cannot be loaded); 150 components take 1.7 s and 600 take 4.8 s, and the suite bounds that.
 
 ## 6. Not tested here
 

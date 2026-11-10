@@ -3,12 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node run.mjs"
+    "test": "node run.mjs && node run-2.0.12.mjs",
+    "test:browser": "node browser-run.mjs && node browser-run-2.0.12.mjs"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.11"
+    "@eventra_dev/eventra-sdk": "^2.0.12"
   },
   "devDependencies": {
-    "playwright": "^1.48.0"
+    "playwright": "^1.48.0",
+    "typescript": "^5.9.3"
   }
 }

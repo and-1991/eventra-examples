@@ -1,6 +1,6 @@
 {
   "name": "eventra-examples",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": true,
   "scripts": {
     "dev": "concurrently \"pnpm dev:mock\" \"pnpm --filter express dev\"",
@@ -32,7 +32,7 @@
     "dev:vercel": "concurrently \"pnpm dev:mock\" \"pnpm --filter ./examples/runtimes/vercel dev\""
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.6.4",
+    "@eventra_dev/eventra-cli": "^2.6.7",
     "concurrently": "^9.2.1"
   }
 }

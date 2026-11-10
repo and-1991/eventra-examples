@@ -10,6 +10,34 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 _Nothing yet._
 
+## [1.4.3] — 2026-11-10
+
+Pinned: **cli 2.6.7 · sdk 2.0.12 · vue 1.3.2 · svelte 1.3.1 · astro 1.3.1 · angular 1.3.2**
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.4 → 2.6.7, `@eventra_dev/eventra-sdk` 2.0.11 → 2.0.12, vue and angular plugins 1.3.0 → 1.3.2, svelte and astro plugins 1.3.0 → 1.3.1. 2.6.5 and 1.3.1 were tested first; 2.6.6, 2.6.7 and vue/angular 1.3.2 followed the same day.
+- Every item of the upstream release notes (SDK flush/shutdown/Node 18/queue handling, CLI skipped-file reporting, deep-code files, Astro/Angular/Svelte/Vue parsing, `watch`, `send`, `init` for Nuxt/SvelteKit/Angular) now has its own test. Nothing is taken on trust.
+
+### Fixed upstream, re-verified on 2.6.5
+- Destructuring a hook result (`const { track } = useTrack()`) is followed without `@types/react`: the known gap pinned by the suite closed, so the check became positive. `docs/CLI-LIMITATIONS.md` updated.
+
+### Added (tests)
+- CLI suite 110 → 318 (`run-2.6.5-core.mjs`, `run-2.6.5-plugins.mjs`), SDK suite 28 → 55 (`run-2.0.12.mjs`, also green on Node 18.18, with a TypeScript `node16` fixture), browser suite 6 → 19 (`browser-run-2.0.12.mjs`).
+
+### Fixed upstream after our report, re-verified on cli 2.6.7 / plugins 1.3.2
+- Vue template and Angular template parse errors now name the line (`src/B.vue: Element is missing end tag. (line 3)`).
+- `eventra send` no longer sends duplicates from `eventra.json` (2.6.6).
+- A whitespace-only API key counts as missing: "API key required", no request is sent (2.6.7).
+- `sync` warns about `sync.include` / `sync.exclude` of the wrong type (number, object, boolean); a single pattern as text stays valid (2.6.7).
+- A missing plugin ends with `Install it in your project with: npm install -D <name>`; an installed plugin that throws shows its own error without the hint (2.6.7).
+
+### Still open on 2.6.7 / 1.3.2
+- Nothing from the release notes. (An earlier draft listed `check --fix` as not reporting wrong-typed values; that was a bug in our test, where `sync` rewrote `eventra.json` first. Corrected and confirmed on a fresh file for all seven keys.)
+
+### Verified
+- All SDK items hold: `flush()`, shutdown limit with a failing server, page close, Node 18, option warnings, mutation after `track()`, damaged queue, throwing callbacks, emoji cutting, number/`null` user id, `node16` types.
+- CLI suite 110 / 110 (old), SDK suite 28 / 28, browser 6 / 6, `pnpm verify` 0 CLI and 0 SDK failures, `check --strict` on the Nuxt, Angular, Svelte, Astro and Vue examples shows no drift. `eventra init` in a Nuxt project points at the missing Vue plugin.
+
 ## [1.4.2] — 2026-11-06
 
 Pinned: **cli 2.6.4 · sdk 2.0.11 · vue 1.3.0 · svelte 1.3.0 · astro 1.3.0 · angular 1.3.0**
@@ -162,6 +190,7 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
+[1.4.3]: https://github.com/and-1991/eventra-examples/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/and-1991/eventra-examples/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/and-1991/eventra-examples/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/and-1991/eventra-examples/compare/v1.3.0...v1.4.0
