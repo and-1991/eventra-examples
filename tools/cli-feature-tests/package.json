@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node run.mjs && node run-2.6.5-core.mjs && node run-2.6.5-plugins.mjs"
+    "test": "node run.mjs && node run-2.6.5-core.mjs && node run-2.6.5-plugins.mjs && node run-2.6.8.mjs"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.12"
+    "@eventra_dev/eventra-sdk": "^2.0.13"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.6.7",
+    "@eventra_dev/eventra-cli": "^2.6.8",
     "@types/react": "18.3.31"
   }
 }

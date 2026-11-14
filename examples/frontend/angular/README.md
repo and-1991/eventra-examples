@@ -1,7 +1,7 @@
 # Eventra + Angular
 
 ![demo](./demo.gif)
-<sub>Real session on eventra-cli 2.6.1 / eventra-sdk 2.0.9: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
+<sub>Real session on eventra-cli 2.6.8 / eventra-sdk 2.0.13: `sync`, `check`, detected events, and an SDK call reaching the mock server.</sub>
 
 Angular (CLI) + **Eventra SDK** + **Eventra CLI**.
 

@@ -29,7 +29,7 @@
       apiKey: "test",
       endpoint,
       disableTimer: true,
-      maxBatchSize: 1000, // avoid auto-flush-on-threshold surprises unless a test wants it
+      maxBatchSize: 500, // avoid auto-flush-on-threshold surprises unless a test wants it
       ...opts,
       fetchImpl: spyFetch(endpoint),
     });

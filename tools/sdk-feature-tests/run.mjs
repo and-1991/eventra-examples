@@ -180,7 +180,7 @@ await step("2b periodic flush via flushInterval", async () => {
     apiKey: "k",
     endpoint: `http://127.0.0.1:${port}/ingest`,
     flushInterval: 300,
-    maxBatchSize: 1000,
+    maxBatchSize: 500,
   });
   tracker.track("solo");
   await sleep(700);
@@ -201,7 +201,7 @@ await step("2c queue overflow drops + reports via onEventsDropped", async () => 
     apiKey: "k",
     endpoint: `http://127.0.0.1:${port}/ingest`,
     disableTimer: true,
-    maxBatchSize: 1000,
+    maxBatchSize: 500,
     maxQueueSize: 5,
     onEventsDropped: (n) => (droppedTotal += n),
   });
@@ -392,7 +392,7 @@ await step("6a flush() drains immediately", async () => {
   const port = nextPort();
   const mock = createMockServer(() => ({ status: 200 }));
   await mock.listen(port);
-  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 1000 });
+  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 500 });
   tracker.track("evt.flush");
   await tracker.flush();
   await mock.close();
@@ -404,7 +404,7 @@ await step("6b shutdown() flushes then blocks further sends", async () => {
   const port = nextPort();
   const mock = createMockServer(() => ({ status: 200 }));
   await mock.listen(port);
-  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 1000 });
+  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 500 });
   tracker.track("evt.beforeShutdown");
   await tracker.shutdown();
   const countAfterShutdown = mock.requests.length;
@@ -420,7 +420,7 @@ await step("6c destroy() stops without flushing (queued events lost)", async () 
   const port = nextPort();
   const mock = createMockServer(() => ({ status: 200 }));
   await mock.listen(port);
-  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 1000 });
+  const tracker = new Eventra({ apiKey: "k", endpoint: `http://127.0.0.1:${port}/ingest`, disableTimer: true, maxBatchSize: 500 });
   tracker.track("evt.neverSent");
   tracker.destroy();
   await sleep(300);
@@ -514,7 +514,7 @@ await step("8a batch splits across multiple sends when maxPayloadBytes would be 
     apiKey: "k",
     endpoint: `http://127.0.0.1:${port}/ingest`,
     disableTimer: true,
-    maxBatchSize: 1000,
+    maxBatchSize: 500,
     maxPayloadBytes: 600,
   });
   for (let i = 0; i < 10; i++) tracker.track("evt.payload." + i, { properties: { pad: "x".repeat(50) } });
@@ -580,7 +580,7 @@ await step("9b disableTimer really disables periodic auto-flush", async () => {
     endpoint: `http://127.0.0.1:${port}/ingest`,
     disableTimer: true,
     flushInterval: 200,
-    maxBatchSize: 1000,
+    maxBatchSize: 500,
   });
   tracker.track("evt.notimer");
   await sleep(600);

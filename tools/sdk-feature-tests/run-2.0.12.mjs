@@ -85,7 +85,7 @@ await step("A2 flush() while in flight also delivers an event tracked meanwhile,
 
 await step("A3 two parallel flush() calls both resolve after delivery, one copy sent", async () => {
   await withMock(() => ({ status: 200, delayMs: 250 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     t.track("a3.evt");
     const p1 = t.flush();
     const p2 = t.flush();
@@ -247,7 +247,7 @@ await step("C4 invalid options on a never-throwing path: constructor does not th
 // ---------------------------------------------------------------------------
 await step("D1 mutating properties after track() does not change what is sent", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     const props = { plan: "free", nested: { seats: 1, tags: ["a"] }, list: [1, 2] };
     const opts = { userId: "u1", properties: props };
     t.track("d1.evt", opts);
@@ -270,7 +270,7 @@ await step("D1 mutating properties after track() does not change what is sent", 
 await step("D2 properties with a throwing getter / toJSON / circular reference: no throw, SDK keeps working", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
     const dropped = [];
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false, onEventsDropped: (n) => dropped.push(n) });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false, onEventsDropped: (n) => dropped.push(n) });
     const circ = { a: 1 }; circ.self = circ;
     const getter = { get boom() { throw new Error("getter"); } };
     const toJson = { toJSON() { throw new Error("toJSON"); } };
@@ -293,7 +293,7 @@ await step("D2 properties with a throwing getter / toJSON / circular reference: 
 await step("D3 an event object queued is not shared: a retry resends the original content", async () => {
   let n = 0;
   await withMock(() => (n++ === 0 ? { status: 500 } : { status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, retryBaseDelayMs: 10, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, retryBaseDelayMs: 10, autoFlushOnExit: false });
     const props = { v: 1 };
     t.track("d3.evt", { properties: props });
     const p = t.flush();
@@ -315,7 +315,7 @@ await step("E1 throwing callbacks (sync and async) never break the SDK", async (
     const onUnhandled = (e) => unhandled.push(e);
     process.on("unhandledRejection", onUnhandled);
     const t = new Eventra({
-      apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false, maxQueueSize: 2,
+      apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false, maxQueueSize: 2,
       onEventsDropped: () => { throw new Error("dropped boom"); },
       onDeliveryFailed: async () => { throw new Error("failed boom (async)"); },
     });
@@ -364,7 +364,7 @@ let cliNormalize = null;
 
 await step("F1 name cut at 64 does not split an astral character", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     const cases = {
       astralAtBoundary: "a".repeat(63) + "\u{1D49C}" + "tail", // high surrogate would be unit 64
       astralFits: "a".repeat(62) + "\u{1D49C}" + "tail",       // pair occupies units 63-64
@@ -390,7 +390,7 @@ await step("F1 name cut at 64 does not split an astral character", async () => {
 await step("F2 SDK name equals the CLI catalog name for the same text", async () => {
   if (!cliNormalize) { record("F2 SDK name equals the CLI catalog name for the same text", null, "CLI package not found next to this suite"); return; }
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     // names the CLI accepts (letters of any plane, digits, space): the SDK output must be what the CLI stores
     const inputs = [
       "a".repeat(63) + "\u{1D49C}x",
@@ -414,7 +414,7 @@ await step("F2 SDK name equals the CLI catalog name for the same text", async ()
 
 await step("F3 user id cut at 120 does not split an astral character; limits match", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     t.track("f3.boundary", { userId: "u".repeat(119) + "😀" + "tail" });
     t.track("f3.fits", { userId: "u".repeat(118) + "😀" + "tail" });
     t.track("f3.plain", { userId: "u".repeat(300) });
@@ -429,7 +429,7 @@ await step("F3 user id cut at 120 does not split an astral character; limits mat
 
 await step("F4 a number as user id is accepted (written out as text)", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false });
     t.track("f4.int", { userId: 42 });
     t.track("f4.zero", { userId: 0 });
     t.track("f4.neg", { userId: -7 });
@@ -449,7 +449,7 @@ await step("F4 a number as user id is accepted (written out as text)", async () 
 await step("F5 null / undefined user id is accepted: event sent without userId", async () => {
   await withMock(() => ({ status: 200 }), async (mock, endpoint) => {
     const dropped = [];
-    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 1000, autoFlushOnExit: false, onEventsDropped: (n) => dropped.push(n) });
+    const t = new Eventra({ apiKey: "k", endpoint, disableTimer: true, maxBatchSize: 500, autoFlushOnExit: false, onEventsDropped: (n) => dropped.push(n) });
     t.track("f5.null", { userId: null });
     t.track("f5.undef", { userId: undefined });
     t.track("f5.empty", { userId: "" });

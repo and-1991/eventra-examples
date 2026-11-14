@@ -9,6 +9,13 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+// Since eventra-cli 2.6.8 endpoint approvals live in a per-user folder ($EVENTRA_CONFIG_DIR, else ~/.config/eventra).
+// Point it at a temp folder so the suite never writes into the real one.
+if (!process.env.EVENTRA_TEST_KEEP_CONFIG_DIR) {
+  process.env.EVENTRA_CONFIG_DIR = (await import("node:fs")).mkdtempSync(
+    (await import("node:path")).join((await import("node:os")).tmpdir(), "eventra-config-")
+  );
+}
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const EVENTRA_BIN = path.join(HERE, "..", "..", "node_modules", ".bin", "eventra");

@@ -48,7 +48,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t1", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t1", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t1", "track", "persist_test_event"));
@@ -71,7 +71,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t2", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t2", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t2", "track", "no_persist_test_event"));
@@ -92,7 +92,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t3", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t3", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t3", "track", "reload_persist_event"));
@@ -104,7 +104,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t3b", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t3b", { endpoint, persistQueue: true, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       const lenAfterConstruct = await page.evaluate(() => window.queueLength("t3b"));
@@ -145,7 +145,7 @@ async function main() {
             persistQueue: true,
             multiTabMode: "leader",
             disableTimer: true,
-            maxBatchSize: 1000,
+            maxBatchSize: 500,
           }),
         { endpoint }
       );
@@ -156,7 +156,7 @@ async function main() {
             persistQueue: true,
             multiTabMode: "leader",
             disableTimer: true,
-            maxBatchSize: 1000,
+            maxBatchSize: 500,
           }),
         { endpoint }
       );
@@ -202,7 +202,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t5a", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t5a", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t5a", "track", "visible_flush_event"));
@@ -246,7 +246,7 @@ async function main() {
       await page.waitForFunction("window.__ready === true");
       await page.evaluate(
         ({ endpoint }) =>
-          window.createNamedTracker("t5b", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 1000 }),
+          window.createNamedTracker("t5b", { endpoint, persistQueue: false, disableTimer: true, maxBatchSize: 500 }),
         { endpoint }
       );
       await page.evaluate(() => window.callOnTracker("t5b", "track", "visibilitychange_only_event"));

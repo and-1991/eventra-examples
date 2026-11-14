@@ -11,6 +11,13 @@ import os from "node:os";
 import path from "node:path";
 import http from "node:http";
 import { fileURLToPath } from "node:url";
+// Since eventra-cli 2.6.8 endpoint approvals live in a per-user folder ($EVENTRA_CONFIG_DIR, else ~/.config/eventra).
+// Point it at a temp folder so the suite never writes into the real one.
+if (!process.env.EVENTRA_TEST_KEEP_CONFIG_DIR) {
+  process.env.EVENTRA_CONFIG_DIR = (await import("node:fs")).mkdtempSync(
+    (await import("node:path")).join((await import("node:os")).tmpdir(), "eventra-config-")
+  );
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -501,11 +508,15 @@ async function testSend() {
       assert("send.endpoint-blocked-until-approved", blocked.code === 1 && /not locally approved/i.test(blocked.stdout + blocked.stderr), "expected an unapproved-endpoint block");
 
       const approved = await runEventraAsync(["send", "--trust-endpoint"], { cwd, input: "" });
+      // 2.6.8: the approval is kept in the per-user folder, keyed by the project's real path, not in the repository
+      const store = path.join(process.env.EVENTRA_CONFIG_DIR, "trusted-endpoints.json");
+      const saved = fs.existsSync(store) ? JSON.parse(fs.readFileSync(store, "utf8")) : {};
+      const localFile = path.join(cwd, "eventra.local.json");
+      const local = fs.existsSync(localFile) ? JSON.parse(fs.readFileSync(localFile, "utf8")) : {};
       assert(
         "send.trust-endpoint-approves-and-persists",
-        fs.existsSync(path.join(cwd, "eventra.local.json")) &&
-          JSON.parse(fs.readFileSync(path.join(cwd, "eventra.local.json"), "utf8")).trustedEndpoint === endpoint,
-        "--trust-endpoint did not persist the approval to eventra.local.json"
+        saved[fs.realpathSync(cwd)] === endpoint && local.trustedEndpoint === undefined,
+        `--trust-endpoint did not persist the approval to the user folder: ${JSON.stringify(saved)} local=${JSON.stringify(local)}`
       );
       assert(
         "send.no-api-key-fails-fast-mentions-env-var",
@@ -531,7 +542,8 @@ async function testSend() {
       const cfg = JSON.parse(fs.readFileSync(path.join(cwd, "eventra.json"), "utf8"));
       cfg.apiKey = "legacy-inline-key";
       fs.writeFileSync(path.join(cwd, "eventra.json"), JSON.stringify(cfg, null, 2));
-      const local = JSON.parse(fs.readFileSync(path.join(cwd, "eventra.local.json"), "utf8"));
+      const localPath = path.join(cwd, "eventra.local.json");
+      const local = fs.existsSync(localPath) ? JSON.parse(fs.readFileSync(localPath, "utf8")) : {};
       local.apiKey = "local-json-key";
       fs.writeFileSync(path.join(cwd, "eventra.local.json"), JSON.stringify(local, null, 2));
 

@@ -10,6 +10,30 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 _Nothing yet._
 
+## [1.4.4] — 2026-11-14
+
+Pinned: **cli 2.6.8 · sdk 2.0.13 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · angular 1.3.3**
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.7 → 2.6.8, `@eventra_dev/eventra-sdk` 2.0.12 → 2.0.13, vue and angular plugins 1.3.2 → 1.3.3, svelte and astro plugins 1.3.1 → 1.3.2.
+- The CLI suite points `EVENTRA_CONFIG_DIR` at a temp folder: since 2.6.8 `send --trust-endpoint` writes approvals to the user folder (`~/.config/eventra`), and the suite must not touch the real one. The old check "approval saved in `eventra.local.json`" now asserts the new place.
+- SDK suites use `maxBatchSize: 500` instead of 1000 (2.0.13 caps it at 500 and warns on larger values).
+- All 21 GIFs re-recorded on cli 2.6.8 / sdk 2.0.13. The recorder is now in the repo: `tools/record-gifs/record.sh`.
+
+### Verified (every client-side item of the release notes has its own test)
+- CLI (`run-2.6.8.mjs`, 47 checks): file names and server text printed as escapes; `.mts` / `.cts` without false syntax errors; a class of your own called `Eventra` is not counted; 20 000 calls of another analytics library scan in seconds (2.6.7 did not finish in 400 s); approvals live outside the repository, an old approval in `eventra.local.json` is not trusted and `send` explains why; `eventra.local.json` is not written through a symbolic link.
+- Plugins: a line break in a template event name is reported in Vue, Svelte, Astro and Angular; Vue props named `class` / `for` / `default` / `new` work; many `<template` in one Vue file are fast; Astro tags with more than 1000 attributes and runs of unclosed `<script` are read in part with the reason.
+- SDK (`run-2.0.13.mjs`, 12 checks; `browser-run-2.0.13.mjs`, 7 checks): SIGTERM/SIGINT end the process after the flush, also as PID 1 (exit 143; 2.0.12 stayed alive); an app's own listener keeps control; `exitOnSignal: false` keeps flush-only; `maxBatchSize` capped at 500 with a warning; unstorable names dropped without spoiling the batch; huge `properties` refused fast; starts under React Native and Deno style globals (2.0.12 threw); tab closed during a send loses nothing; saved queue capped near 1 MB.
+- Suites: CLI 365 / 365, SDK 67 / 67, browser 26 / 26, `pnpm verify` 0 CLI and 0 SDK failures.
+
+### Worth knowing
+- After updating, `eventra send` to a self-hosted endpoint needs `eventra send --trust-endpoint` once more (by design in 2.6.8).
+- A Node server that has no SIGTERM listener of its own now exits after the SDK's flush on `docker stop` / Ctrl+C. Set `exitOnSignal: false` for the old flush-only behaviour.
+- The `maxBatchSize` warning calls 1000 "invalid" although it is just above the cap; cosmetic.
+
+### Not testable here
+Server-side items: separate SDK / CLI keys, member access, invite links, plan limits under load, sign-in and password reset limits, demo sessions, billing and plan cancellation, retention, ingestion during database or queue outages, deploys, emails, dashboard pages.
+
 ## [1.4.3] — 2026-11-10
 
 Pinned: **cli 2.6.7 · sdk 2.0.12 · vue 1.3.2 · svelte 1.3.1 · astro 1.3.1 · angular 1.3.2**
@@ -190,6 +214,7 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
+[1.4.4]: https://github.com/and-1991/eventra-examples/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/and-1991/eventra-examples/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/and-1991/eventra-examples/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/and-1991/eventra-examples/compare/v1.4.0...v1.4.1

@@ -2,10 +2,10 @@
 
 Static analysis cannot see everything. This is the consolidated list of known gaps for `eventra-cli` and its plugins, so you can set expectations before a demo or a migration.
 
-**Current versions:** eventra-cli 2.6.7, cli-plugin-vue/angular 1.3.2, cli-plugin-svelte/astro 1.3.1.
+**Current versions:** eventra-cli 2.6.8, cli-plugin-vue/angular 1.3.3, cli-plugin-svelte/astro 1.3.2.
 
 **Evidence level:**
-- **verified** = re-run in this repo on 2.6.7 / 1.3.2 (2026-11-10), by the CLI feature suite, an example, or a throw-away fixture.
+- **verified** = re-run in this repo on 2.6.8 / 1.3.3 (2026-11-14), by the CLI feature suite, an example, or a throw-away fixture.
 - **changelog** = stated in the upstream release notes, not re-run here.
 - **earlier** = measured on 2.5.x in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)) and not repeated; the generator for those 71 component/usage pairs is not in the repo.
 
@@ -79,7 +79,7 @@ Hook helpers (re-measured on 2.6.5, cli suite `hook-callback`): a function a hoo
 - A 403 whose body says the key is "not valid for this endpoint" makes `send` print how to get a key with CLI access, and does not retry (2.6.3, verified against a mock). Which access a key has (SDK or CLI) is set in the dashboard; that part is not testable from this repo.
 - The API key prompt is a password prompt: what you type is shown as `*` (2.6.3, verified in a pseudo-terminal).
 - A changed `endpoint` re-blocks `send` until re-approved (verified).
-- A non-default `endpoint` in `eventra.json` needs local approval before `send`; `EVENTRA_API_KEY` set in your shell overrides `eventra.local.json` (key priority is tested in the CLI suite; do not export a key when running that suite).
+- A non-default `endpoint` in `eventra.json` needs local approval before `send` (since 2.6.8 kept in the user folder, not in `eventra.local.json`; see section 8); `EVENTRA_API_KEY` set in your shell overrides `eventra.local.json` (key priority is tested in the CLI suite; do not export a key when running that suite).
 
 ## 5. Third-party `sinks`
 
@@ -92,6 +92,20 @@ Every item of those notes has a test (`tools/cli-feature-tests/run-2.6.5-core.mj
 Nothing from the notes is left open. (An earlier version of this section claimed that `check --fix` does not report wrong-typed values. That was a mistake in our test: `sync` had already rewritten `eventra.json` before `check --fix` ran. On a fresh file `check --fix` and plain `check` report every wrong-typed key, as the notes say.)
 
 Also measured, not promised by the notes: `const { track } = t`, `t.track.bind(t)` and `.apply` are not followed; a bare directory such as `"src"` in `include` matches nothing; an unanchored `*.test.ts` in `exclude` misses nested files; an absolute path in `exclude` is ignored. The "large Angular folders scan much faster" claim cannot be compared here (the old plugin cannot be loaded); 150 components take 1.7 s and 600 take 4.8 s, and the suite bounds that.
+
+## 8. Claims of the 2.6.8 / 1.3.3 release notes, all hold (2026-11-14)
+
+Each client-side item has a test (`tools/cli-feature-tests/run-2.6.8.mjs`, `tools/sdk-feature-tests/run-2.0.13.mjs`, `browser-run-2.0.13.mjs`):
+
+- File names and server text are printed as plain escapes (`src/evil\x1b[31mRED\x07.ts`), in `sync`, `check` and `send`, including error bodies.
+- A line break inside a template event name (Vue, Svelte, Astro, Angular) is listed under "event names the CLI cannot accept" instead of being recorded cut at the line break.
+- 20 000 calls of another analytics library in one file: more than 400 s on 2.6.7 (stopped), about 2-4 s on 2.6.8.
+- `.mts` / `.cts` with generics and `<T>value` casts: no false syntax errors. A class of your own named `Eventra` (local or imported) is not counted.
+- Vue: props named `class`, `for`, `default`, `new` no longer break the component; 40 000 `<template` in one file scan in about 1.4 s. Astro: a tag with more than 1000 attributes (or a run of unclosed `<script`) is read in part with the reason, the frontmatter still is.
+- `eventra send --trust-endpoint` stores the approval in `$EVENTRA_CONFIG_DIR`, else `$XDG_CONFIG_HOME/eventra`, else `~/.config/eventra` (`trusted-endpoints.json`, mode 600, keyed by the project's real path). **An approval in `eventra.local.json` from an older CLI is no longer trusted**: `send` stops with "not locally approved" and explains why; approve once more. `eventra.local.json` now holds only the key, is written with mode 600 and never through a symbolic link.
+- SDK: `exitOnSignal` defaults to `true`: with no other listener SIGTERM/SIGINT end the process after the flush; as PID 1 (`docker stop`) it exits with 143 (2.0.12 stayed alive); with an app listener the app keeps control; `exitOnSignal: false` restores flush-only. `maxBatchSize` above 500 is capped with a warning (the wording says "invalid (2000), using 500"). Names of only NUL / line breaks / lone surrogates are dropped without spoiling the batch; inside a name those characters are removed. Very large `properties` are refused faster (1M keys: about 0.35 s against 0.7 s on 2.0.12). The SDK starts with React Native and Deno style globals (2.0.12 threw). In Chromium, closing a tab while a send is in flight loses nothing, and the saved queue stays under about 1 MB of text (newest events kept).
+
+Server-side items of the notes (keys per purpose, member access, plan limits, sign-in, billing, retention, ingestion resilience, dashboard) cannot be tested from this repo.
 
 ## 6. Not tested here
 

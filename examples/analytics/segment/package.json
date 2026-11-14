@@ -14,7 +14,7 @@
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.6.7",
+    "@eventra_dev/eventra-cli": "^2.6.8",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.0.0",

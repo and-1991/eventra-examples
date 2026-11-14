@@ -2,9 +2,9 @@
 
 ![demo](../assets/demo.gif)
 
-The GIF replays a real session (commands and output captured from actual runs on 2026-11-04, then rendered to frames). Flow (run on a throw-away copy of the example, the real files are untouched): `sync` finds 14 events → add a `<TrackedButton>` → `sync` finds 15 → remove it → `check` exits 1 on the stale event → `sync && check` is green → SDK call reaches the mock server (`TRACK HIT`).
+The GIF replays a real session (commands and output captured from actual runs on 2026-11-14, then rendered to frames). Flow (run on a throw-away copy of the example, the real files are untouched): `sync` finds 14 events → add a `<TrackedButton>` → `sync` finds 15 → remove it → `check` exits 1 on the stale event → `sync && check` is green → SDK call reaches the mock server (`TRACK HIT`).
 
-Real, unedited output captured on **eventra-cli 2.6.1 + cli-plugin-vue 1.3.0** (2026-11-04), from a copy of `examples/frontend/vue`:
+Real, unedited output captured on **eventra-cli 2.6.8 + cli-plugin-vue 1.3.3** (2026-11-14), from a copy of `examples/frontend/vue`:
 
 ```text
 $ eventra sync
@@ -42,7 +42,11 @@ Component / route → trackFeature() → tracker.track()
 
 `pnpm dev:mock` prints a `TRACK HIT` line for every received batch; `pnpm verify` asserts at least one hit per example.
 
-## Re-record / live version (60 s)
+## Re-record
+
+All 21 GIFs are rendered from real runs by `tools/record-gifs/record.sh` (needs Python with Pillow and free ports 3000 and 4000; about 15 minutes, mostly the server examples and `pnpm verify`).
+
+## Live version (60 s)
 
 1. `pnpm install && pnpm dev:vue` — app + mock server up.
 2. In another terminal: `cd examples/frontend/vue && eventra watch`.
