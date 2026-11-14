@@ -15,7 +15,7 @@
     "react-dom": "^19"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.6.8",
+    "@eventra_dev/eventra-cli": "^2.6.9",
     "@types/node": "^22",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

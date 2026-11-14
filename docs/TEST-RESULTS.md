@@ -6,19 +6,19 @@ Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-14**. T
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.6.8 |
-| `@eventra_dev/eventra-sdk` | 2.0.13 |
+| `@eventra_dev/eventra-cli` | 2.6.9 |
+| `@eventra_dev/eventra-sdk` | 2.0.14 |
 | `@eventra_dev/cli-plugin-vue` | 1.3.3 |
 | `@eventra_dev/cli-plugin-svelte` | 1.3.2 |
 | `@eventra_dev/cli-plugin-astro` | 1.3.2 |
-| `@eventra_dev/cli-plugin-angular` | 1.3.3 |
+| `@eventra_dev/cli-plugin-angular` | 1.3.4 |
 
 ## Summary
 
 | Suite | Command | Result |
 |---|---|---|
-| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **365 / 365** (110 + 172 + 36 + 47) |
-| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes, 2.0.12 and 2.0.13 notes, Node 18, TypeScript `node16`, signals, PID 1) | `pnpm test:sdk` | **67 / 67** (28 + 27 + 12; also 27 / 27 on Node 18.18, which takes about 4.5 minutes) |
+| CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **110 / 110** (110 + 172 + 36 + 47) |
+| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes, 2.0.12 and 2.0.13 notes, Node 18, TypeScript `node16`, signals, PID 1) | `pnpm test:sdk` | **28 / 28** (28 + 27 + 12; also 27 / 27 on Node 18.18, which takes about 4.5 minutes) |
 | SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `pnpm --filter sdk-feature-tests test:browser` | **26 / 26** (6 + 13 + 7: page close, damaged `localStorage`, `null` user id, tab closed during a send, storage cap) |
 | Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |
 | Example matrix: SDK smoke — real `POST` reaches mock server — *manual* | `pnpm verify` | **15 / 15** |

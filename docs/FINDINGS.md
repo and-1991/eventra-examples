@@ -8,12 +8,12 @@
 
 This repository demonstrates:
 
-- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.13**) — send analytics events from browser, Node.js, and edge runtimes
-- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.6.8**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](../examples/frontend/react); undocumented in the package's own README as of this version)
+- **Eventra SDK** ([@eventra_dev/eventra-sdk](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) **2.0.14**) — send analytics events from browser, Node.js, and edge runtimes
+- **Eventra CLI** ([@eventra_dev/eventra-cli](https://www.npmjs.com/package/@eventra_dev/eventra-cli) **2.6.9**) — statically discover event names in TypeScript/JavaScript, with cross-file wrapper propagation. As of 2.0.8, the core also natively detects a declarative `event="..."`/`event={expr}` **JSX attribute** in `.tsx`/`.jsx` files — no plugin needed (verified live in the [React example](../examples/frontend/react); undocumented in the package's own README as of this version)
 - **@eventra_dev/cli-plugin-vue** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) **1.3.0**) — teaches the CLI to parse `.vue` SFCs directly (used by the Vue and Nuxt examples)
 - **@eventra_dev/cli-plugin-astro** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) **1.3.0**) — teaches the CLI to parse the frontmatter script fence of `.astro` files (used by the Astro example)
 - **@eventra_dev/cli-plugin-svelte** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) **1.3.0**) — required for the declarative `event="..."` template attribute in `.svelte` files (plain `track()`/`trackFeature()` calls are scanned by the CLI core even without it — see note below)
-- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.3.0**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
+- **@eventra_dev/cli-plugin-angular** ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) **1.3.4**) — teaches the CLI to parse Angular component templates (`.html`), detecting literal `event="..."` and dynamic `[attr.event]="expr"`/`[event]="expr"` bindings the same way the other plugins do for their own templates (used by the Angular example)
 
 As of CLI 2.1.0 the CLI can also read events from **third-party analytics** (PostHog, Segment, Amplitude, Google Analytics 4) via `sinks` — see [Third-party analytics](#third-party-analytics-sinks) and [examples/analytics](../examples/analytics).
 

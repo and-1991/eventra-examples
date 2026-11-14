@@ -7,7 +7,7 @@
     "test:browser": "node browser-run.mjs && node browser-run-2.0.12.mjs && node browser-run-2.0.13.mjs"
   },
   "dependencies": {
-    "@eventra_dev/eventra-sdk": "^2.0.13"
+    "@eventra_dev/eventra-sdk": "^2.0.14"
   },
   "devDependencies": {
     "playwright": "^1.48.0",
