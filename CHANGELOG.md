@@ -10,6 +10,41 @@ Switch between versions: `pnpm use-version v1.2.0` (see [docs/VERSIONS.md](./doc
 
 _Nothing yet._
 
+## [1.5.0] — 2026-11-16
+
+Pinned: **cli 2.7.1 · sdk 2.1.1 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · angular 1.3.5**
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.8 → 2.7.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-cli/v/2.7.1)); 2.7.0 came out the same morning and 2.7.1 the same afternoon, after the two bugs below were reported
+- `@eventra_dev/eventra-sdk` 2.0.13 → 2.1.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-sdk/v/2.1.1))
+- `@eventra_dev/cli-plugin-angular` 1.3.3 → 1.3.5 ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular/v/1.3.5))
+- `run-2.0.12.mjs` G2: the negative type check accepts `string | number | null | undefined`, since 2.1.0 allows `userId: null`.
+- The browser test page reads the saved queue and leader keys by prefix: since SDK 2.1.1 they end with a hash of the API key.
+- New permanent test files: `tools/cli-feature-tests/run-2.7.0.mjs`, `tools/sdk-feature-tests/run-2.1.0.mjs`, `tools/sdk-feature-tests/browser-run-2.1.0.mjs` (with `browser/plain.html`, the SDK without the spy `fetch`, for timing-sensitive checks).
+
+### Verified (every client-side item of the release notes has its own test)
+- SDK in a browser (Chromium): after `identify()` every following event carries the user, also after a reload, in tabs already open and in tabs opened later; an event tracked just before `reset()` keeps its user; `reset()` signs every tab out and removes the stored user; the user is stored per API key; `persistQueue: false` keeps it in memory and removes one stored earlier; ids that name nobody are refused with one warning.
+- SDK on servers: `identify()` is ignored with one warning on Node, edge, Deno-style globals and Lambda; works in memory under React Native. `withUser()` events carry the user, share one queue and one request, 100 000 scopes take about 15 ms; `withUser(undefined / null / "undefined" / "null" / blank / NaN)` gives no user, never the user of `identify()`.
+- Which user wins: `track({ userId })` > `withUser()` > `identify()`; `userId: null` sends without a user; empty or blank counts as not given; passing `userId` on every call works as before, with no new warnings.
+- Development hint: exactly once at the 50th event without a user; on a server only with `NODE_ENV=development` (not production, test, staging or unset); in a real Vite dev server yes, in a real Vite production build no; off with `identifyHint: false`; React Native names `identify()`, servers name `withUser()`.
+- CLI: `tracker.withUser(id).track()`, a scope in a variable, a typed `EventraScope` parameter, `?.track` and an untyped tracker are found; a scope on an untyped object is not (documented); your own `EventraScope` or `withUser` is not counted. `eventra check` prints the tip on stderr only when no SDK call can carry a user and nothing calls `identify()` / `withUser()`; never a failure, `--strict` included; silent when a file did not parse. Also tested from the 2.7.0 README: wrappers through `.call` / `.apply`, a template with one known value, a plugin installed under another name is refused before it runs, `send` names broken JSON, a broken Astro template expression is reported, Angular 1.3.4 errors give line and column, files far over `sync.maxFileSize` are refused by size.
+- The docs section `https://eventra.dev/docs#sdk-identify` exists; the SDK description and README have no long dashes.
+- Also from the new READMEs: `destroy()` no longer runs a retry that is waiting and reports what it cannot keep (Node, `persistQueue: false`) to `onEventsDropped`, while a browser keeps the queue in `localStorage`; an event another open tab announced is left to that tab (same key) and sent once; `send` prints retry progress on stderr.
+- Suites: CLI 436 / 436, SDK 109 / 109, browser 56 / 56, `pnpm verify` 0 CLI and 0 SDK failures (15 TRACK HIT). `tools/auto-update.mjs finalize` now sums every test file's summary line (it read only the first one, so automatic runs reported 110 / 110 for the CLI).
+
+### Found, and fixed upstream the same day
+- SDK 2.0.13 / 2.1.0: the saved queue in `localStorage` was shared by every API key on the site, so an event of one Eventra project could be sent with another project's key, user id included (a tab with another key sent the event of a closed tab 15 s later; an instance created right after a delivery sent it again, because `await flush()` resolved before the saved copy was removed). This contradicted "another Eventra project on the same site never sees it". **Fixed in SDK 2.1.1**: queue, leader lock, diagnostics and channel are per API key, `flush()` clears what it delivered first, an old shared queue is taken once. Both scenarios are ordinary checks now.
+- CLI 2.7.0: a wrapper declared with a TypeScript `this:` parameter lost its event through `.call` / `.apply`, silently. **Fixed in CLI 2.7.1.**
+- SDK 2.1.0 README: the Browser and Serverless examples did not show `identify()` / `withUser()`. **Fixed in 2.1.1** (checked by `run-2.1.0.mjs`).
+- `cli-plugin-angular` 1.3.4 README still described the error as `(line N)`. **Fixed in 1.3.5** (checked by `run-2.7.0.mjs`).
+
+### Still open
+- SDK: `track({ userId: "undefined" })` still sends the text; only `identify()` / `withUser()` refuse it. The "no longer counted as a user" fix is on the server, not testable here.
+- `eventra check` tip: an options variable (`tracker.track(name, data)`) counts as "may pass a user", so most examples here never see the tip although they send no user.
+
+### Not testable here
+The overview notice about events without a user, hiding it for 30 days, the Unique Users card share, and how the server counts `"undefined"` (dashboard and ingestion).
+
 ## [1.4.4] — 2026-11-14
 
 Pinned: **cli 2.6.8 · sdk 2.0.13 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · angular 1.3.3**
@@ -214,6 +249,7 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
+[1.5.0]: https://github.com/and-1991/eventra-examples/compare/v1.4.4...v1.5.0
 [1.4.4]: https://github.com/and-1991/eventra-examples/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/and-1991/eventra-examples/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/and-1991/eventra-examples/compare/v1.4.1...v1.4.2

@@ -128,7 +128,12 @@ if (mode === "finalize") {
   if (!existsSync(STATE)) { console.error("No .auto-update.json — run apply first"); process.exit(1); }
   const { updates, next, pins, date } = JSON.parse(readFileSync(STATE, "utf8"));
 
-  const summary = (f) => { const m = readFileSync(f, "utf8").match(/Summary:\s*(\d+) passed,\s*(\d+) failed/); if (!m) throw new Error(`no summary in ${f}`); return { pass: +m[1], fail: +m[2] }; };
+  // one "=== Summary...: N passed, M failed" line per test file; the suite total is their sum
+  const summary = (f) => {
+    const all = [...readFileSync(f, "utf8").matchAll(/^=== Summary[^:\n]*:\s*(\d+) passed,\s*(\d+) failed/gm)];
+    if (!all.length) throw new Error(`no summary in ${f}`);
+    return all.reduce((t, m) => ({ pass: t.pass + +m[1], fail: t.fail + +m[2] }), { pass: 0, fail: 0 });
+  };
   const cli = summary(cliLog), sdk = summary(sdkLog);
   const vlog = readFileSync(verifyLog, "utf8");
   const vOk = (vlog.match(/^CLI OK /gm) || []).length, vFail = (vlog.match(/^CLI FAIL /gm) || []).length;

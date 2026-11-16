@@ -2,10 +2,10 @@
 
 Static analysis cannot see everything. This is the consolidated list of known gaps for `eventra-cli` and its plugins, so you can set expectations before a demo or a migration.
 
-**Current versions:** eventra-cli 2.6.8, cli-plugin-vue/angular 1.3.3, cli-plugin-svelte/astro 1.3.2.
+**Current versions:** eventra-cli 2.7.1, cli-plugin-vue 1.3.3, cli-plugin-angular 1.3.5, cli-plugin-svelte/astro 1.3.2.
 
 **Evidence level:**
-- **verified** = re-run in this repo on 2.6.8 / 1.3.3 (2026-11-14), by the CLI feature suite, an example, or a throw-away fixture.
+- **verified** = re-run in this repo on 2.7.1 / 1.3.5 (2026-11-16), by the CLI feature suite, an example, or a throw-away fixture.
 - **changelog** = stated in the upstream release notes, not re-run here.
 - **earlier** = measured on 2.5.x in the stress test ([FINDINGS.md](./FINDINGS.md#stress-test-props-of-any-name-cli-250--plugins-122-2026-10-27)) and not repeated; the generator for those 71 component/usage pairs is not in the repo.
 
@@ -106,6 +106,16 @@ Each client-side item has a test (`tools/cli-feature-tests/run-2.6.8.mjs`, `tool
 - SDK: `exitOnSignal` defaults to `true`: with no other listener SIGTERM/SIGINT end the process after the flush; as PID 1 (`docker stop`) it exits with 143 (2.0.12 stayed alive); with an app listener the app keeps control; `exitOnSignal: false` restores flush-only. `maxBatchSize` above 500 is capped with a warning (the wording says "invalid (2000), using 500"). Names of only NUL / line breaks / lone surrogates are dropped without spoiling the batch; inside a name those characters are removed. Very large `properties` are refused faster (1M keys: about 0.35 s against 0.7 s on 2.0.12). The SDK starts with React Native and Deno style globals (2.0.12 threw). In Chromium, closing a tab while a send is in flight loses nothing, and the saved queue stays under about 1 MB of text (newest events kept).
 
 Server-side items of the notes (keys per purpose, member access, plan limits, sign-in, billing, retention, ingestion resilience, dashboard) cannot be tested from this repo.
+
+## 9. Claims of the 2.7.x / SDK 2.1.x / angular 1.3.x release notes, all hold (2026-11-16)
+
+Each client-side item has a test (`tools/cli-feature-tests/run-2.7.0.mjs`, `tools/sdk-feature-tests/run-2.1.0.mjs`, `browser-run-2.1.0.mjs`). Two things found on 2.7.0 / 2.1.0 were fixed the next day and are now ordinary checks (below).
+
+- `withUser()` is found as `tracker.withUser(id).track("x")`, `const s = tracker.withUser(id); s.track("x")`, `?.track`, a parameter typed `EventraScope`, and on a tracker typed `any`. Not found (documented): a scope kept on an untyped object (`req.tracker.track("x")`). An interface or class of your own called `EventraScope`, or with a `withUser` method, is not counted. A `withUser(id).track(name)` inside a function with a `name` parameter becomes a wrapper, like `track()`.
+- `eventra check` tip: printed on stderr when the code calls the SDK's `track()`, no call can carry a user and nothing calls `identify()` / `withUser()`. It is hidden by `userId` written out (also `null`, a shorthand or a getter), a spread, an options variable, `identify()` in any file (also inside a Vue SFC), or a `withUser()` even if its scope is unused. `reset()` alone, `userId` inside `properties`, an `identify()` of your own class, and a wrapper that does not forward a user still show it. Never a failure, `--strict` included; a failing `check` still fails and still shows it; `sync` never prints it; a file with syntax errors hides it. On this repo it shows for the Angular and Vercel examples and the four analytics fixtures; the other examples pass an options variable (`tracker.track(name, data)`), which counts as "may pass a user".
+- From the 2.7.0 README (not in the notes): a wrapper called through `.call(this, "x")` or `.apply(this, ["x"])` (array written in place) is followed; an array in a variable or a spread before the name is not. `t.track.call(t, "x")` is found, `t.track.apply(t, ["x"])` is not. A template whose parts each have one known value is that one name, not dynamic. A plugin whose installed `package.json` names another package (npm alias) is refused before any of its code runs; a folder claiming the official name is still loaded (documented). `send` with broken JSON in `eventra.json` says so instead of "not found". A broken Astro template expression (`onclick={() => t.track("x"}`) is listed as "the code built from the template does not parse" and fails `--strict`. A file more than three bytes per allowed character over `sync.maxFileSize` is refused by size; a multi-byte file under the character limit is still read.
+- Angular 1.3.4 / 1.3.5: expression errors give line and column, `(line 3, column 20)` for an external template and `(line 2, column 20 of the template)` for an inline one (1-based; the plugin README says so since 1.3.5; 1.3.3 left the compiler's own 0-based `template.html@L:C` in the message, per the diff of the published packages).
+- Fixed in 2.7.1: a wrapper declared with a TypeScript `this:` parameter (`function f(this: X, name: string)`) was losing its event through `.call` / `.apply`, silently; the `this:` parameter is no longer counted as an argument (verified for a plain call, `.call`, `.apply`, and a second parameter) ([FINDINGS #15](./FINDINGS.md#test-coverage--known-issues)).
 
 ## 6. Not tested here
 

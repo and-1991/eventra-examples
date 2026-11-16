@@ -477,7 +477,7 @@ await step("G1 tsc under module/moduleResolution node16: require side (.cts) res
   const bad = spawnSync(tsc, ["-p", path.join(dir, "tsconfig.negative.json"), "--noEmit"], { encoding: "utf8" });
   const out = bad.stdout + bad.stderr;
   record("G2 tsc under node16: wrong types are rejected (types are real, not any)",
-    bad.status !== 0 && /TS2322/.test(out) && /string \| number \| undefined/.test(out), `exit=${bad.status} ${out.split("\n")[0]?.slice(0, 160)}`);
+    bad.status !== 0 && /TS2322/.test(out) && /string \| number( \| null)? \| undefined/.test(out), `exit=${bad.status} ${out.split("\n")[0]?.slice(0, 160)}`);
 
   // the actual CJS runtime path through require() must work too
   const r = spawnSync(process.execPath, ["-e", `const m=require("@eventra_dev/eventra-sdk");const t=new m.Eventra({apiKey:"k",endpoint:"http://127.0.0.1:1/x",disableTimer:true,autoFlushOnExit:false});t.track("g.evt",{userId:1});t.destroy();console.log(typeof m.Eventra)`], { cwd: HERE, encoding: "utf8" });

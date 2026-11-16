@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>eventra-sdk plain page</title></head>
+<body>
+<!-- The SDK with the browser's own fetch (no spy wrapper), for timing-sensitive checks. -->
+<script type="module">
+  import { Eventra } from "/node_modules/@eventra_dev/eventra-sdk/dist/index.mjs";
+  window.__trackers = {};
+  window.mk = (name, opts) => { window.__trackers[name] = new Eventra({ apiKey: "test", disableTimer: true, ...opts }); };
+  window.__ready = true;
+</script>
+</body>
+</html>

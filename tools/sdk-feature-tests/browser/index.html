@@ -47,14 +47,17 @@
 
   window.readQueueStorage = () => {
     try {
-      return JSON.parse(localStorage.getItem("__eventra_q__") || "null");
+      // since SDK 2.1.1 the saved queue key ends with a hash of the API key (older: the bare key)
+      const k = Object.keys(localStorage).find((x) => x.startsWith("__eventra_q__"));
+      return k ? JSON.parse(localStorage.getItem(k) || "null") : null;
     } catch {
       return null;
     }
   };
   window.readLeaderStorage = () => {
     try {
-      return JSON.parse(localStorage.getItem("__eventra_leader__") || "null");
+      const k = Object.keys(localStorage).find((x) => x.startsWith("__eventra_leader__"));
+      return k ? JSON.parse(localStorage.getItem(k) || "null") : null;
     } catch {
       return null;
     }

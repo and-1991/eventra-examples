@@ -68,7 +68,8 @@ try {
       const pad = "x".repeat(1000);
       for (let i = 0; i < 3000; i++) window.__trackers.t.track(`cap_${i}`, { properties: { pad } });
       await new Promise((r) => setTimeout(r, 300));
-      const raw = localStorage.getItem("__eventra_q__") ?? "";
+      const qk = Object.keys(localStorage).find((k) => k.startsWith("__eventra_q__")); // key ends with a hash since SDK 2.1.1
+      const raw = (qk && localStorage.getItem(qk)) ?? "";
       let parsed = null;
       try { parsed = JSON.parse(raw); } catch {}
       // storage still usable by the site afterwards
