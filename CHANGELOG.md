@@ -15,9 +15,9 @@ _Nothing yet._
 Pinned: **cli 2.7.1 · sdk 2.1.1 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · angular 1.3.5**
 
 ### Changed
-- `@eventra_dev/eventra-cli` 2.6.8 → 2.7.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-cli/v/2.7.1)); 2.7.0 came out the same morning and 2.7.1 the same afternoon, after the two bugs below were reported
-- `@eventra_dev/eventra-sdk` 2.0.13 → 2.1.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-sdk/v/2.1.1))
-- `@eventra_dev/cli-plugin-angular` 1.3.3 → 1.3.5 ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular/v/1.3.5))
+- `@eventra_dev/eventra-cli` 2.6.9 → 2.7.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-cli/v/2.7.1)); 2.7.0 came out the same morning and 2.7.1 the same afternoon, after the bugs below were reported
+- `@eventra_dev/eventra-sdk` 2.0.14 → 2.1.1 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-sdk/v/2.1.1))
+- `@eventra_dev/cli-plugin-angular` 1.3.4 → 1.3.5 ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular/v/1.3.5))
 - `run-2.0.12.mjs` G2: the negative type check accepts `string | number | null | undefined`, since 2.1.0 allows `userId: null`.
 - The browser test page reads the saved queue and leader keys by prefix: since SDK 2.1.1 they end with a hash of the API key.
 - New permanent test files: `tools/cli-feature-tests/run-2.7.0.mjs`, `tools/sdk-feature-tests/run-2.1.0.mjs`, `tools/sdk-feature-tests/browser-run-2.1.0.mjs` (with `browser/plain.html`, the SDK without the spy `fetch`, for timing-sensitive checks).
@@ -44,6 +44,17 @@ Pinned: **cli 2.7.1 · sdk 2.1.1 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · 
 
 ### Not testable here
 The overview notice about events without a user, hiding it for 30 days, the Unique Users card share, and how the server counts `"undefined"` (dashboard and ingestion).
+
+## [1.4.5] — 2026-11-14
+
+Pinned: **cli 2.6.9 · sdk 2.0.14 · vue 1.3.3 · svelte 1.3.2 · astro 1.3.2 · angular 1.3.4**
+
+Automatic update by the Auto-update workflow (CLI 110/110, SDK 28/28, `verify:cli` 23/23 at that time); not covered by the full release-note tests, which were done on the next version.
+
+### Changed
+- `@eventra_dev/eventra-cli` 2.6.8 → 2.6.9 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-cli/v/2.6.9))
+- `@eventra_dev/eventra-sdk` 2.0.13 → 2.0.14 ([npm](https://www.npmjs.com/package/@eventra_dev/eventra-sdk/v/2.0.14))
+- `@eventra_dev/cli-plugin-angular` 1.3.3 → 1.3.4 ([npm](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular/v/1.3.4))
 
 ## [1.4.4] — 2026-11-14
 
@@ -249,7 +260,8 @@ Pinned: cli ^0.1.16 · sdk latest
 Pinned: sdk latest
 - Initial set: backend (Node, Express, Fastify, Hono, NestJS), frontend (React, Vue, Svelte, Astro, Next, Nuxt, Vanilla), runtimes (Cloudflare, Vercel) and the mock server.
 
-[1.5.0]: https://github.com/and-1991/eventra-examples/compare/v1.4.4...v1.5.0
+[1.5.0]: https://github.com/and-1991/eventra-examples/compare/v1.4.5...v1.5.0
+[1.4.5]: https://github.com/and-1991/eventra-examples/compare/v1.4.4...v1.4.5
 [1.4.4]: https://github.com/and-1991/eventra-examples/compare/v1.4.3...v1.4.4
 [1.4.3]: https://github.com/and-1991/eventra-examples/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/and-1991/eventra-examples/compare/v1.4.1...v1.4.2
