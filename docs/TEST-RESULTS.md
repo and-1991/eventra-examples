@@ -1,24 +1,24 @@
 # Test results
 
-Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-16**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-16 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
+Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-20**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-16 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
 
 ## Package versions under test
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.7.1 |
-| `@eventra_dev/eventra-sdk` | 2.1.1 |
-| `@eventra_dev/cli-plugin-vue` | 1.3.3 |
-| `@eventra_dev/cli-plugin-svelte` | 1.3.2 |
-| `@eventra_dev/cli-plugin-astro` | 1.3.2 |
-| `@eventra_dev/cli-plugin-angular` | 1.3.5 |
+| `@eventra_dev/eventra-cli` | 2.7.2 |
+| `@eventra_dev/eventra-sdk` | 2.1.2 |
+| `@eventra_dev/cli-plugin-vue` | 1.3.4 |
+| `@eventra_dev/cli-plugin-svelte` | 1.3.3 |
+| `@eventra_dev/cli-plugin-astro` | 1.3.3 |
+| `@eventra_dev/cli-plugin-angular` | 1.3.6 |
 
 ## Summary
 
 | Suite | Command | Result |
 |---|---|---|
 | CLI feature tests (core detection, casts, cross-file, hooks, watch, check, send) | `pnpm test:cli` | **436 / 436** (110 + 172 + 36 + 47 + 71) |
-| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes, 2.0.12, 2.0.13 and 2.1.0 notes, Node 18, TypeScript `node16`, signals, PID 1, users) | `pnpm test:sdk` | **109 / 109** (28 + 27 + 12 + 42; also 27 / 27 on Node 18.18, which takes about 4.5 minutes) |
+| SDK feature tests (batching, retry, circuit breaker, idempotency, lifecycle, runtimes, 2.0.12, 2.0.13 and 2.1.0 notes, Node 18, TypeScript `node16`, signals, PID 1, users) | `pnpm test:sdk` | **106 / 106** (28 + 27 + 12 + 42; also 27 / 27 on Node 18.18, which takes about 4.5 minutes) |
 | SDK browser tests (Chromium: persistence, multi-tab, keepalive, visibilitychange) — *manual* | `pnpm --filter sdk-feature-tests test:browser` | **56 / 56** (6 + 13 + 7 + 30: page close, damaged `localStorage`, `null` user id, tab closed during a send, storage cap, `identify()` across reloads and tabs, queue per API key, legacy queue, Vite dev hint) |
 | Example matrix: `eventra sync` + `check` + expected-events | `pnpm verify:cli` | **23 / 23** |
 | Example matrix: SDK smoke — real `POST` reaches mock server — *manual* | `pnpm verify` | **15 / 15** |

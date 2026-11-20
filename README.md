@@ -14,12 +14,12 @@ Working examples and a test bench for the **Eventra SDK**, **CLI** and **framewo
 
 | Package | Version | Role |
 |---|---|---|
-| [`@eventra_dev/eventra-sdk`](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) | **2.1.1** | Send events from browser, Node.js and edge runtimes — batching, retry, circuit breaker, idempotency |
-| [`@eventra_dev/eventra-cli`](https://www.npmjs.com/package/@eventra_dev/eventra-cli) | **2.7.1** | Statically discover event names (`sync` / `check` / `watch` / `send`), cross-file wrappers, third-party `sinks` |
-| [`@eventra_dev/cli-plugin-vue`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) | **1.3.3** | `.vue` SFCs (Vue, Nuxt) |
-| [`@eventra_dev/cli-plugin-svelte`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) | **1.3.2** | declarative `event="..."` in `.svelte` |
-| [`@eventra_dev/cli-plugin-astro`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) | **1.3.2** | `.astro` frontmatter |
-| [`@eventra_dev/cli-plugin-angular`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) | **1.3.5** | Angular templates (`[attr.event]`) |
+| [`@eventra_dev/eventra-sdk`](https://www.npmjs.com/package/@eventra_dev/eventra-sdk) | **2.1.2** | Send events from browser, Node.js and edge runtimes — batching, retry, circuit breaker, idempotency |
+| [`@eventra_dev/eventra-cli`](https://www.npmjs.com/package/@eventra_dev/eventra-cli) | **2.7.2** | Statically discover event names (`sync` / `check` / `watch` / `send`), cross-file wrappers, third-party `sinks` |
+| [`@eventra_dev/cli-plugin-vue`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-vue) | **1.3.4** | `.vue` SFCs (Vue, Nuxt) |
+| [`@eventra_dev/cli-plugin-svelte`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-svelte) | **1.3.3** | declarative `event="..."` in `.svelte` |
+| [`@eventra_dev/cli-plugin-astro`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-astro) | **1.3.3** | `.astro` frontmatter |
+| [`@eventra_dev/cli-plugin-angular`](https://www.npmjs.com/package/@eventra_dev/cli-plugin-angular) | **1.3.6** | Angular templates (`[attr.event]`) |
 
 ## Quick start
 
