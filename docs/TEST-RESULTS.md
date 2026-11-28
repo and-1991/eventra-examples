@@ -1,12 +1,12 @@
 # Test results
 
-Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-27**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-16 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
+Last automatic run (CI: `test:cli`, `test:sdk`, `verify:cli`): **2026-11-28**. The browser and SDK-smoke rows need local dev servers/Chromium and were last run manually on 2026-11-16 (Node 24.11.1, pnpm 10.22.0, Linux). Everything green.
 
 ## Package versions under test
 
 | Package | Version |
 |---|---|
-| `@eventra_dev/eventra-cli` | 2.7.3 |
+| `@eventra_dev/eventra-cli` | 2.7.4 |
 | `@eventra_dev/eventra-sdk` | 2.1.2 |
 | `@eventra_dev/cli-plugin-vue` | 1.3.4 |
 | `@eventra_dev/cli-plugin-svelte` | 1.3.3 |

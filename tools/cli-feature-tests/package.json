@@ -9,7 +9,7 @@
     "@eventra_dev/eventra-sdk": "^2.1.2"
   },
   "devDependencies": {
-    "@eventra_dev/eventra-cli": "^2.7.3",
+    "@eventra_dev/eventra-cli": "^2.7.4",
     "@types/react": "18.3.31"
   }
 }
